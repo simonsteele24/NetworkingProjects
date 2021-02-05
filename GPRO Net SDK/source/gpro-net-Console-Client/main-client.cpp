@@ -32,7 +32,7 @@
 
 #include "RakNet/RakPeerInterface.h"
 
-
+#include "RakNet//GetTime.h"
 #include "RakNet/BitStream.h"
 #include "RakNet/RakNetTypes.h"  // MessageID
 
@@ -43,7 +43,7 @@ using namespace RakNet;
 
 enum GameMessages
 {
-	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1
+	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
 };
 
 
@@ -52,19 +52,19 @@ int main(void)
 
 	//char str[512];
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
-	bool isServer;
+
 	RakNet::Packet* packet;
 
 
 	SocketDescriptor sd;
+
 	peer->Startup(1, &sd, 1);
-	isServer = false;
 
 	// TODO - Add code body here
 	printf("\n\n");
 	
 	printf("Starting the client.\n");
-	peer->Connect("172.16.2.73" , SERVER_PORT, 0, 0);
+	peer->Connect("172.16.2.61" , SERVER_PORT, 0, 0);
 
 	
 
@@ -74,7 +74,7 @@ int main(void)
 		{
 			switch (packet->data[0])
 			{
-			case ID_REMOTE_DISCONNECTION_NOTIFICATION:
+		/*	case ID_REMOTE_DISCONNECTION_NOTIFICATION:
 				printf("Another client has disconnected.\n");
 				break;
 			case ID_REMOTE_CONNECTION_LOST:
@@ -82,7 +82,7 @@ int main(void)
 				break;
 			case ID_REMOTE_NEW_INCOMING_CONNECTION:
 				printf("Another client has connected.\n");
-				break;
+				break;*/
 			case ID_CONNECTION_REQUEST_ACCEPTED:
 			{
 				printf("Our connection request has been accepted.\n");
@@ -91,7 +91,7 @@ int main(void)
 				// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
-				bsOut.Write("Hello world");
+				bsOut.Write("You have been connected");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 			}
 			break;
@@ -102,20 +102,13 @@ int main(void)
 				printf("The server is full.\n");
 				break;
 			case ID_DISCONNECTION_NOTIFICATION:
-				if (isServer) {
-					printf("A client has disconnected.\n");
-				}
-				else {
+
 					printf("We have been disconnected.\n");
-				}
+
 				break;
 			case ID_CONNECTION_LOST:
-				if (isServer) {
-					printf("A client lost the connection.\n");
-				}
-				else {
+
 					printf("Connection lost.\n");
-				}
 				break;
 
 			case ID_GAME_MESSAGE_1:
@@ -127,7 +120,16 @@ int main(void)
 				printf("%s\n", rs.C_String());
 			}
 			break;
+		/*	case ID_TIMESTAMP:
+			{		
+				RakNet::RakString rs;
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf("%s\n", rs.C_String());
 
+				break;
+			}*/
 			default:
 				printf("Message with identifier %i has arrived.\n", packet->data[0]);
 				break;

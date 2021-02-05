@@ -31,6 +31,7 @@
 #include "RakNet/MessageIdentifiers.h"
 #include "RakNet/RakPeerInterface.h"
 
+#include "RakNet//GetTime.h"
 #include "RakNet/BitStream.h"
 #include "RakNet/RakNetTypes.h"  // MessageID
 
@@ -41,7 +42,7 @@ using namespace RakNet;
 
 enum GameMessages
 {
-	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1
+	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
 };
 
 int main(void)
@@ -88,8 +89,8 @@ int main(void)
 				// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
-				bsOut.Write("Hello world");
-				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+			
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
 			case ID_NEW_INCOMING_CONNECTION:
@@ -122,7 +123,21 @@ int main(void)
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(rs);
 				printf("%s\n", rs.C_String());
+	
+				peer->Send(&bsIn, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
+
+		/*	case ID_TIMESTAMP:
+			{
+				RakNet::RakString rs;
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf("%s\n", rs.C_String());
+
+				bsIn.Write((RakNet::MessageID)ID_TIMESTAMP);
+				peer->Send(&bsIn, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+			}*/
 			break;
 
 			default:
