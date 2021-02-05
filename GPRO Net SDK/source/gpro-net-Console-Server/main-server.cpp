@@ -89,12 +89,20 @@ int main(void)
 				// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
-			
+				
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
 			case ID_NEW_INCOMING_CONNECTION:
+			{
 				printf("A connection is incoming.\n");
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
+
+				bsOut.Write("You have been connected");
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+			}
+				
 				break;
 			case ID_NO_FREE_INCOMING_CONNECTIONS:
 				printf("The server is full.\n");
@@ -118,6 +126,7 @@ int main(void)
 
 			case ID_GAME_MESSAGE_1:
 			{
+				//in
 				RakNet::RakString rs;
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
@@ -125,6 +134,13 @@ int main(void)
 				printf("%s\n", rs.C_String());
 	
 				peer->Send(&bsIn, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+				//write message out to client
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
+
+				bsOut.Write("This is a custom message welcome ;)");
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 
 		/*	case ID_TIMESTAMP:
