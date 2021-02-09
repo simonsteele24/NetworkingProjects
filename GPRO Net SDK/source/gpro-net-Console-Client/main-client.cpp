@@ -46,12 +46,14 @@ using namespace RakNet;
 enum GameMessages
 {
 	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
+	ID_INTRODUCTION_MESSAGE = ID_USER_PACKET_ENUM + 2
 };
 
 
 int main(void)
 {
 	char str[512];
+	char username[512];
 
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
 
@@ -72,6 +74,12 @@ int main(void)
 
 	std::cin >> str;
 
+	printf("\n\n");
+
+	printf("Enter your Username: ");
+
+	std::cin >> username;
+
 	peer->Connect(str, SERVER_PORT, 0, 0);
 
 	while (1)
@@ -89,9 +97,10 @@ int main(void)
 				RakNet::BitStream bsOut;
 				time_t giveTime = time(NULL);
 
-				bsOut.Write((RakNet::MessageID)ID_TIMESTAMP);
+				bsOut.Write((RakNet::MessageID)ID_INTRODUCTION_MESSAGE);
 
 				bsOut.Write(RakNet::GetTimeUS() / 1000);
+				bsOut.Write(username);
 				peer->SetOccasionalPing(true);
 			
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);

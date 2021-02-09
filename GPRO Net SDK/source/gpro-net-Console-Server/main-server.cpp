@@ -57,6 +57,7 @@ struct networkedTime
 enum GameMessages
 {
 	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
+	ID_INTRODUCTION_MESSAGE = ID_USER_PACKET_ENUM + 2,
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
@@ -135,6 +136,21 @@ int main(void)
 				printf("%" PRINTF_64_BIT_MODIFIER "u ",ts);
 			
 			}
+			case ID_INTRODUCTION_MESSAGE:
+			{
+				RakNet::RakString rs;
+				RakNet::Time ts;
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(ts);
+				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
+				bsIn.Read(rs);
+				char finalStr[] = "> ";
+				strcat(finalStr,rs);
+				strcat(finalStr, " has entered the chat!");
+				printf(finalStr);
+			}
+
 			break;
 
 			default:
