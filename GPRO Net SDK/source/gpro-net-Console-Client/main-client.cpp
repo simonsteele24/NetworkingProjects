@@ -46,7 +46,6 @@ using namespace RakNet;
 enum GameMessages
 {
 	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
-	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
 
@@ -81,15 +80,6 @@ int main(void)
 		{
 			switch (packet->data[0])
 			{
-				/*	case ID_REMOTE_DISCONNECTION_NOTIFICATION:
-						printf("Another client has disconnected.\n");
-						break;
-					case ID_REMOTE_CONNECTION_LOST:
-						printf("Another client has lost the connection.\n");
-						break;
-					case ID_REMOTE_NEW_INCOMING_CONNECTION:
-						printf("Another client has connected.\n");
-						break;*/
 			case ID_CONNECTION_REQUEST_ACCEPTED:
 			{
 				printf("Our connection request has been accepted.\n");
@@ -97,24 +87,13 @@ int main(void)
 				// Use a BitStream to write a custom user message
 				// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
 				RakNet::BitStream bsOut;
-				//bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
 				time_t giveTime = time(NULL);
 
-				MessageID useTimeStamp; // Assign this to ID_TIMESTAMP
-				RakNet::Time timeStamp; // Put the system time in here returned by RakNet::GetTime()
-				MessageID typeId; // This will be assigned to a type I've added after ID_USER_PACKET_ENUM, lets say ID_SET_TIMED_MINE
-				useTimeStamp = ID_TIMESTAMP;
-				timeStamp = RakNet::GetTime();
-				typeId = ID_SET_TIMED_MINE;
+				bsOut.Write((RakNet::MessageID)ID_TIMESTAMP);
 
-				bsOut.Write((RakNet::MessageID)ID_SET_TIMED_MINE);
-				//bsOut.Write(useTimeStamp);
-				//bsOut.Write(timeStamp);
-				//bsOut.Write(typeId);
-
-				// Trying to figure out timestamps, atm to get system time you can use this line below.
-				bsOut.Write(ctime(&giveTime));
-				//printf("%s", ctime(&giveTime)); //ctime() returns given time
+				bsOut.Write(RakNet::GetTimeUS() / 1000);
+				peer->SetOccasionalPing(true);
+			
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 			}
 			break;
@@ -140,16 +119,23 @@ int main(void)
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(rs);
+				printf("\n");
 				printf("%s\n", rs.C_String());
 			}
 			break;
-			case ID_SET_TIMED_MINE:
+			case ID_TIMESTAMP:
 			{
 				RakNet::RakString rs;
+				RakNet::Time ts;
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(rs);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(ts);
 				printf("%s\n", rs.C_String());
+				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
+
+				
 			}
 			break;
 			default:

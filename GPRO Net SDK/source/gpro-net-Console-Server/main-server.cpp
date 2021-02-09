@@ -42,6 +42,18 @@ using namespace RakNet;
 #define MAX_CLIENTS 10
 #define SERVER_PORT 60000
 
+#pragma pack(push, 1)
+struct networkedTime
+{
+	unsigned char useTimeStamp; // Assign ID_TIMESTAMP to this
+	RakNet::Time timeStamp; // Put the system time in here returned by RakNet::GetTime()
+	unsigned char typeId; // You should put here an enum you defined after the last one defined in MessageIdentifiers.h, lets say ID_SET_TIMED_MINE
+	float x, y, z; // Mine position
+	NetworkID networkId; // NetworkID of the mine, used as a common method to refer to the mine on different computers
+	SystemAddress systemAddress; // The SystenAddress of the player that owns the mine
+};
+#pragma pack(pop)
+
 enum GameMessages
 {
 	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
@@ -113,13 +125,15 @@ int main(void)
 				printf("%s\n", rs.C_String());			
 			}
 
-			case ID_SET_TIMED_MINE:
+			case ID_TIMESTAMP:
 			{
 				RakNet::RakString rs;
+				RakNet::Time ts;
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-				bsIn.Read(rs);
-				printf(rs.C_String());
+				bsIn.Read(ts);
+				printf("%" PRINTF_64_BIT_MODIFIER "u ",ts);
+			
 			}
 			break;
 
@@ -133,11 +147,3 @@ int main(void)
 
 	return 0;
 }
-
-/*int main(int const argc, char const* const argv[])
-{
-
-	printf("dixneuf")
-	printf("\n\n");
-	system("pause");
-}*/
