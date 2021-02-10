@@ -199,9 +199,12 @@ int main(void)
 					case ID_BROADCAST_MESSAGE:
 					{
 						RakNet::RakString rs;
+						RakNet::Time ts;
 						RakNet::BitStream bsIn(packet->data, packet->length, false);
 						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 						bsIn.Read(rs);
+						bsIn.Read(ts);
+						printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
 						printf(rs.C_String());
 					}
 					break;

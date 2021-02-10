@@ -214,6 +214,7 @@ int main(void)
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 				bsOut.Write(finalStr);
+				bsOut.Write(ts);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			case ID_SHUTDOWN_SERVER:
