@@ -48,12 +48,14 @@ enum GameMessages
 	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
 	ID_INTRODUCTION_MESSAGE = ID_USER_PACKET_ENUM + 2,
 	ID_QUIT_MESSAGE = ID_USER_PACKET_ENUM + 3,
-	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4
+	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4,
+	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5
 };
 
 int checkForInput() 
 {
 	char input;
+	printf("Command: ");
 	std::cin >> input;
 	return (int)(input) - '0';
 }
@@ -65,6 +67,7 @@ int main(void)
 
 	bool isConnected = false;
 	bool inLoop = true;
+	bool canRecieveInput = false;
 	bool terminateFromLoop = false;
 	int inputNum = 0;
 
@@ -99,6 +102,45 @@ int main(void)
 
 	while (inLoop)
 	{
+		if (canRecieveInput) 
+		{
+			inputNum = checkForInput();
+
+			switch (inputNum)
+			{
+			case 0:
+			{
+				packet = peer->Receive();
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
+				bsOut.Write(RakNet::GetTimeUS() / 1000);
+				bsOut.Write(username);
+
+				peer->SetOccasionalPing(true);
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+				break;
+			}
+			case 1:
+			{
+				printf("What message would you like to send? \n");
+				std::cin >> str;
+
+				packet = peer->Receive();
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_CLIENT_MESSAGE);
+				bsOut.Write(RakNet::GetTimeUS() / 1000);
+				bsOut.Write(username);
+				bsOut.Write(str);
+
+				peer->SetOccasionalPing(true);
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+				break;
+			}
+			default:
+				printf("Invalid Input \n");
+				break;
+			}
+		}
 
 		for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
 		{
@@ -153,28 +195,8 @@ int main(void)
 				printf("\n");
 				printf("%s\n", rs.C_String());
 
+				canRecieveInput = true;
 				address = packet->systemAddress;
-
-				inputNum = checkForInput();
-
-				switch (inputNum)
-				{
-				case 0:
-				{
-					packet = peer->Receive();
-					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
-					bsOut.Write(RakNet::GetTimeUS() / 1000);
-					bsOut.Write(username);
-
-					peer->SetOccasionalPing(true);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-					break;
-				}
-				default:
-					printf("Invalid Input \n");
-					break;
-				}
 			}
 			break;
 			case ID_TIMESTAMP:
@@ -188,8 +210,7 @@ int main(void)
 				bsIn.Read(ts);
 				printf("%s\n", rs.C_String());
 				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
-
-				
+				break;
 			}
 			break;
 			default:

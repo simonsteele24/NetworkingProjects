@@ -60,6 +60,7 @@ enum GameMessages
 	ID_INTRODUCTION_MESSAGE = ID_USER_PACKET_ENUM + 2,
 	ID_QUIT_MESSAGE = ID_USER_PACKET_ENUM + 3,
 	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4,
+	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5,
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
@@ -127,7 +128,7 @@ int main(void)
 				//write message out to client
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
-				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n");
+				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 				
@@ -209,8 +210,27 @@ int main(void)
 				printf(finalStr);
 				fprintf(fPtr,finalStr);
 			}
-
 			case ID_SHUTDOWN_SERVER:
+				break;
+			case ID_CLIENT_MESSAGE:
+			{
+				RakNet::RakString rs;
+				RakNet::Time ts;
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(ts);
+				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
+				fprintf(fPtr, "%" PRINTF_64_BIT_MODIFIER "u ", ts);
+				bsIn.Read(rs);
+				char finalStr[] = "> ";
+				strcat(finalStr, rs);
+				strcat(finalStr, " says: ");
+				bsIn.Read(rs);
+				strcat(finalStr, rs);
+				strcat(finalStr, "\n");
+				printf(finalStr);
+				fprintf(fPtr, finalStr);
+			}
 				break;
 
 			break;
