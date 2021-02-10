@@ -46,18 +46,33 @@ using namespace RakNet;
 enum GameMessages
 {
 	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
-	ID_INTRODUCTION_MESSAGE = ID_USER_PACKET_ENUM + 2
+	ID_INTRODUCTION_MESSAGE = ID_USER_PACKET_ENUM + 2,
+	ID_QUIT_MESSAGE = ID_USER_PACKET_ENUM + 3,
+	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4
 };
 
+int checkForInput() 
+{
+	char input;
+	std::cin >> input;
+	return (int)(input) - '0';
+}
 
 int main(void)
 {
 	char str[512];
 	char username[512];
 
+	bool isConnected = false;
+	bool inLoop = true;
+	bool terminateFromLoop = false;
+	int inputNum = 0;
+
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
 
 	RakNet::Packet* packet;
+
+	RakNet::SystemAddress address;
 
 	SocketDescriptor sd;
 
@@ -82,8 +97,9 @@ int main(void)
 
 	peer->Connect(str, SERVER_PORT, 0, 0);
 
-	while (1)
+	while (inLoop)
 	{
+
 		for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
 		{
 			switch (packet->data[0])
@@ -113,15 +129,21 @@ int main(void)
 				printf("The server is full.\n");
 				break;
 			case ID_DISCONNECTION_NOTIFICATION:
-
+			{
 				printf("We have been disconnected.\n");
+			}
 
 				break;
 			case ID_CONNECTION_LOST:
-
+			{
 				printf("Connection lost.\n");
+				inLoop = false;
+			}
 				break;
-
+			case ID_QUIT_MESSAGE:
+				printf("You have left the server");
+				inLoop = false;
+				break;
 			case ID_GAME_MESSAGE_1:
 			{
 				RakNet::RakString rs;
@@ -130,6 +152,29 @@ int main(void)
 				bsIn.Read(rs);
 				printf("\n");
 				printf("%s\n", rs.C_String());
+
+				address = packet->systemAddress;
+
+				inputNum = checkForInput();
+
+				switch (inputNum)
+				{
+				case 0:
+				{
+					packet = peer->Receive();
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
+					bsOut.Write(RakNet::GetTimeUS() / 1000);
+					bsOut.Write(username);
+
+					peer->SetOccasionalPing(true);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+					break;
+				}
+				default:
+					printf("Invalid Input \n");
+					break;
+				}
 			}
 			break;
 			case ID_TIMESTAMP:
@@ -151,7 +196,6 @@ int main(void)
 				printf("Message with identifier %i has arrived.\n", packet->data[0]);
 				break;
 			}
-			
 		}
 	}
 	RakNet::RakPeerInterface::DestroyInstance(peer);
