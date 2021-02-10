@@ -49,7 +49,8 @@ enum GameMessages
 	ID_INTRODUCTION_MESSAGE = ID_USER_PACKET_ENUM + 2,
 	ID_QUIT_MESSAGE = ID_USER_PACKET_ENUM + 3,
 	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4,
-	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5
+	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5,
+	ID_BROADCAST_MESSAGE = ID_USER_PACKET_ENUM + 6
 };
 
 int checkForInput() 
@@ -136,6 +137,96 @@ int main(void)
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 				break;
 			}
+			case 2:
+			{
+				for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
+				{
+					switch (packet->data[0])
+					{
+					case ID_CONNECTION_REQUEST_ACCEPTED:
+					{
+						printf("Our connection request has been accepted.\n");
+
+						// Use a BitStream to write a custom user message
+						// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
+						RakNet::BitStream bsOut;
+						time_t giveTime = time(NULL);
+
+						bsOut.Write((RakNet::MessageID)ID_INTRODUCTION_MESSAGE);
+
+						bsOut.Write(RakNet::GetTimeUS() / 1000);
+						bsOut.Write(username);
+						peer->SetOccasionalPing(true);
+
+						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+					}
+					break;
+					case ID_NEW_INCOMING_CONNECTION:
+						printf("A connection is incoming.\n");
+						break;
+					case ID_NO_FREE_INCOMING_CONNECTIONS:
+						printf("The server is full.\n");
+						break;
+					case ID_DISCONNECTION_NOTIFICATION:
+					{
+						printf("We have been disconnected.\n");
+					}
+
+					break;
+					case ID_CONNECTION_LOST:
+					{
+						printf("Connection lost.\n");
+						inLoop = false;
+					}
+					break;
+					case ID_QUIT_MESSAGE:
+						printf("You have left the server");
+						inLoop = false;
+						break;
+					case ID_GAME_MESSAGE_1:
+					{
+						RakNet::RakString rs;
+						RakNet::BitStream bsIn(packet->data, packet->length, false);
+						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+						bsIn.Read(rs);
+						printf("\n");
+						printf("%s\n", rs.C_String());
+
+						canRecieveInput = true;
+						address = packet->systemAddress;
+					}
+					break;
+					case ID_BROADCAST_MESSAGE:
+					{
+						RakNet::RakString rs;
+						RakNet::BitStream bsIn(packet->data, packet->length, false);
+						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+						bsIn.Read(rs);
+						printf(rs.C_String());
+					}
+					break;
+					case ID_TIMESTAMP:
+					{
+						RakNet::RakString rs;
+						RakNet::Time ts;
+						RakNet::BitStream bsIn(packet->data, packet->length, false);
+						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+						bsIn.Read(rs);
+						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+						bsIn.Read(ts);
+						printf("%s\n", rs.C_String());
+						printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
+						break;
+					}
+					break;
+					default:
+						printf("Message with identifier %i has arrived.\n", packet->data[0]);
+						break;
+					}
+				}
+				break;
+			}
+
 			default:
 				printf("Invalid Input \n");
 				break;
@@ -197,6 +288,15 @@ int main(void)
 
 				canRecieveInput = true;
 				address = packet->systemAddress;
+			}
+			break;
+			case ID_BROADCAST_MESSAGE:
+			{
+				RakNet::RakString rs;
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf(rs.C_String());
 			}
 			break;
 			case ID_TIMESTAMP:

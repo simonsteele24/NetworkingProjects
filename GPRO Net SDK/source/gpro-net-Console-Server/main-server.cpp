@@ -61,6 +61,7 @@ enum GameMessages
 	ID_QUIT_MESSAGE = ID_USER_PACKET_ENUM + 3,
 	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4,
 	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5,
+	ID_BROADCAST_MESSAGE = ID_USER_PACKET_ENUM + 6,
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
@@ -128,7 +129,7 @@ int main(void)
 				//write message out to client
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
-				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n");
+				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 				
@@ -209,6 +210,11 @@ int main(void)
 				strcat(finalStr, " has entered the chat!\n");
 				printf(finalStr);
 				fprintf(fPtr,finalStr);
+
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+				bsOut.Write(finalStr);
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			case ID_SHUTDOWN_SERVER:
 				break;
