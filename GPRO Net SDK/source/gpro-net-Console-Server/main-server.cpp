@@ -70,6 +70,7 @@ int main(void)
     FILE * fPtr;
 
 	UserDicNode* userDicNode = new UserDicNode();
+	int dictSize = 0;
     /* 
      * Open file in w (write) mode. 
      * "data/file1.txt" is complete path to create file
@@ -202,21 +203,33 @@ int main(void)
 
 
 				//Create a node and add to it the key and value
-				if (userDicNode->key == NULL)
+				if (dictSize == 0)
 				{
 					strcpy(userDicNode->key, rs.C_String());
 					userDicNode->val = packet->systemAddress;
+					dictSize++;
 				}
 				else
 				{
-					if (userDicNode->next == NULL)
+					bool hasFoundEnd = false;
+					UserDicNode* traversalNode = userDicNode;
+
+					while (!hasFoundEnd)
 					{
-						userDicNode->next = new UserDicNode();
-						strcpy(userDicNode->next->key, rs.C_String());
-						userDicNode->next->val = packet->systemAddress;
+						if (traversalNode->next == NULL) 
+						{
+							hasFoundEnd = true;
+							traversalNode->next = new UserDicNode();
+							strcpy(traversalNode->next->key,rs.C_String());
+							traversalNode->next->val = packet->systemAddress;
+							dictSize++;
+						}
+						else 
+						{
+							traversalNode = traversalNode->next;
+						}
 					}
 				}
-				//
 
 				char finalStr[] = "> ";
 				strcat(finalStr,rs);
@@ -258,9 +271,20 @@ int main(void)
 			{
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GET_USERS);
-				bsOut.Write(userDicNode->key);
-				bsOut.Write(userDicNode->val);
+
+				char finalStr[500] = "\n";
+
+				UserDicNode* traversalNode = userDicNode;
+				while (traversalNode != NULL)
+				{
+					strcat(finalStr, traversalNode->key);
+					strcat(finalStr, "\n");
+					traversalNode = traversalNode->next;
+				}
+
+				bsOut.Write(finalStr);
 				//
+				peer->SetOccasionalPing(true);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 
 			}
