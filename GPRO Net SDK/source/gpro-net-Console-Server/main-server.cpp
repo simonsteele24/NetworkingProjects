@@ -42,17 +42,12 @@ using namespace RakNet;
 #define MAX_CLIENTS 10
 #define SERVER_PORT 60000
 
-#pragma pack(push, 1)
-struct networkedTime
-{
-	unsigned char useTimeStamp; // Assign ID_TIMESTAMP to this
-	RakNet::Time timeStamp; // Put the system time in here returned by RakNet::GetTime()
-	unsigned char typeId; // You should put here an enum you defined after the last one defined in MessageIdentifiers.h, lets say ID_SET_TIMED_MINE
-	float x, y, z; // Mine position
-	NetworkID networkId; // NetworkID of the mine, used as a common method to refer to the mine on different computers
-	SystemAddress systemAddress; // The SystenAddress of the player that owns the mine
+// A linked list node 
+struct UserDicNode {
+	char key[512];
+	RakNet::SystemAddress val;
+	struct UserDicNode* next;
 };
-#pragma pack(pop)
 
 enum GameMessages
 {
@@ -62,6 +57,7 @@ enum GameMessages
 	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4,
 	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5,
 	ID_BROADCAST_MESSAGE = ID_USER_PACKET_ENUM + 6,
+	ID_GET_USERS = ID_USER_PACKET_ENUM + 7,
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
@@ -73,7 +69,7 @@ int main(void)
 	/* File pointer to hold reference to our file */
     FILE * fPtr;
 
-
+	UserDicNode* userDicNode = new UserDicNode();
     /* 
      * Open file in w (write) mode. 
      * "data/file1.txt" is complete path to create file
@@ -129,7 +125,7 @@ int main(void)
 				//write message out to client
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
-				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages");
+				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 				
@@ -203,6 +199,25 @@ int main(void)
 				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				fprintf(fPtr,"%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				bsIn.Read(rs);
+
+
+				//Create a node and add to it the key and value
+				if (userDicNode->key == NULL)
+				{
+					strcpy(userDicNode->key, rs.C_String());
+					userDicNode->val = packet->systemAddress;
+				}
+				else
+				{
+					if (userDicNode->next == NULL)
+					{
+						userDicNode->next = new UserDicNode();
+						strcpy(userDicNode->next->key, rs.C_String());
+						userDicNode->next->val = packet->systemAddress;
+					}
+				}
+				//
+
 				char finalStr[] = "> ";
 				strcat(finalStr,rs);
 				strcat(finalStr, " has entered the chat!\n");
@@ -239,6 +254,16 @@ int main(void)
 			}
 				break;
 
+			case ID_GET_USERS:
+			{
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_GET_USERS);
+				bsOut.Write(userDicNode->key);
+				bsOut.Write(userDicNode->val);
+				//
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+			}
 			break;
 
 			default:

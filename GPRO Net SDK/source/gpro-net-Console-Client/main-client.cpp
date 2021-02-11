@@ -50,7 +50,8 @@ enum GameMessages
 	ID_QUIT_MESSAGE = ID_USER_PACKET_ENUM + 3,
 	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4,
 	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5,
-	ID_BROADCAST_MESSAGE = ID_USER_PACKET_ENUM + 6
+	ID_BROADCAST_MESSAGE = ID_USER_PACKET_ENUM + 6,
+	ID_GET_USERS = ID_USER_PACKET_ENUM + 7
 };
 
 int checkForInput() 
@@ -229,6 +230,15 @@ int main(void)
 				}
 				break;
 			}
+			case 3:
+			{
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_GET_USERS);
+
+				peer->SetOccasionalPing(true);
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+				break;
+			}
 			default:
 				printf("Invalid Input \n");
 				break;
@@ -315,6 +325,18 @@ int main(void)
 				break;
 			}
 			break;
+			case ID_GET_USERS:
+			{
+				RakNet::RakString rs;
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf("\n");
+				printf("%s\n", rs.C_String());
+
+				break;
+			}
+
 			default:
 				printf("Message with identifier %i has arrived.\n", packet->data[0]);
 				break;
