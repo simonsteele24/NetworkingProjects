@@ -78,7 +78,7 @@ int main(void)
      * Open file in w (write) mode. 
      * "data/file1.txt" is complete path to create file
      */
-    fPtr = fopen("file1.txt", "w");
+    fPtr = fopen("chatLog.txt", "w");
 
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
 	RakNet::Packet* packet;
@@ -93,7 +93,7 @@ int main(void)
 	printf("\n\n");
 
 	printf("Starting the server.\n");
-	fclose(fPtr);
+	
 	// We need to let the server accept incoming connections from the clients
 	peer->SetMaximumIncomingConnections(MAX_CLIENTS);
 
@@ -124,7 +124,7 @@ int main(void)
 			case ID_NEW_INCOMING_CONNECTION:
 			{
 				printf("A connection is incoming.\n");
-				fprintf(fPtr,"A connection is incoming.\n");
+				//fprintf(fPtr,"A connection is incoming.\n");
 
 				//write message out to client
 				RakNet::BitStream bsOut;
@@ -136,12 +136,12 @@ int main(void)
 				break;
 			case ID_NO_FREE_INCOMING_CONNECTIONS:
 				printf("The server is full.\n");
-				fprintf(fPtr,"The server is full.\n");
+				//fprintf(fPtr,"The server is full.\n");
 				break;
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
 				printf("A client has disconnected.\n");
-				fprintf(fPtr,"A client has disconnected.\n");
+				//fprintf(fPtr,"A client has disconnected.\n");
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
@@ -149,7 +149,7 @@ int main(void)
 				break;
 			case ID_CONNECTION_LOST:
 				printf("A client lost the connection.\n");
-				fprintf(fPtr,"A client lost the connection.\n");
+				//fprintf(fPtr,"A client lost the connection.\n");
 				break;
 			case ID_QUIT_MESSAGE:
 			{	
@@ -244,15 +244,16 @@ int main(void)
 
 			default:
 				printf("Message with identifier %i has arrived.\n", packet->data[0]);
-				fprintf(fPtr,"Message with identifier %i has arrived.\n", packet->data[0]);
+				//fprintf(fPtr,"Message with identifier %i has arrived.\n", packet->data[0]);
 				break;
 			}
 		}
 	}
 
-	printf("Server Shutting Down\n");
-	fprintf(fPtr,"Server Shutting Down\n");
 
+	printf("Server Shutting Down\n");
+	//fprintf(fPtr,"Server Shutting Down\n");
+	fclose(fPtr);
 	RakNet::RakPeerInterface::DestroyInstance(peer);
 
 	return 0;

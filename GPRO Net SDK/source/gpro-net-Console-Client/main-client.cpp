@@ -125,7 +125,7 @@ int main(void)
 			{
 				printf("What message would you like to send? \n");
 				std::cin >> str;
-
+				
 				packet = peer->Receive();
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_CLIENT_MESSAGE);
