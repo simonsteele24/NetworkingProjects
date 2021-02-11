@@ -229,7 +229,6 @@ int main(void)
 				}
 				break;
 			}
-
 			default:
 				printf("Invalid Input \n");
 				break;

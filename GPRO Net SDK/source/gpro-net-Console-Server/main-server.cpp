@@ -169,8 +169,6 @@ int main(void)
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
-
-				terminateFromLoop = true;
 			}
 			break;
 			case ID_GAME_MESSAGE_1:
@@ -183,7 +181,7 @@ int main(void)
 				printf("%s\n", rs.C_String());			
 				fprintf(fPtr,"%s\n", rs.C_String());
 			}
-
+			break;
 			case ID_TIMESTAMP:
 			{
 				RakNet::RakString rs;
@@ -193,8 +191,8 @@ int main(void)
 				bsIn.Read(ts);
 				printf("%" PRINTF_64_BIT_MODIFIER "u ",ts);
 				fprintf(fPtr,"%" PRINTF_64_BIT_MODIFIER "u ",ts);
-			
 			}
+			break;
 			case ID_INTRODUCTION_MESSAGE:
 			{
 				RakNet::RakString rs;
@@ -217,6 +215,7 @@ int main(void)
 				bsOut.Write(ts);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
+			break;
 			case ID_SHUTDOWN_SERVER:
 				break;
 			case ID_CLIENT_MESSAGE:
