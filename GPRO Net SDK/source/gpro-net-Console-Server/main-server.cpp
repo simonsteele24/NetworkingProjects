@@ -47,6 +47,7 @@ struct UserDicNode {
 	char key[512];
 	RakNet::SystemAddress val;
 	struct UserDicNode* next;
+	struct UserDicNode* previous;
 };
 
 enum GameMessages
@@ -78,19 +79,32 @@ UserDicNode* FindUser(UserDicNode* traversalNode,char user[])
 
 }
 
-void RemoveUser(UserDicNode& traversalNode, char user[])
+void RemoveUser(UserDicNode* traversalNode, char user[], int & dictSize)
 {
-	int value;
-	if (traversalNode.key != NULL)
+	UserDicNode* tempNode = traversalNode;
+
+	if (traversalNode == tempNode)
 	{
-		value = strcmp(traversalNode.key, user);
+		memset(tempNode->key, 0, 512);
+		tempNode->val = SystemAddress();
+		dictSize--;
+	}
+
+	while (tempNode->next != NULL) 
+	{
+		int value = strcmp(traversalNode->key, user);
 		if (value == 0)
 		{
-			traversalNode = *traversalNode.next;
-			//if(&traversalNode != NULL)
-			//	RemoveUser(*traversalNode.next, user);
+			tempNode->previous->next = tempNode->next;
+			tempNode = nullptr;
+			return;
 		}
+		tempNode = tempNode->next;
 	}
+
+	
+	tempNode = nullptr;
+	dictSize--;
 }
 
 void ShiftUsers(UserDicNode* traversalNode, UserDicNode* targetNode)
@@ -204,7 +218,7 @@ int main(void)
 				fprintf(fPtr,finalStr);
 
 				char user[512];
-				RemoveUser(*userDicNode, strcpy(user, rs));
+				RemoveUser(userDicNode, strcpy(user, rs), dictSize);
 
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
@@ -266,6 +280,7 @@ int main(void)
 							traversalNode->next = new UserDicNode();
 							strcpy(traversalNode->next->key,rs.C_String());
 							traversalNode->next->val = packet->systemAddress;
+							traversalNode->next->previous = traversalNode;
 							dictSize++;
 						}
 						else 
