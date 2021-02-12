@@ -341,22 +341,70 @@ int main(void)
 				break;
 			case ID_CLIENT_MESSAGE:
 			{
+				int value;
+				char finalStr[] = "> ";
+				char server[512];
+				char designation[512];
+
+				//Reading in-----------------
 				RakNet::RakString rs;
 				RakNet::Time ts;
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+
+				bsIn.Read(rs);
+
+
+				strcpy(designation, rs);
+
+				//Timestamp
 				bsIn.Read(ts);
 				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				fprintf(fPtr, "%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				bsIn.Read(rs);
-				char finalStr[500] = "> ";
+
+
+				//Name
 				strcat(finalStr, rs);
+				//Message
 				strcat(finalStr, " says: ");
+
 				bsIn.Read(rs);
 				strcat(finalStr, rs);
 				strcat(finalStr, "\n");
+
+				//Final Printing 
 				printf(finalStr);
 				fprintf(fPtr, finalStr);
+
+				//--------- Writing Out
+				RakNet::BitStream bsOut;
+
+
+				strcpy(server, "public");
+				value = strcmp(designation, server);
+				//IF message is to Server this runs
+				if (value == 0)
+				{
+					bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+
+					bsOut.Write(finalStr);
+					peer->SetOccasionalPing(true);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, true);
+				}
+				else
+				{
+					//Ideally this is dm
+					bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+
+					bsOut.Write(finalStr);
+					peer->SetOccasionalPing(true);
+					UserDicNode* yeeee;
+					yeeee = FindUser(userDicNode, designation);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, yeeee->val, false); 
+
+				}
+					//Message to specific, this is where yo would loop from find user
 			}
 				break;
 

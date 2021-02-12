@@ -124,14 +124,24 @@ int main(void)
 			}
 			case 1:
 			{
-				printf("What message would you like to send? \n");
-				std::cin >> str;
-				
 				packet = peer->Receive();
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_CLIENT_MESSAGE);
+
+				//Designation
+				printf("Whom is the message for? Type the UserName(dm) or public \n");
+				std::cin >> str;
+				bsOut.Write(str);
+
+				//Timestamp
 				bsOut.Write(RakNet::GetTimeUS() / 1000);
+
+				//Username
 				bsOut.Write(username);
+
+				//Message
+				printf("What message would you like to send? \n");
+				std::cin >> str;
 				bsOut.Write(str);
 
 				peer->SetOccasionalPing(true);
