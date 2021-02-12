@@ -61,6 +61,46 @@ enum GameMessages
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
+UserDicNode* FindUser(UserDicNode* traversalNode,char user[])
+{
+	int value;
+	if (traversalNode != NULL)
+	{
+		value = strcmp(traversalNode->key, user);
+		if (value == 0)
+		{
+			return traversalNode;
+		}
+		traversalNode = traversalNode->next;
+		FindUser(traversalNode->next, user);
+	}
+	return new UserDicNode();
+
+}
+
+void RemoveUser(UserDicNode& traversalNode, char user[])
+{
+	int value;
+	if (traversalNode.key != NULL)
+	{
+		value = strcmp(traversalNode.key, user);
+		if (value == 0)
+		{
+			traversalNode = *traversalNode.next;
+			//if(&traversalNode != NULL)
+			//	RemoveUser(*traversalNode.next, user);
+		}
+	}
+}
+
+void ShiftUsers(UserDicNode* traversalNode, UserDicNode* targetNode)
+{
+	if (traversalNode != NULL)
+	{
+		traversalNode = targetNode;
+		//ShiftUsers(traversalNode)
+	}
+}
 int main(void)
 {
 
@@ -163,8 +203,12 @@ int main(void)
 				printf(finalStr);
 				fprintf(fPtr,finalStr);
 
+				char user[512];
+				RemoveUser(*userDicNode, strcpy(user, rs));
+
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
+
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
@@ -275,6 +319,7 @@ int main(void)
 				char finalStr[500] = "\n";
 
 				UserDicNode* traversalNode = userDicNode;
+
 				while (traversalNode != NULL)
 				{
 					strcat(finalStr, traversalNode->key);

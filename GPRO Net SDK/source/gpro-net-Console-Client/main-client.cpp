@@ -333,7 +333,7 @@ int main(void)
 					printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
 					break;
 				}
-				break;
+			
 				case ID_GET_USERS:
 				{
 					RakNet::RakString rs;
@@ -341,7 +341,7 @@ int main(void)
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(rs);
 					printf("%s\n", rs.C_String());
-
+					printf("WRGRHERH");
 					break;
 				}
 
