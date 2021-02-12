@@ -1,5 +1,5 @@
 /*
-   Copyright 2021 Daniel S. Buckstein
+   Copyright 2021 Simon Steele & Chun Tao Lin
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 /*
 	GPRO Net SDK: Networking framework.
-	By Daniel S. Buckstein
+	By Simon Steele & Chun Tao Lin
 
 	main-server.c/.cpp
 	Main source for console server application.
@@ -44,10 +44,10 @@ using namespace RakNet;
 
 // A linked list node 
 struct UserDicNode {
-	char key[512];
+	char key[512] = "";
 	RakNet::SystemAddress val;
-	struct UserDicNode* next;
-	struct UserDicNode* previous;
+	struct UserDicNode* next = NULL;
+	struct UserDicNode* previous = NULL;
 };
 
 enum GameMessages
@@ -134,7 +134,7 @@ int main(void)
     fPtr = fopen("chatLog.txt", "w");
 
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
-	RakNet::Packet* packet;
+	RakNet::Packet* packet = NULL;
 
 	bool inLoop = true;
 	bool terminateFromLoop = false;
@@ -226,8 +226,8 @@ int main(void)
 				break;
 			case ID_QUIT_MESSAGE:
 			{	
-				RakNet::RakString rs;
-				RakNet::Time ts;
+				RakNet::RakString rs = RakString();
+				RakNet::Time ts = Time();
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(ts);
@@ -239,7 +239,7 @@ int main(void)
 				printf(finalStr);
 				fprintf(fPtr,finalStr);
 
-				char user[512];
+				char user[512] = "";
 				RemoveUser(userDicNode, strcpy(user, rs), dictSize);
 
 				RakNet::BitStream bsOut;
@@ -251,7 +251,7 @@ int main(void)
 			case ID_GAME_MESSAGE_1:
 			{
 				//in
-				RakNet::RakString rs;
+				RakNet::RakString rs = RakString();
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(rs);
@@ -261,8 +261,8 @@ int main(void)
 			break;
 			case ID_TIMESTAMP:
 			{
-				RakNet::RakString rs;
-				RakNet::Time ts;
+				RakNet::RakString rs = RakString();
+				RakNet::Time ts = Time();
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(ts);
@@ -272,8 +272,8 @@ int main(void)
 			break;
 			case ID_INTRODUCTION_MESSAGE:
 			{
-				RakNet::RakString rs;
-				RakNet::Time ts;
+				RakNet::RakString rs = RakString();
+				RakNet::Time ts = Time();
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(ts);
@@ -328,17 +328,17 @@ int main(void)
 				break;
 			case ID_CLIENT_MESSAGE:
 			{
-				int value;
+				int value = 0;
 				char finalStr[512] = "> ";
 				char dmMessage[512] = "> ";
-				char name[512];
+				char name[512] = "";
 
-				char server[512];
-				char designation[512];
+				char server[512] = "";
+				char designation[512] = "";
 
 				//Reading in-----------------
-				RakNet::RakString rs;
-				RakNet::Time ts;
+				RakNet::RakString rs = RakString();
+				RakNet::Time ts = Time();
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 
@@ -394,7 +394,7 @@ int main(void)
 				}
 				else
 				{
-					UserDicNode* yeeee;
+					UserDicNode* yeeee = NULL;
 					yeeee = FindUser(userDicNode, designation);
 
 					if (yeeee != NULL) 

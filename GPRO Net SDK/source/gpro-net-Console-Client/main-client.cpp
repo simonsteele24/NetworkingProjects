@@ -1,5 +1,5 @@
 /*
-   Copyright 2021 Daniel S. Buckstein
+   Copyright 2021 Simon Steele & Chun Tao Lin
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 /*
 	GPRO Net SDK: Networking framework.
-	By Daniel S. Buckstein
+	By Simon Steele & Chun Tao Lin
 
 	main-client.c/.cpp
 	Main source for console client application.
@@ -64,8 +64,8 @@ int checkForInput()
 
 int main(void)
 {
-	char str[512];
-	char username[512];
+	char str[512] = "";
+	char username[512] = "";
 
 	bool isConnected = false;
 	bool inLoop = true;
@@ -75,11 +75,11 @@ int main(void)
 
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
 
-	RakNet::Packet* packet;
+	RakNet::Packet* packet = NULL;
 
-	RakNet::SystemAddress address;
+	RakNet::SystemAddress address = SystemAddress();
 
-	SocketDescriptor sd;
+	SocketDescriptor sd = SocketDescriptor();;
 
 	peer->Startup(1, &sd, 1);
 
@@ -129,7 +129,7 @@ int main(void)
 				bsOut.Write((RakNet::MessageID)ID_CLIENT_MESSAGE);
 
 				//Designation
-				printf("Whom is the message for? Type the UserName(dm) or public \n");
+				printf("Whom is the message for? Type the UserName(dm) or public: ");
 				std::cin >> str;
 				bsOut.Write(str);
 
@@ -140,7 +140,7 @@ int main(void)
 				bsOut.Write(username);
 
 				//Message
-				printf("What message would you like to send? \n");
+				printf("What message would you like to send: ");
 				std::cin >> str;
 				bsOut.Write(str);
 
@@ -191,7 +191,7 @@ int main(void)
 						break;
 					case ID_GAME_MESSAGE_1:
 					{
-						RakNet::RakString rs;
+						RakNet::RakString rs = RakString();
 						RakNet::BitStream bsIn(packet->data, packet->length, false);
 						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 						bsIn.Read(rs);
@@ -204,7 +204,7 @@ int main(void)
 					break;
 					case ID_BROADCAST_MESSAGE:
 					{
-						RakNet::RakString rs;
+						RakNet::RakString rs = RakString();
 						RakNet::BitStream bsIn(packet->data, packet->length, false);
 						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 						bsIn.Read(rs);
@@ -213,8 +213,8 @@ int main(void)
 					break;
 					case ID_TIMESTAMP:
 					{
-						RakNet::RakString rs;
-						RakNet::Time ts;
+						RakNet::RakString rs = RakString();
+						RakNet::Time ts = Time();
 						RakNet::BitStream bsIn(packet->data, packet->length, false);
 						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 						bsIn.Read(rs);
@@ -227,7 +227,7 @@ int main(void)
 					break;
 					case ID_GET_USERS:
 					{
-						RakNet::RakString rs;
+						RakNet::RakString rs = RakString();
 						RakNet::BitStream bsIn(packet->data, packet->length, false);
 						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 						bsIn.Read(rs);
@@ -295,7 +295,7 @@ int main(void)
 					break;
 				case ID_GAME_MESSAGE_1:
 				{
-					RakNet::RakString rs;
+					RakNet::RakString rs = RakString();
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(rs);
@@ -308,7 +308,7 @@ int main(void)
 				break;
 				case ID_BROADCAST_MESSAGE:
 				{
-					RakNet::RakString rs;
+					RakNet::RakString rs = RakString();
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(rs);
@@ -317,8 +317,8 @@ int main(void)
 				break;
 				case ID_TIMESTAMP:
 				{
-					RakNet::RakString rs;
-					RakNet::Time ts;
+					RakNet::RakString rs = RakString();
+					RakNet::Time ts = Time();
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(rs);
@@ -331,7 +331,7 @@ int main(void)
 			
 				case ID_GET_USERS:
 				{
-					RakNet::RakString rs;
+					RakNet::RakString rs = RakString();
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(rs);
@@ -352,11 +352,3 @@ int main(void)
 
 	return 0;
 }
-
-//int main(int const argc, char const* const argv[])
-//{
-//
-//
-//	printf("\n\n");
-//	system("pause");
-//}
