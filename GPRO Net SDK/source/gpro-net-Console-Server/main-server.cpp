@@ -24,10 +24,10 @@
 
 #include "gpro-net/gpro-net.h"
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h> 
 #include <ctime>
 
 #include "RakNet/MessageIdentifiers.h"
@@ -120,6 +120,8 @@ int main(void)
 
 	//char str[512];
 
+	const int LETTER_TO_REPRESENT_SHUTDOWN_SERVER = 27;
+
 	/* File pointer to hold reference to our file */
     FILE * fPtr;
 
@@ -153,6 +155,38 @@ int main(void)
 		if (terminateFromLoop) 
 		{
 			inLoop = false;
+		}
+
+		if (_kbhit()) 
+		{
+			char letter = _getch();
+
+			if ((int)(letter) == LETTER_TO_REPRESENT_SHUTDOWN_SERVER) 
+			{
+				UserDicNode* traversalNode = userDicNode;
+				RakNet::BitStream bsOut;
+				while (traversalNode != NULL) 
+				{
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, traversalNode->val, false);
+					traversalNode = traversalNode->next;
+				}
+				
+				while (traversalNode != NULL)
+				{
+					if (traversalNode->next != NULL) 
+					{
+						traversalNode = traversalNode->next;
+						traversalNode->previous = nullptr;
+					}
+					else 
+					{
+						traversalNode = nullptr;
+					}
+				}
+				inLoop = false;
+			}
 		}
 
 		for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
@@ -211,7 +245,7 @@ int main(void)
 				bsIn.Read(ts);
 				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				bsIn.Read(rs);
-				char finalStr[] = "> ";
+				char finalStr[500] = "> ";
 				strcat(finalStr, rs);
 				strcat(finalStr, " has left :(\n");
 				printf(finalStr);
@@ -290,7 +324,7 @@ int main(void)
 					}
 				}
 
-				char finalStr[] = "> ";
+				char finalStr[500] = "> ";
 				strcat(finalStr,rs);
 				strcat(finalStr, " has entered the chat!\n");
 				printf(finalStr);
@@ -315,7 +349,7 @@ int main(void)
 				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				fprintf(fPtr, "%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				bsIn.Read(rs);
-				char finalStr[] = "> ";
+				char finalStr[500] = "> ";
 				strcat(finalStr, rs);
 				strcat(finalStr, " says: ");
 				bsIn.Read(rs);
