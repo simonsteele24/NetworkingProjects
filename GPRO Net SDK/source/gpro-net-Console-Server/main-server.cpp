@@ -171,10 +171,10 @@ int main(void)
 					RakNet::BitStream bsOut;
 					bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
 					//This line will broadcast a quit message to all ofc ignoring server
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, traversalNode->val, false);
 					traversalNode = traversalNode->next;
 				}
-				
+
 				// Delete linked list
 				while (traversalNode != NULL)
 				{
@@ -190,7 +190,8 @@ int main(void)
 				}
 
 				// Get out of loop
-				inLoop = false;
+				terminateFromLoop = true;
+				continue;
 			}
 		}
 
@@ -429,7 +430,7 @@ int main(void)
 			}
 		}
 	}
-	
+	system("pause");
 	fclose(fPtr);
 	RakNet::RakPeerInterface::DestroyInstance(peer);
 
