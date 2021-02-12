@@ -54,7 +54,7 @@ struct UserDicNode {
 // Enum for custom Broadcast Messages
 enum GameMessages
 {
-	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
+	ID_NEW_CONNECTION = ID_USER_PACKET_ENUM + 1,
 	ID_INTRODUCTION_MESSAGE = ID_USER_PACKET_ENUM + 2,
 	ID_QUIT_MESSAGE = ID_USER_PACKET_ENUM + 3,
 	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4,
@@ -203,7 +203,7 @@ int main(void)
 			{
 				//write out private message out to client about chatroom controls
 				RakNet::BitStream bsOut;
-				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
+				bsOut.Write((RakNet::MessageID)ID_NEW_CONNECTION);
 				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
