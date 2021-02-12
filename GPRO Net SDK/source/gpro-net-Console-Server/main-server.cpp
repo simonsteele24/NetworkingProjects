@@ -106,14 +106,6 @@ void RemoveUser(UserDicNode* traversalNode, char user[], int & dictSize)
 	dictSize--;
 }
 
-void ShiftUsers(UserDicNode* traversalNode, UserDicNode* targetNode)
-{
-	if (traversalNode != NULL)
-	{
-		traversalNode = targetNode;
-		//ShiftUsers(traversalNode)
-	}
-}
 int main(void)
 {
 
@@ -143,12 +135,6 @@ int main(void)
 
 	// TODO - Add code body here
 	printf("\n\n");
-
-	printf("%" PRINTF_64_BIT_MODIFIER "u ", RakNet::GetTimeUS() / 1000);
-	fprintf(fPtr, "%" PRINTF_64_BIT_MODIFIER "u ", RakNet::GetTimeUS() / 1000);
-
-	printf("> Starting the server.\n");
-	fprintf(fPtr, "> Starting the server.\n");
 
 	// We need to let the server accept incoming connections from the clients
 	peer->SetMaximumIncomingConnections(MAX_CLIENTS);
@@ -196,12 +182,6 @@ int main(void)
 		{
 			switch (packet->data[0])
 			{
-			case ID_REMOTE_DISCONNECTION_NOTIFICATION:
-				break;
-			case ID_REMOTE_CONNECTION_LOST:
-				break;
-			case ID_REMOTE_NEW_INCOMING_CONNECTION:
-				break;
 			case ID_NEW_INCOMING_CONNECTION:
 			{
 				//write message out to client
@@ -210,18 +190,13 @@ int main(void)
 				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
-				
-				break;
-			case ID_NO_FREE_INCOMING_CONNECTIONS:
-				break;
+			break;
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
-				break;
-			case ID_CONNECTION_LOST:
 				break;
 			case ID_QUIT_MESSAGE:
 			{	
@@ -231,6 +206,7 @@ int main(void)
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(ts);
 				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
+				fprintf(fPtr,"%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				bsIn.Read(rs);
 				char finalStr[500] = "> ";
 				strcat(finalStr, rs);
@@ -241,9 +217,13 @@ int main(void)
 				char user[512] = "";
 				RemoveUser(userDicNode, strcpy(user, rs), dictSize);
 
+				RakNet::BitStream broadCastOut;
+				broadCastOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+				broadCastOut.Write(finalStr);
+				peer->Send(&broadCastOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, true);
+
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
-
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
@@ -320,6 +300,7 @@ int main(void)
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 				bsOut.Write(finalStr);
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, true);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
@@ -451,12 +432,6 @@ int main(void)
 			}
 		}
 	}
-
-	printf("%" PRINTF_64_BIT_MODIFIER "u ", RakNet::GetTimeUS() / 1000);
-	fprintf(fPtr, "%" PRINTF_64_BIT_MODIFIER "u ", RakNet::GetTimeUS() / 1000);
-
-	printf("> Server Shutting Down\n");
-	fprintf(fPtr,"> Server Shutting Down\n");
 	
 	fclose(fPtr);
 	RakNet::RakPeerInterface::DestroyInstance(peer);

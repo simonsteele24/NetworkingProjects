@@ -51,7 +51,7 @@ enum GameMessages
 	ID_SHUTDOWN_SERVER = ID_USER_PACKET_ENUM + 4,
 	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5,
 	ID_BROADCAST_MESSAGE = ID_USER_PACKET_ENUM + 6,
-	ID_GET_USERS = ID_USER_PACKET_ENUM + 7
+	ID_GET_USERS = ID_USER_PACKET_ENUM + 7,
 };
 
 int checkForInput() 
@@ -172,19 +172,6 @@ int main(void)
 						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 					}
 					break;
-					case ID_NEW_INCOMING_CONNECTION:
-						break;
-					case ID_NO_FREE_INCOMING_CONNECTIONS:
-						break;
-					case ID_DISCONNECTION_NOTIFICATION:
-					{
-					}
-
-					break;
-					case ID_CONNECTION_LOST:
-					{
-					}
-					break;
 					case ID_QUIT_MESSAGE:
 						printf("You have left the server");
 						inLoop = false;
@@ -279,15 +266,6 @@ int main(void)
 
 					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 				}
-				break;
-				case ID_NEW_INCOMING_CONNECTION:
-					break;
-				case ID_NO_FREE_INCOMING_CONNECTIONS:
-					break;
-				case ID_DISCONNECTION_NOTIFICATION:
-
-				break;
-				case ID_CONNECTION_LOST:
 				break;
 				case ID_QUIT_MESSAGE:
 					printf("You have left the server");
