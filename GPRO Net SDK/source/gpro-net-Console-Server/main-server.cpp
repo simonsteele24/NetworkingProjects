@@ -170,7 +170,8 @@ int main(void)
 				{
 					RakNet::BitStream bsOut;
 					bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, traversalNode->val, false);
+					//This line will broadcast a quit message to all ofc ignoring server
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
 					traversalNode = traversalNode->next;
 				}
 				
