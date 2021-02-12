@@ -324,7 +324,7 @@ int main(void)
 					}
 				}
 
-				char finalStr[500] = "> ";
+				char finalStr[512] = "> ";
 				strcat(finalStr,rs);
 				strcat(finalStr, " has entered the chat!\n");
 				printf(finalStr);
@@ -342,7 +342,7 @@ int main(void)
 			case ID_CLIENT_MESSAGE:
 			{
 				int value;
-				char finalStr[] = "> ";
+				char finalStr[512] = "> ";
 				char server[512];
 				char designation[512];
 
