@@ -64,19 +64,18 @@ enum GameMessages
 
 UserDicNode* FindUser(UserDicNode* traversalNode,char user[])
 {
+	UserDicNode* tempNode = traversalNode;
 	int value;
-	if (traversalNode != NULL)
+	while (tempNode != NULL)
 	{
-		value = strcmp(traversalNode->key, user);
+		value = strcmp(tempNode->key, user);
 		if (value == 0)
 		{
-			return traversalNode;
+			return tempNode;
 		}
-		traversalNode = traversalNode->next;
-		FindUser(traversalNode, user);
+		tempNode = tempNode->next;
 	}
 	return new UserDicNode();
-
 }
 
 void RemoveUser(UserDicNode* traversalNode, char user[], int & dictSize)
@@ -400,7 +399,7 @@ int main(void)
 					if (yeeee != NULL) 
 					{
 						//Name
-						strcat(finalStr, rs);
+						strcat(finalStr, name);
 						//Message
 						strcat(finalStr, " says to user ");
 						strcat(finalStr, yeeee->key);
