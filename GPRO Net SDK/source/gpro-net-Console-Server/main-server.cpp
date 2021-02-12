@@ -39,10 +39,11 @@
 
 using namespace RakNet;
 
+// Clients and Server Pots
 #define MAX_CLIENTS 10
 #define SERVER_PORT 60000
 
-// A linked list node 
+// A linked list node to store all users
 struct UserDicNode {
 	char key[512] = "";
 	RakNet::SystemAddress val;
@@ -50,6 +51,7 @@ struct UserDicNode {
 	struct UserDicNode* previous = NULL;
 };
 
+// Enum for custom Broadcast Messages
 enum GameMessages
 {
 	ID_GAME_MESSAGE_1 = ID_USER_PACKET_ENUM + 1,
@@ -62,10 +64,13 @@ enum GameMessages
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
+// Finds the user based on given character. Used to find a user for broadcasting a private message
 UserDicNode* FindUser(UserDicNode* traversalNode,char user[])
 {
 	UserDicNode* tempNode = traversalNode;
 	int value;
+
+	// Traverse through linked list until given character is found
 	while (tempNode != NULL)
 	{
 		value = strcmp(tempNode->key, user);
@@ -75,13 +80,17 @@ UserDicNode* FindUser(UserDicNode* traversalNode,char user[])
 		}
 		tempNode = tempNode->next;
 	}
+
+	// If given character isn't found, then return nothing
 	return new UserDicNode();
 }
 
+// Removes a user based on given character. Used to remove a user when the user leaves
 void RemoveUser(UserDicNode* traversalNode, char user[], int & dictSize)
 {
 	UserDicNode* tempNode = traversalNode;
 
+	// Check if traversal node is the head. Then remove it linked list
 	if (traversalNode == tempNode)
 	{
 		memset(tempNode->key, 0, 512);
@@ -89,11 +98,13 @@ void RemoveUser(UserDicNode* traversalNode, char user[], int & dictSize)
 		dictSize--;
 	}
 
+	// Traverse through linked list until given character is found
 	while (tempNode->next != NULL) 
 	{
 		int value = strcmp(traversalNode->key, user);
 		if (value == 0)
 		{
+			// Remove from linked list
 			tempNode->previous->next = tempNode->next;
 			tempNode = nullptr;
 			return;
@@ -101,7 +112,7 @@ void RemoveUser(UserDicNode* traversalNode, char user[], int & dictSize)
 		tempNode = tempNode->next;
 	}
 
-	
+	// Fully remove head if everything else fails
 	tempNode = nullptr;
 	dictSize--;
 }
@@ -109,51 +120,52 @@ void RemoveUser(UserDicNode* traversalNode, char user[], int & dictSize)
 int main(void)
 {
 
-	//char str[512];
-
+	// Constant to represent escape to shut down the server
 	const int LETTER_TO_REPRESENT_SHUTDOWN_SERVER = 27;
 
-	/* File pointer to hold reference to our file */
+	// File pointer to hold reference to our file
     FILE * fPtr;
+	fPtr = fopen("chatLog.txt", "w");
 
+	// Values to control linked list 
 	UserDicNode* userDicNode = new UserDicNode();
 	int dictSize = 0;
-    /* 
-     * Open file in w (write) mode. 
-     * "data/file1.txt" is complete path to create file
-     */
-    fPtr = fopen("chatLog.txt", "w");
 
+	// Server vals for packet and recieving packets
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
 	RakNet::Packet* packet = NULL;
 
+	// Booleans to know when to leave server loop
 	bool inLoop = true;
 	bool terminateFromLoop = false;
 
+	// Startup Server
 	SocketDescriptor sd(SERVER_PORT, 0);
 	peer->Startup(MAX_CLIENTS, &sd, 1);
-
-	// TODO - Add code body here
-	printf("\n\n");
 
 	// We need to let the server accept incoming connections from the clients
 	peer->SetMaximumIncomingConnections(MAX_CLIENTS);
 
 	while (inLoop)
 	{
+		// Check if networking loop needs to be terminated
 		if (terminateFromLoop) 
 		{
 			inLoop = false;
 		}
 
+		// Check for keyboard input
 		if (_kbhit()) 
 		{
+			// Check if input matches key to shutdown server
 			char letter = _getch();
 
 			if ((int)(letter) == LETTER_TO_REPRESENT_SHUTDOWN_SERVER) 
 			{
 				UserDicNode* traversalNode = userDicNode;
 				RakNet::BitStream bsOut;
+
+				// Traverse linked list to disconnect all clients still on
 				while (traversalNode != NULL) 
 				{
 					RakNet::BitStream bsOut;
@@ -162,6 +174,7 @@ int main(void)
 					traversalNode = traversalNode->next;
 				}
 				
+				// Delete linked list
 				while (traversalNode != NULL)
 				{
 					if (traversalNode->next != NULL) 
@@ -174,32 +187,30 @@ int main(void)
 						traversalNode = nullptr;
 					}
 				}
+
+				// Get out of loop
 				inLoop = false;
 			}
 		}
 
+		// Main Networking Loop to recieve and send packets
 		for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
 		{
+			// Check packet data type
 			switch (packet->data[0])
 			{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				//write message out to client
+				//write out private message out to client about chatroom controls
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
 				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
-			case ID_DISCONNECTION_NOTIFICATION:
-			{
-				RakNet::BitStream bsOut;
-				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
-				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
-			}
-				break;
 			case ID_QUIT_MESSAGE:
 			{	
+				// Read out user and then display player to broadcast message
 				RakNet::RakString rs = RakString();
 				RakNet::Time ts = Time();
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
@@ -214,39 +225,20 @@ int main(void)
 				printf(finalStr);
 				fprintf(fPtr,finalStr);
 
+				// Remove given user from server
 				char user[512] = "";
 				RemoveUser(userDicNode, strcpy(user, rs), dictSize);
 
+				// Broadcast to server user is leaving
 				RakNet::BitStream broadCastOut;
 				broadCastOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 				broadCastOut.Write(finalStr);
 				peer->Send(&broadCastOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, true);
 
+				// Send message to player that they have the ok to quit
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
-			}
-			break;
-			case ID_GAME_MESSAGE_1:
-			{
-				//in
-				RakNet::RakString rs = RakString();
-				RakNet::BitStream bsIn(packet->data, packet->length, false);
-				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-				bsIn.Read(rs);
-				printf("%s\n", rs.C_String());			
-				fprintf(fPtr,"%s\n", rs.C_String());
-			}
-			break;
-			case ID_TIMESTAMP:
-			{
-				RakNet::RakString rs = RakString();
-				RakNet::Time ts = Time();
-				RakNet::BitStream bsIn(packet->data, packet->length, false);
-				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-				bsIn.Read(ts);
-				printf("%" PRINTF_64_BIT_MODIFIER "u ",ts);
-				fprintf(fPtr,"%" PRINTF_64_BIT_MODIFIER "u ",ts);
 			}
 			break;
 			case ID_INTRODUCTION_MESSAGE:
@@ -256,12 +248,14 @@ int main(void)
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 				bsIn.Read(ts);
+
+				// Write out time stamp to server
 				printf("%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				fprintf(fPtr,"%" PRINTF_64_BIT_MODIFIER "u ", ts);
 				bsIn.Read(rs);
 
 
-				//Create a node and add to it the key and value
+				// Make new user head if no head exist
 				if (dictSize == 0)
 				{
 					strcpy(userDicNode->key, rs.C_String());
@@ -270,6 +264,7 @@ int main(void)
 				}
 				else
 				{
+					// Add user to end of linked list if there is already a head to the list
 					bool hasFoundEnd = false;
 					UserDicNode* traversalNode = userDicNode;
 
@@ -291,12 +286,14 @@ int main(void)
 					}
 				}
 
+				// Create body of message
 				char finalStr[512] = "> ";
 				strcat(finalStr,rs);
 				strcat(finalStr, " has entered the chat!\n");
 				printf(finalStr);
 				fprintf(fPtr,finalStr);
 
+				// Broadcast to ALL users that new user has joined
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 				bsOut.Write(finalStr);
@@ -304,15 +301,12 @@ int main(void)
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
-			case ID_SHUTDOWN_SERVER:
-				break;
 			case ID_CLIENT_MESSAGE:
 			{
 				int value = 0;
 				char finalStr[512] = "> ";
 				char dmMessage[512] = "> ";
 				char name[512] = "";
-
 				char server[512] = "";
 				char designation[512] = "";
 
@@ -351,9 +345,11 @@ int main(void)
 
 				strcpy(server, "public");
 				value = strcmp(designation, server);
+
 				//IF message is to Server this runs
 				if (value == 0)
 				{
+					// Universal server broadcast
 
 					//Name
 					strcat(finalStr, name);
@@ -374,25 +370,24 @@ int main(void)
 				}
 				else
 				{
+					// DM to certain user
+
+					// Find user
 					UserDicNode* yeeee = NULL;
 					yeeee = FindUser(userDicNode, designation);
 
 					if (yeeee != NULL) 
 					{
-						//Name
 						strcat(finalStr, name);
-						//Message
 						strcat(finalStr, " says to user ");
 						strcat(finalStr, yeeee->key);
 						strcat(finalStr, ": ");
-
 						strcat(finalStr, rs);
 						strcat(finalStr, "\n");
-
 						printf(finalStr);
 						fprintf(fPtr, finalStr);
 
-						//Ideally this is dm
+						// Send packet to user (if valid)
 						bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 						bsOut.Write(dmMessage);
 						peer->SetOccasionalPing(true);
@@ -412,15 +407,16 @@ int main(void)
 
 				UserDicNode* traversalNode = userDicNode;
 
+				// Traverse all of list to add to message
 				while (traversalNode != NULL)
 				{
 					strcat(finalStr, traversalNode->key);
 					strcat(finalStr, "\n");
 					traversalNode = traversalNode->next;
 				}
-
 				bsOut.Write(finalStr);
-				//
+				
+				// Send to system that requested it
 				peer->SetOccasionalPing(true);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 
