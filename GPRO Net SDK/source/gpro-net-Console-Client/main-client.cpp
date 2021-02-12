@@ -173,21 +173,16 @@ int main(void)
 					}
 					break;
 					case ID_NEW_INCOMING_CONNECTION:
-						printf("A connection is incoming.\n");
 						break;
 					case ID_NO_FREE_INCOMING_CONNECTIONS:
-						printf("The server is full.\n");
 						break;
 					case ID_DISCONNECTION_NOTIFICATION:
 					{
-						printf("We have been disconnected.\n");
 					}
 
 					break;
 					case ID_CONNECTION_LOST:
 					{
-						printf("Connection lost.\n");
-						inLoop = false;
 					}
 					break;
 					case ID_QUIT_MESSAGE:
@@ -242,7 +237,6 @@ int main(void)
 					}
 
 					default:
-						printf("Message with identifier %i has arrived.\n", packet->data[0]);
 						break;
 					}
 				}
@@ -287,22 +281,13 @@ int main(void)
 				}
 				break;
 				case ID_NEW_INCOMING_CONNECTION:
-					printf("A connection is incoming.\n");
 					break;
 				case ID_NO_FREE_INCOMING_CONNECTIONS:
-					printf("The server is full.\n");
 					break;
 				case ID_DISCONNECTION_NOTIFICATION:
-				{
-					printf("We have been disconnected.\n");
-				}
 
 				break;
 				case ID_CONNECTION_LOST:
-				{
-					printf("Connection lost.\n");
-					inLoop = false;
-				}
 				break;
 				case ID_QUIT_MESSAGE:
 					printf("You have left the server");
@@ -356,7 +341,6 @@ int main(void)
 				}
 
 				default:
-					printf("Message with identifier %i has arrived.\n", packet->data[0]);
 					break;
 				}
 			}

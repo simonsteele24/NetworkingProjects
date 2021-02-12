@@ -73,7 +73,7 @@ UserDicNode* FindUser(UserDicNode* traversalNode,char user[])
 			return traversalNode;
 		}
 		traversalNode = traversalNode->next;
-		FindUser(traversalNode->next, user);
+		FindUser(traversalNode, user);
 	}
 	return new UserDicNode();
 
@@ -145,8 +145,12 @@ int main(void)
 	// TODO - Add code body here
 	printf("\n\n");
 
-	printf("Starting the server.\n");
-	
+	printf("%" PRINTF_64_BIT_MODIFIER "u ", RakNet::GetTimeUS() / 1000);
+	fprintf(fPtr, "%" PRINTF_64_BIT_MODIFIER "u ", RakNet::GetTimeUS() / 1000);
+
+	printf("> Starting the server.\n");
+	fprintf(fPtr, "> Starting the server.\n");
+
 	// We need to let the server accept incoming connections from the clients
 	peer->SetMaximumIncomingConnections(MAX_CLIENTS);
 
@@ -194,23 +198,13 @@ int main(void)
 			switch (packet->data[0])
 			{
 			case ID_REMOTE_DISCONNECTION_NOTIFICATION:
-				printf("Another client has disconnected.\n");
-				fprintf(fPtr,"Another client has disconnected.\n");
 				break;
 			case ID_REMOTE_CONNECTION_LOST:
-				printf("Another client has lost the connection.\n");
-				fprintf(fPtr,"Another client has lost the connection.\n");
 				break;
 			case ID_REMOTE_NEW_INCOMING_CONNECTION:
-				printf("Another client has connected.\n");
-				fprintf(fPtr,"Another client has connected.\n");
-
 				break;
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				printf("A connection is incoming.\n");
-				//fprintf(fPtr,"A connection is incoming.\n");
-
 				//write message out to client
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
@@ -220,21 +214,15 @@ int main(void)
 				
 				break;
 			case ID_NO_FREE_INCOMING_CONNECTIONS:
-				printf("The server is full.\n");
-				//fprintf(fPtr,"The server is full.\n");
 				break;
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
-				printf("A client has disconnected.\n");
-				//fprintf(fPtr,"A client has disconnected.\n");
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 				break;
 			case ID_CONNECTION_LOST:
-				printf("A client lost the connection.\n");
-				//fprintf(fPtr,"A client lost the connection.\n");
 				break;
 			case ID_QUIT_MESSAGE:
 			{	
@@ -333,7 +321,6 @@ int main(void)
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 				bsOut.Write(finalStr);
-				bsOut.Write(ts);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
@@ -343,6 +330,9 @@ int main(void)
 			{
 				int value;
 				char finalStr[512] = "> ";
+				char dmMessage[512] = "> ";
+				char name[512];
+
 				char server[512];
 				char designation[512];
 
@@ -365,17 +355,15 @@ int main(void)
 
 
 				//Name
-				strcat(finalStr, rs);
+				strcat(dmMessage, rs);
+				// Copy name
+				strcpy(name, rs.C_String());
 				//Message
-				strcat(finalStr, " says: ");
+				strcat(dmMessage, " says: ");
 
 				bsIn.Read(rs);
-				strcat(finalStr, rs);
-				strcat(finalStr, "\n");
-
-				//Final Printing 
-				printf(finalStr);
-				fprintf(fPtr, finalStr);
+				strcat(dmMessage, rs);
+				strcat(dmMessage, "\n");
 
 				//--------- Writing Out
 				RakNet::BitStream bsOut;
@@ -386,23 +374,50 @@ int main(void)
 				//IF message is to Server this runs
 				if (value == 0)
 				{
-					bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 
-					bsOut.Write(finalStr);
+					//Name
+					strcat(finalStr, name);
+					//Message
+					strcat(finalStr, " says to server: ");
+
+					strcat(finalStr, rs);
+					strcat(finalStr, "\n");
+
+					//Final Printing 
+					printf(finalStr);
+					fprintf(fPtr, finalStr);
+
+					bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+					bsOut.Write(dmMessage);
 					peer->SetOccasionalPing(true);
 					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, true);
 				}
 				else
 				{
-					//Ideally this is dm
-					bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
-
-					bsOut.Write(finalStr);
-					peer->SetOccasionalPing(true);
 					UserDicNode* yeeee;
 					yeeee = FindUser(userDicNode, designation);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, yeeee->val, false); 
 
+					if (yeeee != NULL) 
+					{
+						//Name
+						strcat(finalStr, rs);
+						//Message
+						strcat(finalStr, " says to user ");
+						strcat(finalStr, yeeee->key);
+						strcat(finalStr, ": ");
+
+						strcat(finalStr, rs);
+						strcat(finalStr, "\n");
+
+						printf(finalStr);
+						fprintf(fPtr, finalStr);
+
+						//Ideally this is dm
+						bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+						bsOut.Write(dmMessage);
+						peer->SetOccasionalPing(true);
+						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, yeeee->val, false);
+					}
 				}
 					//Message to specific, this is where yo would loop from find user
 			}
@@ -433,16 +448,17 @@ int main(void)
 			break;
 
 			default:
-				printf("Message with identifier %i has arrived.\n", packet->data[0]);
-				//fprintf(fPtr,"Message with identifier %i has arrived.\n", packet->data[0]);
 				break;
 			}
 		}
 	}
 
+	printf("%" PRINTF_64_BIT_MODIFIER "u ", RakNet::GetTimeUS() / 1000);
+	fprintf(fPtr, "%" PRINTF_64_BIT_MODIFIER "u ", RakNet::GetTimeUS() / 1000);
 
-	printf("Server Shutting Down\n");
-	//fprintf(fPtr,"Server Shutting Down\n");
+	printf("> Server Shutting Down\n");
+	fprintf(fPtr,"> Server Shutting Down\n");
+	
 	fclose(fPtr);
 	RakNet::RakPeerInterface::DestroyInstance(peer);
 
