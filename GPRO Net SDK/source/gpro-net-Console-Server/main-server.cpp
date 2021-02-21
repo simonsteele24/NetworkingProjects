@@ -61,6 +61,9 @@ enum GameMessages
 	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5,
 	ID_BROADCAST_MESSAGE = ID_USER_PACKET_ENUM + 6,
 	ID_GET_USERS = ID_USER_PACKET_ENUM + 7,
+	ID_JOIN_BLACKJACK = ID_USER_PACKET_ENUM + 8,
+	ID_HIT = ID_USER_PACKET_ENUM + 9,
+	ID_STAND = ID_USER_PACKET_ENUM + 10,
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
@@ -206,7 +209,7 @@ int main(void)
 				//write out private message out to client about chatroom controls
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_NEW_CONNECTION);
-				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users");
+				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users \n 4 - Enter BlackJack Game");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
@@ -424,6 +427,16 @@ int main(void)
 
 			}
 			break;
+			case ID_JOIN_BLACKJACK:
+			{
+				//write out private message out to client about chatroom controls
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+				bsOut.Write("Welcome to the BJ room");
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+				break;
+			}
 
 			default:
 				break;

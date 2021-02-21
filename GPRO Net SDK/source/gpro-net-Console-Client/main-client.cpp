@@ -53,12 +53,16 @@ enum GameMessages
 	ID_CLIENT_MESSAGE = ID_USER_PACKET_ENUM + 5,
 	ID_BROADCAST_MESSAGE = ID_USER_PACKET_ENUM + 6,
 	ID_GET_USERS = ID_USER_PACKET_ENUM + 7,
+	ID_JOIN_BLACKJACK = ID_USER_PACKET_ENUM + 8,
+	ID_HIT = ID_USER_PACKET_ENUM + 9,
+	ID_STAND = ID_USER_PACKET_ENUM + 10,
 };
 
 //This just takes input for the player when selecting what to do
 int checkForInput() 
 {
 	char input;
+	printf("\n");
 	printf("Command: ");
 	std::cin >> input;
 	return (int)(input) - '0';
@@ -243,6 +247,19 @@ int main(void)
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 				break;
 			}
+
+			//This will request ability to join blackjack room
+			case 4:
+			{
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_JOIN_BLACKJACK);
+
+				printf("Attempting to join Standby...");
+
+				peer->SetOccasionalPing(true);
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+				break;
+			}
 			default:
 				printf("Invalid Input \n");
 				break;
@@ -315,6 +332,16 @@ int main(void)
 					break;
 				}
 
+				//Reads in the data from the server of the list of users
+				case ID_JOIN_BLACKJACK:
+				{
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
+					break;
+				}
 				default:
 					break;
 				}
