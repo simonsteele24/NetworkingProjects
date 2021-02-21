@@ -100,9 +100,9 @@ std::string DetermineWinner(Player& dealer, Player& player)
 		}
 		else
 		{
-			output = "Dealer Won";
-			dealer.money += player.bet + dealer.bet;
-			player.money -= player.bet;
+			output = "Player Won";
+			player.money += player.bet + dealer.bet;
+			dealer.money -= dealer.bet;
 			dealer.bet = 0;
 			player.bet = 0;
 		}
@@ -250,6 +250,21 @@ int main()
 		std::cout << std::endl;
 
 		numInput = std::stoi(input);
+
+		if (players[1].money <= 0)
+		{
+
+			std::cout << "Player Out of money Game over ";
+			numInput = -1;
+			inGame = false;
+		}
+		if (players[0].money <= 0)
+		{
+
+			std::cout << "Dealer Out of money Game over ";
+			numInput = -1;
+			inGame = false;
+		}
 
 		switch (numInput)
 		{
