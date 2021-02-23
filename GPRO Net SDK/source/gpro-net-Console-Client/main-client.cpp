@@ -28,8 +28,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h> 
+#include <ctime>
 #include <iostream>
-#include <time.h>
 
 #include "RakNet/MessageIdentifiers.h"
 
@@ -132,338 +133,92 @@ int main(void)
 			//User input for decisions on what to do(Menu) ------------
 			if (canRecieveInput)
 			{
-				inputNum = checkForInputGame();
-
-				//Check the input 0 for hitting, 1 for standing, 2 for writing message, 3 to receive message, 4 to quit.
-				switch (inputNum)
+				// Check for keyboard input
+				if (_kbhit())
 				{
-				case 0:
-				{
-					//hitting
-					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_HIT);
-					bsOut.Write(username);
-					peer->SetOccasionalPing(true);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-					break;
-				}
-				case 1:
-				{
-					//standing
-					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_STAND);
-					bsOut.Write(username);
-					peer->SetOccasionalPing(true);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-					break;
-				}
-				case 2:
-				{
-					//Recieve anythning and then write
-					packet = peer->Receive();
-					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_CLIENT_MESSAGE);
+					// Check if input matches key to shutdown server
+					char letter = _getch();
 
-					//Designation
-					printf("Whom is the message for? Type the UserName(dm) or public: ");
-					std::cin >> str;
-					bsOut.Write(str);
-
-					//Timestamp
-					bsOut.Write(RakNet::GetTimeUS() / 1000);
-
-					//Username
-					bsOut.Write(username);
-
-					//Message
-					printf("What message would you like to send: ");
-					std::cin >> str;
-					bsOut.Write(str);
-
-					peer->SetOccasionalPing(true);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-					
-					break;
-				}
-				//receive messages
-				case 3:
-				{
-					//Receive packet and the switch deals with what type of message is being read.
-					for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
+					switch (letter)
 					{
-						switch (packet->data[0])
-						{
-							//When the client has been accepted 
-						case ID_CONNECTION_REQUEST_ACCEPTED:
-						{
-							printf("Our connection request has been accepted.\n");
-
-							// Use a BitStream to write a custom user message
-							// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
-							RakNet::BitStream bsOut;
-
-							//Write out to the ID_INTRODUCTION_MESSAGE and time then username. set ping again to keep accuracy
-							bsOut.Write((RakNet::MessageID)ID_INTRODUCTION_MESSAGE);
-							bsOut.Write(RakNet::GetTimeUS() / 1000);
-							bsOut.Write(username);
-							peer->SetOccasionalPing(true);
-
-							peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
-						}
-						break;
-						//Message left server and then set inloop to false which will break out.
-						case ID_QUIT_MESSAGE:
-							printf("You have left the server");
-							inLoop = false;
-							break;
-							//This will read in message and then allow input
-						case ID_NEW_CONNECTION:
-						{
-							RakNet::RakString rs = RakString();
-							RakNet::BitStream bsIn(packet->data, packet->length, false);
-							bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-							bsIn.Read(rs);
-							printf("\n");
-							printf("%s\n", rs.C_String());
-
-							//enable input for the menu and set address
-							canRecieveInput = true;
-							address = packet->systemAddress;
-						}
-						break;
-						// This will read and print out any broadcasted message from the server(and/or clients)
-						case ID_BROADCAST_MESSAGE:
-						{
-							RakNet::RakString rs = RakString();
-							RakNet::BitStream bsIn(packet->data, packet->length, false);
-							bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-							bsIn.Read(rs);
-							printf(rs.C_String());
-						}
-						break;
-
-						//Reads in the data from the server of the list of users
-						case ID_GET_USERS:
-						{
-							RakNet::RakString rs = RakString();
-							RakNet::BitStream bsIn(packet->data, packet->length, false);
-							bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-							bsIn.Read(rs);
-							printf("%s\n", rs.C_String());
-							break;
-						}
-						//Default will just do nothings
-						default:
-							break;
-						}
+					case '0':
+					{
+						RakNet::BitStream bsOut;
+						bsOut.Write((RakNet::MessageID)ID_HIT);
+						bsOut.Write(username);
+						peer->SetOccasionalPing(true);
+						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 					}
 					break;
-				}
-
-				//Quit message
-				case 4:
-				{
-					gpro_consoleClear();
-					printf("Press 2 to confirm and see lobby menu");
-					//Receive packet and write out bitsream calling the quit message and the gettime. Then write the username
-					//The SetOccasionalPing is for maintaining accuracy
-					packet = peer->Receive();
-					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_LEAVE_LOBBY);
-					bsOut.Write(RakNet::GetTimeUS() / 1000);
-					bsOut.Write(username);
-
-					peer->SetOccasionalPing(true);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-					inGame = false;			
+					case '1':
+					{
+						//standing
+						RakNet::BitStream bsOut;
+						bsOut.Write((RakNet::MessageID)ID_STAND);
+						bsOut.Write(username);
+						peer->SetOccasionalPing(true);
+						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+					}
 					break;
-				}
-				default:
-					printf("Invalid Input \n");
+					case '2':
+					{
+						//Recieve anythning and then write
+						packet = peer->Receive();
+						RakNet::BitStream bsOut;
+						bsOut.Write((RakNet::MessageID)ID_CLIENT_MESSAGE);
+
+						//Designation
+						printf("Whom is the message for? Type the UserName(dm) or public: ");
+						std::cin >> str;
+						bsOut.Write(str);
+
+						//Timestamp
+						bsOut.Write(RakNet::GetTimeUS() / 1000);
+
+						//Username
+						bsOut.Write(username);
+
+						//Message
+						printf("What message would you like to send: ");
+						std::cin >> str;
+						bsOut.Write(str);
+
+						peer->SetOccasionalPing(true);
+						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+					}
 					break;
+					case '3':
+					{
+						gpro_consoleClear();
+						printf("Press 2 to confirm and see lobby menu");
+						//Receive packet and write out bitsream calling the quit message and the gettime. Then write the username
+						//The SetOccasionalPing is for maintaining accuracy
+						packet = peer->Receive();
+						RakNet::BitStream bsOut;
+						bsOut.Write((RakNet::MessageID)ID_LEAVE_LOBBY);
+						bsOut.Write(RakNet::GetTimeUS() / 1000);
+						bsOut.Write(username);
+
+						peer->SetOccasionalPing(true);
+						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+						inGame = false;
+					}
+					break;
+					default:
+						break;
+					}
 				}
 			}
 			// ------------
 			// If the user is now just receiving data packets and not typing, then these run
 			else
 			{
-			//Receive packet and the switch deals with what type of message is being read.
-			for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
-			{
-				switch (packet->data[0])
-				{
-					//When the client has been accepted 
-				case ID_CONNECTION_REQUEST_ACCEPTED:
-				{
-					printf("Our connection request has been accepted.\n");
-
-					// Use a BitStream to write a custom user message
-					// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
-					RakNet::BitStream bsOut;
-
-					//Write out to the ID_INTRODUCTION_MESSAGE and time then username. set ping again to keep accuracy
-					bsOut.Write((RakNet::MessageID)ID_INTRODUCTION_MESSAGE);
-					bsOut.Write(RakNet::GetTimeUS() / 1000);
-					bsOut.Write(username);
-					peer->SetOccasionalPing(true);
-
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
-				}
-				break;
-				//Message left server and then set inloop to false which will break out.
-				case ID_QUIT_MESSAGE:
-					printf("You have left the server");
-					inLoop = false;
-					break;
-					//This will read in message and then allow input
-				case ID_NEW_CONNECTION:
-				{
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf("\n");
-					printf("%s\n", rs.C_String());
-
-					//enable input for the menu and set address
-					canRecieveInput = true;
-					address = packet->systemAddress;
-				}
-				break;
-				// This will read and print out any broadcasted message from the server(and/or clients)
-				case ID_BROADCAST_MESSAGE:
-				{
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf(rs.C_String());
-				}
-				break;
-
-				//Reads in the data from the server of the list of users
-				case ID_GET_USERS:
-				{
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
-					break;
-				}
-				//Reads in the data from the server of the list of users
-				case ID_JOIN_BLACKJACK:
-				{
-					gpro_consoleClear();
-					inGame = true;
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
-					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
-					break;
-				}
-
-				case ID_HIT:
-				{
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
-					break;
-				}
-
-				case ID_STAND:
-				{
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
-					break;
-				}
-
-				case ID_LEAVE_LOBBY:
-				{
-					gpro_consoleClear();
-					inGame = false;
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
-					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
-				}
-				//Default will just do nothings
-				default:
-					break;
-				}
-			}
-			}
-
-		}
-		//User input for decisions on what to do(Menu lobby) ------------
-		if (canRecieveInput) 
-		{
-			inputNum = checkForInput();
-
-			//Check the input 0 for quitting, 1 for writing a message, 2 to recieve messages/update, 3 to get list of users, 4 to join blackjack
-			switch (inputNum)
-			{
-			case 0:
-			{
-				//Receive packet and write out bitsream calling the quit message and the gettime. Then write the username
-				//The SetOccasionalPing is for maintaining accuracy
-				packet = peer->Receive();
-				RakNet::BitStream bsOut;
-				bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
-				bsOut.Write(RakNet::GetTimeUS() / 1000);
-				bsOut.Write(username);
-
-				peer->SetOccasionalPing(true);
-				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-				break;
-			}
-			case 1:
-			{
-				//Receive packet and write out bitsream calling the quit message and the gettime. Then write the username
-				//The SetOccasionalPing is for maintaining accuracy
-				packet = peer->Receive();
-				RakNet::BitStream bsOut;
-				bsOut.Write((RakNet::MessageID)ID_CLIENT_MESSAGE);
-
-				//Designation
-				printf("Whom is the message for? Type the UserName(dm) or public: ");
-				std::cin >> str;
-				bsOut.Write(str);
-
-				//Timestamp
-				bsOut.Write(RakNet::GetTimeUS() / 1000);
-
-				//Username
-				bsOut.Write(username);
-
-				//Message
-				printf("What message would you like to send: ");
-				std::cin >> str;
-				bsOut.Write(str);
-
-				peer->SetOccasionalPing(true);
-				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-				break;
-			}
-			case 2:
-			{
 				//Receive packet and the switch deals with what type of message is being read.
 				for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
 				{
 					switch (packet->data[0])
 					{
-					//When the client has been accepted 
+						//When the client has been accepted 
 					case ID_CONNECTION_REQUEST_ACCEPTED:
 					{
 						printf("Our connection request has been accepted.\n");
@@ -486,7 +241,7 @@ int main(void)
 						printf("You have left the server");
 						inLoop = false;
 						break;
-					//This will read in message and then allow input
+						//This will read in message and then allow input
 					case ID_NEW_CONNECTION:
 					{
 						RakNet::RakString rs = RakString();
@@ -511,7 +266,7 @@ int main(void)
 						printf(rs.C_String());
 					}
 					break;
-					
+
 					//Reads in the data from the server of the list of users
 					case ID_GET_USERS:
 					{
@@ -536,116 +291,209 @@ int main(void)
 						printf("%s\n", rs.C_String());
 						break;
 					}
+
+					case ID_HIT:
+					{
+						RakNet::RakString rs = RakString();
+						RakNet::BitStream bsIn(packet->data, packet->length, false);
+						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+						bsIn.Read(rs);
+						printf("%s\n", rs.C_String());
+						break;
+					}
+
+					case ID_STAND:
+					{
+						RakNet::RakString rs = RakString();
+						RakNet::BitStream bsIn(packet->data, packet->length, false);
+						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+						bsIn.Read(rs);
+						printf("%s\n", rs.C_String());
+						break;
+					}
+
+					case ID_LEAVE_LOBBY:
+					{
+						gpro_consoleClear();
+						inGame = false;
+						RakNet::RakString rs = RakString();
+						RakNet::BitStream bsIn(packet->data, packet->length, false);
+						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+						bsIn.Read(rs);
+						printf("%s\n", rs.C_String());
+						bsIn.Read(rs);
+						printf("%s\n", rs.C_String());
+					}
 					//Default will just do nothings
 					default:
 						break;
 					}
 				}
-				break;
-			}
-			//This will request get list of users from server
-			case 3:
-			{
-				RakNet::BitStream bsOut;
-				bsOut.Write((RakNet::MessageID)ID_GET_USERS);
-
-				peer->SetOccasionalPing(true);
-				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-				break;
 			}
 
-			//This will request ability to join blackjack room
-			case 4:
-			{
-				system("clear");
-				RakNet::BitStream bsOut;
-				bsOut.Write((RakNet::MessageID)ID_JOIN_BLACKJACK);
-
-				printf("Attempting to join Standby...");
-				
-				peer->SetOccasionalPing(true);
-				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
-				break;
-			}
-			default:
-				printf("Invalid Input \n");
-				break;
-			}
 		}
-		// ------------
-		// If the user is now just receiving data packets and not typing, then these run
-		else 
+		//User input for decisions on what to do(Menu lobby) ------------
+		if (canRecieveInput) 
 		{
-		//Recieve packet
-			for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
+			if (_kbhit()) 
 			{
-				switch (packet->data[0])
-				{
-				//When the client has been accepted 
-				case ID_CONNECTION_REQUEST_ACCEPTED:
-				{
-					printf("Our connection request has been accepted.\n");
+				char letter = _getch();
 
-					// Use a BitStream to write a custom user message
-					// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
+				switch (letter)
+				{
+				case '0':
+				{
+					//Receive packet and write out bitsream calling the quit message and the gettime. Then write the username
+					//The SetOccasionalPing is for maintaining accuracy
+					packet = peer->Receive();
 					RakNet::BitStream bsOut;
-
-					bsOut.Write((RakNet::MessageID)ID_INTRODUCTION_MESSAGE);
-
+					bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
 					bsOut.Write(RakNet::GetTimeUS() / 1000);
 					bsOut.Write(username);
+
 					peer->SetOccasionalPing(true);
-
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 				}
-				break;
-				//Message left server and then set inloop to false which will break out.
-				case ID_QUIT_MESSAGE:
-					printf("You have left the server");
-					inLoop = false;
 					break;
-				//This will read in message and then allow input
-				case ID_NEW_CONNECTION:
+				case '1':
 				{
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf("\n");
-					printf("%s\n", rs.C_String());
+					//Receive packet and write out bitsream calling the quit message and the gettime. Then write the username
+					//The SetOccasionalPing is for maintaining accuracy
+					packet = peer->Receive();
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_CLIENT_MESSAGE);
 
-					canRecieveInput = true;
-					address = packet->systemAddress;
+					//Designation
+					printf("Whom is the message for? Type the UserName(dm) or public: ");
+					std::cin >> str;
+					bsOut.Write(str);
+
+					//Timestamp
+					bsOut.Write(RakNet::GetTimeUS() / 1000);
+
+					//Username
+					bsOut.Write(username);
+
+					//Message
+					printf("What message would you like to send: ");
+					std::cin >> str;
+					bsOut.Write(str);
+
+					peer->SetOccasionalPing(true);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 				}
-				break;
-				// This will read and print out any broadcasted message from the server(and/or clients)
-				case ID_BROADCAST_MESSAGE:
-				{
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf(rs.C_String());
-				}
-				break;
-				//Reads in the data from the server of the list of users
-				case ID_GET_USERS:
-				{
-					RakNet::RakString rs = RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
 					break;
-				}
+				case '2':
+				{
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_GET_USERS);
 
-			
+					peer->SetOccasionalPing(true);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+				}
+					break;
+				case '3':
+				{
+					system("clear");
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_JOIN_BLACKJACK);
+
+					printf("Attempting to join Standby...");
+
+					peer->SetOccasionalPing(true);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+				}
+					break;
 				default:
+					printf("Invalid Input \n");
 					break;
 				}
 			}
 		}
+		
+		//Receive packet and the switch deals with what type of message is being read.
+		for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
+		{
+			switch (packet->data[0])
+			{
+				//When the client has been accepted 
+			case ID_CONNECTION_REQUEST_ACCEPTED:
+			{
+				printf("Our connection request has been accepted.\n");
 
+				// Use a BitStream to write a custom user message
+				// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
+				RakNet::BitStream bsOut;
+
+				//Write out to the ID_INTRODUCTION_MESSAGE and time then username. set ping again to keep accuracy
+				bsOut.Write((RakNet::MessageID)ID_INTRODUCTION_MESSAGE);
+				bsOut.Write(RakNet::GetTimeUS() / 1000);
+				bsOut.Write(username);
+				peer->SetOccasionalPing(true);
+
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+			}
+			break;
+			//Message left server and then set inloop to false which will break out.
+			case ID_QUIT_MESSAGE:
+				printf("You have left the server");
+				inLoop = false;
+				break;
+				//This will read in message and then allow input
+			case ID_NEW_CONNECTION:
+			{
+				RakNet::RakString rs = RakString();
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf("\n");
+				printf("%s\n", rs.C_String());
+
+				//enable input for the menu and set address
+				canRecieveInput = true;
+				address = packet->systemAddress;
+			}
+			break;
+			// This will read and print out any broadcasted message from the server(and/or clients)
+			case ID_BROADCAST_MESSAGE:
+			{
+				RakNet::RakString rs = RakString();
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf(rs.C_String());
+			}
+			break;
+
+			//Reads in the data from the server of the list of users
+			case ID_GET_USERS:
+			{
+				RakNet::RakString rs = RakString();
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf("%s\n", rs.C_String());
+				break;
+			}
+			//Reads in the data from the server of the list of users
+			case ID_JOIN_BLACKJACK:
+			{
+				gpro_consoleClear();
+				inGame = true;
+				RakNet::RakString rs = RakString();
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf("%s\n", rs.C_String());
+				bsIn.Read(rs);
+				printf("%s\n", rs.C_String());
+				break;
+			}
+			//Default will just do nothings
+			default:
+				break;
+			}
+		}
 		
 	}
 
