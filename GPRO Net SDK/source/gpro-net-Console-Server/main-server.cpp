@@ -431,8 +431,31 @@ int main(void)
 			{
 				//write out private message out to client about chatroom controls
 				RakNet::BitStream bsOut;
-				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+				bsOut.Write((RakNet::MessageID)ID_JOIN_BLACKJACK);
 				bsOut.Write("Welcome to the BJ room");
+				bsOut.Write("\n 0 - Hit\n 1 - Stand \n 2 - Send Message \n 3 - Receive \n 4 - Quit");
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+				break;
+			}
+
+			case ID_HIT:
+			{
+				//write out private message out to client about chatroom controls
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+				bsOut.Write("Player is hitting");
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+				break;
+			}
+
+			case ID_STAND:
+			{
+				//write out private message out to client about chatroom controls
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+				bsOut.Write("Player is standing");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 
 				break;
