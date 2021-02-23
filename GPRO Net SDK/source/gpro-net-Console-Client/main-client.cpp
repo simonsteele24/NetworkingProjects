@@ -23,6 +23,7 @@
 */
 
 #include "gpro-net/gpro-net.h"
+#include "gpro-net/gpro-net-common/gpro-net-console.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,6 +57,7 @@ enum GameMessages
 	ID_JOIN_BLACKJACK = ID_USER_PACKET_ENUM + 8,
 	ID_HIT = ID_USER_PACKET_ENUM + 9,
 	ID_STAND = ID_USER_PACKET_ENUM + 10,
+	ID_LEAVE_LOBBY = ID_USER_PACKET_ENUM + 11,
 };
 
 //This just takes input for the player when selecting what to do
@@ -83,7 +85,7 @@ int main(void)
 	//Local Variables
 	char str[512] = "";
 	char username[512] = "";
-
+	
 	bool inGame = false;
 	bool isConnected = false;
 	bool inLoop = true;
@@ -261,11 +263,13 @@ int main(void)
 				//Quit message
 				case 4:
 				{
+					gpro_consoleClear();
+					printf("Press 2 to confirm and see lobby menu");
 					//Receive packet and write out bitsream calling the quit message and the gettime. Then write the username
 					//The SetOccasionalPing is for maintaining accuracy
 					packet = peer->Receive();
 					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_QUIT_MESSAGE);
+					bsOut.Write((RakNet::MessageID)ID_LEAVE_LOBBY);
 					bsOut.Write(RakNet::GetTimeUS() / 1000);
 					bsOut.Write(username);
 
@@ -350,6 +354,7 @@ int main(void)
 				//Reads in the data from the server of the list of users
 				case ID_JOIN_BLACKJACK:
 				{
+					gpro_consoleClear();
 					inGame = true;
 					RakNet::RakString rs = RakString();
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
@@ -379,6 +384,19 @@ int main(void)
 					bsIn.Read(rs);
 					printf("%s\n", rs.C_String());
 					break;
+				}
+
+				case ID_LEAVE_LOBBY:
+				{
+					gpro_consoleClear();
+					inGame = false;
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
 				}
 				//Default will just do nothings
 				default:
@@ -507,6 +525,7 @@ int main(void)
 					//Reads in the data from the server of the list of users
 					case ID_JOIN_BLACKJACK:
 					{
+						gpro_consoleClear();
 						inGame = true;
 						RakNet::RakString rs = RakString();
 						RakNet::BitStream bsIn(packet->data, packet->length, false);
@@ -538,11 +557,12 @@ int main(void)
 			//This will request ability to join blackjack room
 			case 4:
 			{
+				system("clear");
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_JOIN_BLACKJACK);
 
 				printf("Attempting to join Standby...");
-
+				
 				peer->SetOccasionalPing(true);
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 				break;

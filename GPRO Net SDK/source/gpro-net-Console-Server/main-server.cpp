@@ -23,7 +23,7 @@
 */
 
 #include "gpro-net/gpro-net.h"
-
+#include "gpro-net/gpro-net-common/gpro-net-console.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,6 +64,7 @@ enum GameMessages
 	ID_JOIN_BLACKJACK = ID_USER_PACKET_ENUM + 8,
 	ID_HIT = ID_USER_PACKET_ENUM + 9,
 	ID_STAND = ID_USER_PACKET_ENUM + 10,
+	ID_LEAVE_LOBBY = ID_USER_PACKET_ENUM + 11,
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
@@ -456,6 +457,17 @@ int main(void)
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 				bsOut.Write("Player is standing");
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+				break;
+			}
+
+			case ID_LEAVE_LOBBY:
+			{
+				//write out private message out to client about chatroom controls
+				RakNet::BitStream bsOut;
+				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
+				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users \n 4 - Enter BlackJack Game");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 
 				break;
