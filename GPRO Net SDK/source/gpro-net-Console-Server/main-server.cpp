@@ -24,6 +24,7 @@
 
 #include "gpro-net/gpro-net.h"
 #include "gpro-net/gpro-net-common/gpro-net-console.h"
+#include "gpro-net/BlackjackGamemanager.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -65,6 +66,8 @@ enum GameMessages
 	ID_HIT = ID_USER_PACKET_ENUM + 9,
 	ID_STAND = ID_USER_PACKET_ENUM + 10,
 	ID_LEAVE_LOBBY = ID_USER_PACKET_ENUM + 11,
+	ID_PLAYER_TURN = ID_USER_PACKET_ENUM + 12,
+	ID_RETURN_BLACKJACK_RESULTS = ID_USER_PACKET_ENUM + 13,
 	ID_SET_TIMED_MINE = ID_USER_PACKET_ENUM
 };
 
@@ -123,6 +126,7 @@ void RemoveUser(UserDicNode* traversalNode, char user[], int & dictSize)
 
 int main(void)
 {
+	BlackjackGamemanager manager = BlackjackGamemanager();
 
 	// Constant to represent escape to shut down the server
 	const int LETTER_TO_REPRESENT_SHUTDOWN_SERVER = 27;
@@ -133,6 +137,7 @@ int main(void)
 
 	// Values to control linked list 
 	UserDicNode* userDicNode = new UserDicNode();
+	UserDicNode* playerToGo = new UserDicNode();
 	int dictSize = 0;
 
 	// Server vals for packet and recieving packets
@@ -142,6 +147,7 @@ int main(void)
 	// Booleans to know when to leave server loop
 	bool inLoop = true;
 	bool terminateFromLoop = false;
+	bool awaitingOnInput = false;
 
 	// Startup Server
 	SocketDescriptor sd(SERVER_PORT, 0);
@@ -156,6 +162,53 @@ int main(void)
 		if (terminateFromLoop) 
 		{
 			inLoop = false;
+		}
+
+		if (manager.GetPlayerCount() != 0 && !awaitingOnInput) 
+		{
+			if (!manager.CheckIfGameHasBeenInitialized()) 
+			{
+				manager.InitializeHand();
+			}
+
+			if (manager.CheckForEndOfGame()) 
+			{
+				const std::string newString = manager.DeclareWinner();
+				std::vector<std::string> playerNames = manager.GetPlayerNames();
+				for (int i = 0; i < playerNames.size(); i++) 
+				{
+					std::string s = manager.GetNextPlayer();
+					char char_array[502];
+					strcpy(char_array, s.c_str());
+					playerToGo = FindUser(userDicNode, char_array);
+
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_RETURN_BLACKJACK_RESULTS);
+					bsOut.Write(newString.c_str());
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, playerToGo->val, false);
+				}
+				manager.InitializeHand();
+			}
+			else 
+			{
+				std::string s = manager.GetNextPlayer();
+				char char_array[502];
+				strcpy(char_array, s.c_str());
+				playerToGo = FindUser(userDicNode, char_array);
+
+				RakNet::BitStream bsOut;
+				const std::string newString = manager.PrintStatsToPlayer() + "Your turn:\n";
+				bsOut.Write((RakNet::MessageID)ID_PLAYER_TURN);
+				bsOut.Write(newString.c_str());
+				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, playerToGo->val, false);
+
+				awaitingOnInput = true;
+			}
+		}
+		else if (manager.GetPlayerCount() == 0) 
+		{
+			manager.DeInitializeGame();
+			awaitingOnInput = false;
 		}
 
 		// Check for keyboard input
@@ -210,7 +263,7 @@ int main(void)
 				//write out private message out to client about chatroom controls
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_NEW_CONNECTION);
-				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users \n 4 - Enter BlackJack Game");
+				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - List All Users \n 3 - Enter BlackJack Game");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			}
 			break;
@@ -431,43 +484,53 @@ int main(void)
 			case ID_JOIN_BLACKJACK:
 			{
 				//write out private message out to client about chatroom controls
+				RakNet::RakString rs = RakString();
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				manager.AddInPlayer(rs.C_String());
+
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_JOIN_BLACKJACK);
 				bsOut.Write("Welcome to the BJ room");
-				bsOut.Write("\n 0 - Hit\n 1 - Stand \n 2 - Send Message \n 3 - Receive \n 4 - Quit");
+				bsOut.Write("\n 0 - Hit\n 1 - Stand \n 2 - Send Message \n 3 - Quit");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
-
 				break;
 			}
 
 			case ID_HIT:
 			{
+				manager.HitPlayer();
+
 				//write out private message out to client about chatroom controls
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
-				bsOut.Write("Player is hitting");
+				bsOut.Write(manager.PrintStatsToPlayer().c_str());
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
-
+				awaitingOnInput = false;
 				break;
 			}
 
 			case ID_STAND:
 			{
+				manager.StayPlayer();
+
 				//write out private message out to client about chatroom controls
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
 				bsOut.Write("Player is standing");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
-
+				awaitingOnInput = false;
 				break;
 			}
 
 			case ID_LEAVE_LOBBY:
 			{
+				manager.RemovePlayer(playerToGo->key);
 				//write out private message out to client about chatroom controls
 				RakNet::BitStream bsOut;
 				bsOut.Write((RakNet::MessageID)ID_BROADCAST_MESSAGE);
-				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - Recieve Messages \n 3 - List All Users \n 4 - Enter BlackJack Game");
+				bsOut.Write("Welcome to the chatroom! \n 0 - Quit the Server\n 1 - Send message \n 2 - List All Users \n 3 - Enter BlackJack Game");
 				peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 
 				break;

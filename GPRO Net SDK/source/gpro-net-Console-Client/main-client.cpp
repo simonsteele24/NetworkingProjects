@@ -59,6 +59,8 @@ enum GameMessages
 	ID_HIT = ID_USER_PACKET_ENUM + 9,
 	ID_STAND = ID_USER_PACKET_ENUM + 10,
 	ID_LEAVE_LOBBY = ID_USER_PACKET_ENUM + 11,
+	ID_PLAYER_TURN = ID_USER_PACKET_ENUM + 12,
+	ID_RETURN_BLACKJACK_RESULTS = ID_USER_PACKET_ENUM + 13,
 };
 
 //This just takes input for the player when selecting what to do
@@ -148,6 +150,7 @@ int main(void)
 						bsOut.Write(username);
 						peer->SetOccasionalPing(true);
 						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+						canRecieveInput = false;
 					}
 					break;
 					case '1':
@@ -158,6 +161,7 @@ int main(void)
 						bsOut.Write(username);
 						peer->SetOccasionalPing(true);
 						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+						canRecieveInput = false;
 					}
 					break;
 					case '2':
@@ -209,125 +213,137 @@ int main(void)
 					}
 				}
 			}
-			// ------------
-			// If the user is now just receiving data packets and not typing, then these run
-			else
+			//Receive packet and the switch deals with what type of message is being read.
+			for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
 			{
-				//Receive packet and the switch deals with what type of message is being read.
-				for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
+				switch (packet->data[0])
 				{
-					switch (packet->data[0])
-					{
-						//When the client has been accepted 
-					case ID_CONNECTION_REQUEST_ACCEPTED:
-					{
-						printf("Our connection request has been accepted.\n");
+					//When the client has been accepted 
+				case ID_CONNECTION_REQUEST_ACCEPTED:
+				{
+					printf("Our connection request has been accepted.\n");
 
-						// Use a BitStream to write a custom user message
-						// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
-						RakNet::BitStream bsOut;
+					// Use a BitStream to write a custom user message
+					// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
+					RakNet::BitStream bsOut;
 
-						//Write out to the ID_INTRODUCTION_MESSAGE and time then username. set ping again to keep accuracy
-						bsOut.Write((RakNet::MessageID)ID_INTRODUCTION_MESSAGE);
-						bsOut.Write(RakNet::GetTimeUS() / 1000);
-						bsOut.Write(username);
-						peer->SetOccasionalPing(true);
+					//Write out to the ID_INTRODUCTION_MESSAGE and time then username. set ping again to keep accuracy
+					bsOut.Write((RakNet::MessageID)ID_INTRODUCTION_MESSAGE);
+					bsOut.Write(RakNet::GetTimeUS() / 1000);
+					bsOut.Write(username);
+					peer->SetOccasionalPing(true);
 
-						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
-					}
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+				}
+				break;
+				//Message left server and then set inloop to false which will break out.
+				case ID_QUIT_MESSAGE:
+					printf("You have left the server");
+					inLoop = false;
 					break;
-					//Message left server and then set inloop to false which will break out.
-					case ID_QUIT_MESSAGE:
-						printf("You have left the server");
-						inLoop = false;
-						break;
-						//This will read in message and then allow input
-					case ID_NEW_CONNECTION:
-					{
-						RakNet::RakString rs = RakString();
-						RakNet::BitStream bsIn(packet->data, packet->length, false);
-						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-						bsIn.Read(rs);
-						printf("\n");
-						printf("%s\n", rs.C_String());
+					//This will read in message and then allow input
+				case ID_NEW_CONNECTION:
+				{
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("\n");
+					printf("%s\n", rs.C_String());
 
-						//enable input for the menu and set address
-						canRecieveInput = true;
-						address = packet->systemAddress;
-					}
+					//enable input for the menu and set address
+					canRecieveInput = true;
+					address = packet->systemAddress;
+				}
+				break;
+				// This will read and print out any broadcasted message from the server(and/or clients)
+				case ID_BROADCAST_MESSAGE:
+				{
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf(rs.C_String());
+				}
+				break;
+
+				//Reads in the data from the server of the list of users
+				case ID_GET_USERS:
+				{
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
 					break;
-					// This will read and print out any broadcasted message from the server(and/or clients)
-					case ID_BROADCAST_MESSAGE:
-					{
-						RakNet::RakString rs = RakString();
-						RakNet::BitStream bsIn(packet->data, packet->length, false);
-						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-						bsIn.Read(rs);
-						printf(rs.C_String());
-					}
+				}
+				//Reads in the data from the server of the list of users
+				case ID_JOIN_BLACKJACK:
+				{
+					gpro_consoleClear();
+					inGame = true;
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
 					break;
+				}
+				case ID_RETURN_BLACKJACK_RESULTS:
+				{
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
+				}
+				break;
+				case ID_HIT:
+				{
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
+					break;
+				}
 
-					//Reads in the data from the server of the list of users
-					case ID_GET_USERS:
-					{
-						RakNet::RakString rs = RakString();
-						RakNet::BitStream bsIn(packet->data, packet->length, false);
-						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-						bsIn.Read(rs);
-						printf("%s\n", rs.C_String());
-						break;
-					}
-					//Reads in the data from the server of the list of users
-					case ID_JOIN_BLACKJACK:
-					{
-						gpro_consoleClear();
-						inGame = true;
-						RakNet::RakString rs = RakString();
-						RakNet::BitStream bsIn(packet->data, packet->length, false);
-						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-						bsIn.Read(rs);
-						printf("%s\n", rs.C_String());
-						bsIn.Read(rs);
-						printf("%s\n", rs.C_String());
-						break;
-					}
-
-					case ID_HIT:
-					{
-						RakNet::RakString rs = RakString();
-						RakNet::BitStream bsIn(packet->data, packet->length, false);
-						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-						bsIn.Read(rs);
-						printf("%s\n", rs.C_String());
-						break;
-					}
-
-					case ID_STAND:
-					{
-						RakNet::RakString rs = RakString();
-						RakNet::BitStream bsIn(packet->data, packet->length, false);
-						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-						bsIn.Read(rs);
-						printf("%s\n", rs.C_String());
-						break;
-					}
-
-					case ID_LEAVE_LOBBY:
-					{
-						gpro_consoleClear();
-						inGame = false;
-						RakNet::RakString rs = RakString();
-						RakNet::BitStream bsIn(packet->data, packet->length, false);
-						bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-						bsIn.Read(rs);
-						printf("%s\n", rs.C_String());
-						bsIn.Read(rs);
-						printf("%s\n", rs.C_String());
-					}
-					//Default will just do nothings
-					default:
-						break;
-					}
+				case ID_STAND:
+				{
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
+					break;
+				}
+				case ID_PLAYER_TURN:
+				{
+					canRecieveInput = true;
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s", rs.C_String());
+					break;
+				}
+				case ID_LEAVE_LOBBY:
+				{
+					gpro_consoleClear();
+					inGame = false;
+					RakNet::RakString rs = RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
+					bsIn.Read(rs);
+					printf("%s\n", rs.C_String());
+				}
+				//Default will just do nothings
+				default:
+					break;
 				}
 			}
 
@@ -397,7 +413,7 @@ int main(void)
 					system("clear");
 					RakNet::BitStream bsOut;
 					bsOut.Write((RakNet::MessageID)ID_JOIN_BLACKJACK);
-
+					bsOut.Write(username);
 					printf("Attempting to join Standby...");
 
 					peer->SetOccasionalPing(true);
@@ -464,7 +480,6 @@ int main(void)
 				printf(rs.C_String());
 			}
 			break;
-
 			//Reads in the data from the server of the list of users
 			case ID_GET_USERS:
 			{
@@ -478,8 +493,10 @@ int main(void)
 			//Reads in the data from the server of the list of users
 			case ID_JOIN_BLACKJACK:
 			{
+
 				gpro_consoleClear();
 				inGame = true;
+				canRecieveInput = false;
 				RakNet::RakString rs = RakString();
 				RakNet::BitStream bsIn(packet->data, packet->length, false);
 				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
@@ -489,6 +506,25 @@ int main(void)
 				printf("%s\n", rs.C_String());
 				break;
 			}
+			case ID_RETURN_BLACKJACK_RESULTS:
+			{
+				RakNet::RakString rs = RakString();
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf("%s\n", rs.C_String());
+			}
+				break;
+			case ID_PLAYER_TURN:
+			{
+				canRecieveInput = true;
+				RakNet::RakString rs = RakString();
+				RakNet::BitStream bsIn(packet->data, packet->length, false);
+				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				bsIn.Read(rs);
+				printf("%s", rs.C_String());
+			}
+				break;
 			//Default will just do nothings
 			default:
 				break;
