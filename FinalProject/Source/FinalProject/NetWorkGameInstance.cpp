@@ -248,6 +248,7 @@ void UNetWorkGameInstance::OnFindSessionsComplete(bool bWasSuccessful)
 					// This is something you can't do in Blueprint for example!
 					GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("Session Number: %d | Sessionname: %s "), SearchIdx + 1, *(SessionSearch->SearchResults[SearchIdx].Session.OwningUserName)));
 				}
+
 			}
 		}
 	}
@@ -309,8 +310,13 @@ void UNetWorkGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessi
 			{
 				// Finally call the ClienTravel. If you want, you could print the TravelURL to see
 				// how it really looks like
+
+					// OwningUserName is just the SessionName for now. I guess you can create your own Host Settings class and GameSession Class and add a proper GameServer Name here.
+					// This is something you can't do in Blueprint for example!
+			
 				PlayerController->ClientTravel(TravelURL, ETravelType::TRAVEL_Absolute);
 			}
+			GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("Client Travel Failed"), *SessionName.ToString(), static_cast<int32>(Result)));
 		}
 	}
 }
