@@ -1,0 +1,7 @@
+Visual C++ 2015 toolchain does not appear to be correctly installed. Please verify that "Common Tools for Visual C++ 2015" was selected when installing Visual Studio 2015.
+Discovering modules, targets and source code for project...
+@progress 'Binding IntelliSense data...' 0%
+@progress 'Binding IntelliSense data...' 50%
+@progress 'Binding IntelliSense data...' 100%
+@progress 'Writing project files...' 0%
+UnrealBuildTool Exception: ERROR: Visual Studio 2015 must be installed in order to build this target.

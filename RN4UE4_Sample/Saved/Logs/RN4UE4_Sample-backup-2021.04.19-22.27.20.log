@@ -1,0 +1,553 @@
+﻿Log file open, 04/19/21 22:23:29
+LogInit:Display: Running engine for game: RN4UE4_Sample
+LogPlatformFile: Not using cached read wrapper
+LogInit:Display: RandInit(-162238094) SRandInit(-162238091).
+LogTaskGraph: Started task graph with 4 named threads and 7 total threads with 1 sets of task threads.
+LogStats: Stats thread started at 0.103889
+LogInit:Warning: Incompatible or missing module: UE4Editor-RN4UE4_Sample.dll
+LogInit:Warning: Incompatible or missing module: UE4Editor-RakNet.dll
+Running C:/Program Files/Epic Games/UE_4.12/Engine/Binaries/DotNET/UnrealBuildTool.exe RN4UE4_Sample Development Win64 -project="C:/Users/simon/Desktop/NetworkingFinalProject/RN4UE4_Sample/RN4UE4_Sample.uproject" -editorrecompile -progress -noubtmakefiles -NoHotReloadFromIDE
+@progress push 5%
+@progress pop
+Performing 15 actions (4 in parallel)
+Module.RakNet.2_of_4.cpp
+Module.RakNet.4_of_4.cpp
+Module.RakNet.1_of_4.cpp
+PCH.RN4UE4_Sample.h.cpp
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\IncrementalReadInterface.cpp(21): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\BitStream.cpp(846): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\BitStream.cpp(889): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RPC4Plugin.cpp(283): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\LogCommandParser.cpp(163): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\LogCommandParser.cpp(149): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1400): note: see declaration of '_vsnprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\ConsoleServer.cpp(318): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\NatPunchthroughServer.cpp(206): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\NatPunchthroughServer.cpp(602): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\NatTypeDetectionServer.cpp(83): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(51): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(52): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(68): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(69): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(131): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(129): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(344): note: see declaration of 'strncpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(163): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(167): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DirectoryDeltaTransfer.cpp(169): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketFileLogger.cpp(38): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketFileLogger.cpp(40): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketFileLogger.cpp(41): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(71): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(98): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(101): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(166): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(186): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(248): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(429): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(344): note: see declaration of 'strncpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(434): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(344): note: see declaration of 'strncpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(453): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(449): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\time.h(506): note: see declaration of 'localtime'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\PacketLogger.cpp(452): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+c:\users\simon\desktop\networkingfinalproject\rn4ue4_sample\plugins\raknet\source\raknet\public\RakNetSocket2_Windows_Linux.cpp(84): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(150): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstdio.h(130): note: see declaration of '_wfopen'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(217): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstring.h(127): note: see declaration of 'wcscpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(223): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstring.h(104): note: see declaration of 'wcscat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(229): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstring.h(127): note: see declaration of 'wcscpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(234): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstring.h(104): note: see declaration of 'wcscat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(216): warning C4996: '_snwprintf': This function or variable may be unsafe. Consider using _snwprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstdio.h(1667): note: see declaration of '_snwprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(222): warning C4996: '_snwprintf': This function or variable may be unsafe. Consider using _snwprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstdio.h(1667): note: see declaration of '_snwprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(228): warning C4996: '_snwprintf': This function or variable may be unsafe. Consider using _snwprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstdio.h(1667): note: see declaration of '_snwprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DR_SHA1.cpp(233): warning C4996: '_snwprintf': This function or variable may be unsafe. Consider using _snwprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstdio.h(1667): note: see declaration of '_snwprintf'
+c:\users\simon\desktop\networkingfinalproject\rn4ue4_sample\plugins\raknet\source\raknet\public\RakNetSocket2_Berkley.cpp(102): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+c:\users\simon\desktop\networkingfinalproject\rn4ue4_sample\plugins\raknet\source\raknet\public\RakNetSocket2_Berkley.cpp(196): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+c:\users\simon\desktop\networkingfinalproject\rn4ue4_sample\plugins\raknet\source\raknet\public\RakNetSocket2_Berkley_NativeClient.cpp(96): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+c:\users\simon\desktop\networkingfinalproject\rn4ue4_sample\plugins\raknet\source\raknet\public\RakNetSocket2_Berkley_NativeClient.cpp(80): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'
+c:\users\simon\desktop\networkingfinalproject\rn4ue4_sample\plugins\raknet\source\raknet\public\RakNetSocket2_Berkley_NativeClient.cpp(96): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1868): note: see declaration of 'inet_ntoa'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(112): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(160): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(255): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(959): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(966): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(76): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(86): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(983): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(344): note: see declaration of 'strncpy'
+
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(998): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(144): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(1011): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(344): note: see declaration of 'strncpy'C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(154): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(1025): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(30): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\DS_Table.cpp(1050): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(344): note: see declaration of 'strncpy'CC:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\SocketLayer.cpp(216): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(36): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+
+
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1868): note: see declaration of 'inet_ntoa'C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\SocketLayer.cpp(221): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warningsC:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(47): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1868): note: see declaration of 'inet_ntoa'C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\SocketLayer.cpp(408): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warningsC:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(71): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(81): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(91): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(139): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetStatistics.cpp(149): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(102): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(120): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(129): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(131): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(138): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(140): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(156): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(161): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(166): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(182): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(187): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.C
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\StringTable.cpp(79): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(190): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(194): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(279): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(282): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\StringTable.cpp(140): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(344): note: see declaration of 'strncpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(296): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EmailSender.cpp(301): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\SuperFastHash.cpp(104): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\EpochTimeToString.cpp(33): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\time.h(506): note: see declaration of 'localtime'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TCPInterface.cpp(120): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TCPInterface.cpp(400): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TCPInterface.cpp(802): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TCPInterface.cpp(827): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(126): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(244): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(251): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(260): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(270): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(272): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(301): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(302): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(369): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(370): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(371): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(310): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(349): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(558): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(560): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(561): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(208): note: see declaration of 'fopen'C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TeamManager.cpp(1170): warning C4457: declaration of 'team' hides function parameter
+
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(617): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TeamManager.cpp(1163): note: see declaration of 'team'
+
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(619): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(620): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(709): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FileList.cpp(711): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TelnetTransport.cpp(79): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TelnetTransport.cpp(89): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1400): note: see declaration of '_vsnprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TelnetTransport.cpp(97): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(272): note: see declaration of 'strncat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TelnetTransport.cpp(150): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TelnetTransport.cpp(152): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TelnetTransport.cpp(318): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\TelnetTransport.cpp(331): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\ThreadsafePacketLogger.cpp(47): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FormatString.cpp(29): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1400): note: see declaration of '_vsnprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\FormatString.cpp(40): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1400): note: see declaration of '_vsnprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\UDPForwarder.cpp(467): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\gettimeofday.cpp(62): warning C4996: '__timezone': This function or variable may be unsafe. Consider using _get_timezone instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\time.h(74): note: see declaration of '__timezone'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\gettimeofday.cpp(63): warning C4996: '__daylight': This function or variable may be unsafe. Consider using _get_daylight instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\time.h(62): note: see declaration of '__daylight'
+[6/15] Resource PCLaunch.rc
+Module.RakNet.3_of_4.cpp
+[7/15] Resource ModuleVersionResource.rc.inl
+[8/15] Resource PCLaunch.rc
+[9/15] Resource ModuleVersionResource.rc.inl
+RN4UE4_Sample.generated.cpp
+Ping.cpp
+RN4UE4_SampleGameMode.cpp
+RN4UE4_Sample.cpp
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetTransport2.cpp(66): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1400): note: see declaration of '_vsnprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetTypes.cpp(109): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetTypes.cpp(271): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetTypes.cpp(301): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetTypes.cpp(304): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakNetTypes.cpp(300): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Program Files (x86)\Windows Kits\8.1\include\um\winsock2.h(1868): note: see declaration of 'inet_ntoa'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(169): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(193): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(211): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(352): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(137): note: see declaration of 'strcpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(353): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(94): note: see declaration of 'strcat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(963): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\string.h(344): note: see declaration of 'strncpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(1294): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(1308): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(1380): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1400): note: see declaration of '_vsnprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakString.cpp(1410): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdio.h(1400): note: see declaration of '_vsnprintf'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakWString.cpp(95): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstring.h(127): note: see declaration of 'wcscpy'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakWString.cpp(115): warning C4996: 'mbstowcs': This function or variable may be unsafe. Consider using mbstowcs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdlib.h(932): note: see declaration of 'mbstowcs'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakWString.cpp(124): warning C4996: 'mbstowcs': This function or variable may be unsafe. Consider using mbstowcs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\stdlib.h(932): note: see declaration of 'mbstowcs'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakWString.cpp(167): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstring.h(104): note: see declaration of 'wcscat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakWString.cpp(197): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstring.h(104): note: see declaration of 'wcscat'
+C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Source\RakNet\Public\RakWString.cpp(388): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt\corecrt_wstring.h(127): note: see declaration of 'wcscpy'
+[14/15] Link UE4Editor-RakNet.dll
+   Creating library C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-RakNet.lib and object C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Plugins\RakNet\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-RakNet.exp
+[15/15] Link UE4Editor-RN4UE4_Sample.dll
+   Creating library C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-RN4UE4_Sample.lib and object C:\Users\simon\Desktop\NetworkingFinalProject\RN4UE4_Sample\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-RN4UE4_Sample.exp
+Total build time: 74.09 seconds
+OCULUS: Info: OVRInterface plugin library location: C:\Program Files\Oculus\Support\oculus-runtime\client-plugins\x64
+OCULUS: Info: OVRInterface plugin libraries:
+  <none>
+
+OCULUS: Info: OVRInterface classes and interfaces:
+    Class Id: 0x192ed17193ef5e74, class Name: OpenXRExtensionRuntime
+      Interface Id: 0x223362abe367d30a
+    Class Id: 0xb00b00067332ab1, class Name: OVRExtensionAddition
+      Interface Id: 0xb00b00053345520
+
+OCULUS: Info: LibOVR module is located at C:\Program Files\Oculus\Support\oculus-runtime\LibOVRRT64_1.dll
+OCULUS: Info: Connected to the server running version (prod = 1).1.59.0(build = 0) feature version = 0. Client runs version (prod = 1).1.59.0(build = 0) feature version = 0
+LogInit: Version: 4.12.5-3039270+++UE4+Release-4.12
+LogInit: API Version: 2992821
+LogInit: Net Version: 3039270
+LogDevObjectVersion: Number of dev versions registered: 13
+LogDevObjectVersion:   Dev-Blueprints (B0D832E4-1F89-4F0D-ACCF-7EB736FD4AA2): 3
+LogDevObjectVersion:   Dev-Build (E1C64328-A22C-4D53-A36C-8E866417BD8C): 0
+LogDevObjectVersion:   Dev-Core (375EC13C-06E4-48FB-B500-84F0262A717E): 1
+LogDevObjectVersion:   Dev-Editor (E4B068ED-F494-42E9-A231-DA0B2E46BB41): 2
+LogDevObjectVersion:   Dev-Framework (CFFC743F-43B0-4480-9391-14DF171D2073): 6
+LogDevObjectVersion:   Dev-Mobile (B02B49B5-BB20-44E9-A304-32B752E40360): 0
+LogDevObjectVersion:   Dev-Networking (A4E4105C-59A1-49B5-A7C5-40C4547EDFEE): 0
+LogDevObjectVersion:   Dev-Online (39C831C9-5AE6-47DC-9A44-9C173E1C8E7C): 0
+LogDevObjectVersion:   Dev-Physics (78F01B33-EBEA-4F98-B9B4-84EACCB95AA2): 0
+LogDevObjectVersion:   Dev-Platform (6631380F-2D4D-43E0-8009-CF276956A95A): 0
+LogDevObjectVersion:   Dev-Rendering (12F88B9F-8875-4AFC-A67C-D90C383ABD29): 2
+LogDevObjectVersion:   Dev-Sequencer (7B5AE74C-D270-4C10-A958-57980B212A5A): 0
+LogDevObjectVersion:   Dev-VR (D7296918-1DD6-4BDD-9DE2-64A83CC13884): 0
+LogInit: Compiled (64-bit): Jul  6 2016 09:09:46
+LogInit: Compiled with Visual C++: 19.00.23026.00
+LogInit: Build Configuration: Development
+LogInit: Branch Name: ++UE4+Release-4.12
+LogInit: Command line:  
+LogInit: Base directory: C:/Program Files/Epic Games/UE_4.12/Engine/Binaries/Win64/
+LogInit: Installed Engine Build: 1
+LogInit: Using libcurl 7.41.0
+LogInit:  - built for x86_64-pc-win32
+LogInit:  - supports SSL with WinSSL
+LogInit:  - other features:
+LogInit:      CURL_VERSION_SSL
+LogInit:      CURL_VERSION_IPV6
+LogInit:      CURL_VERSION_ASYNCHDNS
+LogInit:      CURL_VERSION_LARGEFILE
+LogInit:      CURL_VERSION_IDN
+LogInit:  CurlRequestOptions (configurable via config and command line):
+LogInit:  - bVerifyPeer = true  - Libcurl will verify peer certificate
+LogInit:  - bUseHttpProxy = false  - Libcurl will NOT use HTTP proxy
+LogInit:  - bDontReuseConnections = false  - Libcurl will reuse connections
+LogInit:  - CertBundlePath = nullptr  - Libcurl will use whatever was configured at build time.
+LogInit: Presizing for max 8388607 objects, including 0 objects not considered by GC, pre-allocating 0 bytes for permanent pool.
+LogInit: Object subsystem initialized
+[2021.04.20-02.24.48:239][  0]LogInit: Selected Device Profile: [Windows]
+[2021.04.20-02.24.48:239][  0]LogInit: Applying CVar settings loaded from the selected device profile: [Windows]
+[2021.04.20-02.24.48:249][  0]LogInit: Computer: DESKTOP-OD401JU
+[2021.04.20-02.24.48:249][  0]LogInit: User: simon
+[2021.04.20-02.24.48:249][  0]LogInit: CPU Page size=65536, Cores=4
+[2021.04.20-02.24.48:249][  0]LogInit: High frequency timer resolution =10.000000 MHz
+[2021.04.20-02.24.48:249][  0]LogMemory: Memory total: Physical=31.9GB (32GB approx)
+[2021.04.20-02.24.48:249][  0]LogMemory: Platform Memory Stats for Windows
+[2021.04.20-02.24.48:249][  0]LogMemory: Process Physical Memory: 201.77 MB used, 201.78 MB peak
+[2021.04.20-02.24.48:249][  0]LogMemory: Process Virtual Memory: 199.93 MB used, 199.93 MB peak
+[2021.04.20-02.24.48:249][  0]LogMemory: Physical Memory: 11935.16 MB used, 32669.38 MB total
+[2021.04.20-02.24.48:249][  0]LogMemory: Virtual Memory: 4763.23 MB used, 134217728.00 MB total
+[2021.04.20-02.24.48:286][  0]LogTextLocalizationManager: No specific translations for ('en-US') exist, so ('en') translations will be used.
+[2021.04.20-02.24.48:739][  0]LogD3D11RHI: D3D11 adapters:
+[2021.04.20-02.24.48:807][  0]LogD3D11RHI:    0. 'NVIDIA GeForce GTX 1060 6GB' (Feature Level 11_0)
+[2021.04.20-02.24.48:807][  0]LogD3D11RHI:       6052/0/16334 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:1, VendorId:0x10de
+[2021.04.20-02.24.48:864][  0]LogD3D11RHI:    1. 'Intel(R) HD Graphics 630' (Feature Level 11_0)
+[2021.04.20-02.24.48:864][  0]LogD3D11RHI:       128/0/16334 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:0, VendorId:0x8086
+[2021.04.20-02.24.48:866][  0]LogD3D11RHI:    2. 'Microsoft Basic Render Driver' (Feature Level 11_0)
+[2021.04.20-02.24.48:866][  0]LogD3D11RHI:       0/0/16334 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:0, VendorId:0x1414
+[2021.04.20-02.24.48:866][  0]LogD3D11RHI: Chosen D3D11 Adapter: 0
+[2021.04.20-02.24.48:876][  0]LogD3D11RHI: Creating new Direct3DDevice
+[2021.04.20-02.24.48:876][  0]LogD3D11RHI:     GPU DeviceId: 0x1c03 (for the marketing name, search the web for "GPU Device Id")
+[2021.04.20-02.24.48:876][  0]LogWindows: EnumDisplayDevices:
+[2021.04.20-02.24.48:877][  0]LogWindows:    0. 'NVIDIA GeForce GTX 1060 6GB' (P:1 D:1)
+[2021.04.20-02.24.48:877][  0]LogWindows:    1. 'NVIDIA GeForce GTX 1060 6GB' (P:0 D:0)
+[2021.04.20-02.24.48:877][  0]LogWindows:    2. 'NVIDIA GeForce GTX 1060 6GB' (P:0 D:0)
+[2021.04.20-02.24.48:877][  0]LogWindows:    3. 'NVIDIA GeForce GTX 1060 6GB' (P:0 D:0)
+[2021.04.20-02.24.48:877][  0]LogWindows:    4. 'Intel(R) HD Graphics 630' (P:0 D:0)
+[2021.04.20-02.24.48:878][  0]LogWindows:    5. 'Intel(R) HD Graphics 630' (P:0 D:0)
+[2021.04.20-02.24.48:878][  0]LogWindows:    6. 'Intel(R) HD Graphics 630' (P:0 D:0)
+[2021.04.20-02.24.48:878][  0]LogWindows: DebugString: GetVideoDriverDetailsInvalid PrimaryIsNotTheChoosenAdapter GetVideoDriverDetailsInvalid PrimaryIsNotTheChoosenAdapter GetVideoDriverDetailsInvalid PrimaryIsNotTheChoosenAdapter GetVideoDriverDetailsInvalid PrimaryIsNotTheChoosenAdapter GetVideoDriverDetailsInvalid PrimaryIsNotTheChoosenAdapter GetVideoDriverDetailsInvalid PrimaryIsNotTheChoosenAdapter GetVideoDriverDetailsInvalid PrimaryIsNotTheChoosenAdapter FoundDriverCount:0 
+[2021.04.20-02.24.48:878][  0]LogD3D11RHI:     Adapter Name: NVIDIA GeForce GTX 1060 6GB
+[2021.04.20-02.24.48:878][  0]LogD3D11RHI:   Driver Version: Unknown (internal:Unknown, unified:Unknown)
+[2021.04.20-02.24.48:878][  0]LogD3D11RHI:      Driver Date: Unknown
+[2021.04.20-02.24.48:878][  0]LogRHI: Texture pool is 1361 MB (70% of 1945 MB)
+[2021.04.20-02.24.48:935][  0]LogD3D11RHI: Async texture creation enabled
+[2021.04.20-02.24.48:953][  0]LogD3D11RHI: GPU Timing Frequency: 1000.000000 (Debug: 2 2)
+[2021.04.20-02.24.48:953][  0]LogShaderCompilers: Guid format shader working directory is -28 characters bigger than the processId version (../../../../../../Users/simon/Desktop/NetworkingFinalProject/RN4UE4_Sample/Intermediate/Shaders/WorkingDirectory/1592/).
+[2021.04.20-02.24.48:953][  0]LogShaderCompilers: Cleaned the shader compiler working directory 'C:/Users/simon/AppData/Local/Temp/UnrealShaderWorkingDir/EBCC80874037988388813299647388AB/'.
+[2021.04.20-02.24.48:953][  0]LogShaderCompilers:Display: Using Local Shader Compiler.
+[2021.04.20-02.24.50:160][  0]LogTemp:Display: Loaded TP AllDesktopTargetPlatform
+[2021.04.20-02.24.50:170][  0]LogTemp:Display: Loaded TP WindowsClientTargetPlatform
+[2021.04.20-02.24.50:179][  0]LogTemp:Display: Loaded TP WindowsNoEditorTargetPlatform
+[2021.04.20-02.24.50:190][  0]LogTemp:Display: Loaded TP WindowsServerTargetPlatform
+[2021.04.20-02.24.50:200][  0]LogTemp:Display: Loaded TP WindowsTargetPlatform
+[2021.04.20-02.24.50:209][  0]LogTemp:Display: Loaded TP AndroidTargetPlatform
+[2021.04.20-02.24.50:217][  0]LogTemp:Display: Loaded TP Android_ASTCTargetPlatform
+[2021.04.20-02.24.50:225][  0]LogTemp:Display: Loaded TP Android_ATCTargetPlatform
+[2021.04.20-02.24.50:233][  0]LogTemp:Display: Loaded TP Android_DXTTargetPlatform
+[2021.04.20-02.24.50:241][  0]LogTemp:Display: Loaded TP Android_ETC1TargetPlatform
+[2021.04.20-02.24.50:249][  0]LogTemp:Display: Loaded TP Android_ETC2TargetPlatform
+[2021.04.20-02.24.50:265][  0]LogTemp:Display: Loaded TP Android_MultiTargetPlatform
+[2021.04.20-02.24.50:265][  0]LogTemp:Display: Loaded TP Android_PVRTCTargetPlatform
+[2021.04.20-02.24.50:267][  0]LogTemp:Display: Loaded TP HTML5TargetPlatform
+[2021.04.20-02.24.50:291][  0]LogTemp:Display: Loaded TP IOSTargetPlatform
+[2021.04.20-02.24.50:299][  0]LogTemp:Display: Loaded TP TVOSTargetPlatform
+[2021.04.20-02.24.50:308][  0]LogTemp:Display: Loaded TP LinuxNoEditorTargetPlatform
+[2021.04.20-02.24.50:316][  0]LogTemp:Display: Loaded TP LinuxServerTargetPlatform
+[2021.04.20-02.24.50:325][  0]LogTemp:Display: Loaded TP LinuxTargetPlatform
+[2021.04.20-02.24.50:325][  0]LogTargetPlatformManager:Display: Building Assets For Windows
+[2021.04.20-02.24.50:414][  0]LogDerivedDataCache:Display: Max Cache Size: 512 MB
+[2021.04.20-02.24.51:218][  0]LogDerivedDataCache: Loaded boot cache 0.80s 62MB C:/Users/simon/AppData/Local/UnrealEngine/4.12/DerivedDataCache/Boot.ddc.
+[2021.04.20-02.24.51:219][  0]LogDerivedDataCache:Display: Loaded Boot cache: C:/Users/simon/AppData/Local/UnrealEngine/4.12/DerivedDataCache/Boot.ddc
+[2021.04.20-02.24.51:219][  0]LogDerivedDataCache: FDerivedDataBackendGraph:  Pak pak cache file ../../../../../../Users/simon/Desktop/NetworkingFinalProject/RN4UE4_Sample/DerivedDataCache/DDC.ddp not found, will not use a pak cache.
+[2021.04.20-02.24.51:219][  0]LogDerivedDataCache: Unable to find inner node Pak for hierarchical cache Hierarchy.
+[2021.04.20-02.24.51:219][  0]LogDerivedDataCache: FDerivedDataBackendGraph:  CompressedPak pak cache file ../../../../../../Users/simon/Desktop/NetworkingFinalProject/RN4UE4_Sample/DerivedDataCache/Compressed.ddp not found, will not use a pak cache.
+[2021.04.20-02.24.51:219][  0]LogDerivedDataCache: Unable to find inner node CompressedPak for hierarchical cache Hierarchy.
+[2021.04.20-02.24.51:233][  0]LogDerivedDataCache:Display: Pak cache opened for reading ../../../Engine/DerivedDataCache/Compressed.ddp.
+[2021.04.20-02.24.51:245][  0]LogDerivedDataCache: Using Local data cache path C:/Users/simon/AppData/Local/UnrealEngine/Common/DerivedDataCache: Writable
+[2021.04.20-02.24.51:416][  0]LogInit: Selected Device Profile: [Windows]
+[2021.04.20-02.24.51:416][  0]LogContentStreaming: Texture pool size is 0.00 MB
+[2021.04.20-02.24.51:564][  0]LogMeshUtilities: No automatic mesh reduction module available
+[2021.04.20-02.24.51:564][  0]LogMeshUtilities: No automatic mesh merging module available
+[2021.04.20-02.24.51:564][  0]LogMeshUtilities: No distributed automatic mesh merging module available
+[2021.04.20-02.24.51:852][  0]LogAssetRegistry: FAssetRegistry took 0.0224 seconds to start up
+[2021.04.20-02.24.51:878][  0]LogPackageLocalizationCache: Processed 3 localized package path(s) for 2 prioritized culture(s) in 0.023460 seconds
+[2021.04.20-02.24.51:883][  0]LogUObjectArray: 28739 objects as part of root set at end of initial load.
+[2021.04.20-02.24.51:883][  0]LogUObjectAllocator: 5855624 out of 0 bytes used by permanent object pool.
+[2021.04.20-02.24.51:883][  0]LogUObjectArray: CloseDisregardForGC: 0/0 objects in disregard for GC pool
+[2021.04.20-02.24.51:890][  0]LogInit: WinSock: version 1.1 (2.2), MaxSocks=32767, MaxUdp=65467
+[2021.04.20-02.24.52:385][  0]LogSlate: SlateFontCache - WITH_FREETYPE: 1, WITH_HARFBUZZ: 1
+[2021.04.20-02.24.52:385][  0]LogSlate: SlateFontCache - WITH_FREETYPE: 1, WITH_HARFBUZZ: 1
+[2021.04.20-02.25.09:466][  0]LogSubstanceCoreModule: Substance CPU Engine Loaded, Max Texture Size 2048
+[2021.04.20-02.25.09:516][  0]LogUdpMessaging: Initializing bridge on interface 0.0.0.0:0 to multicast group 230.0.0.1:6666.
+[2021.04.20-02.25.10:516][  0]SourceControl: Info Source control is disabled
+[2021.04.20-02.25.10:625][  0]SourceControl: Info Source control is disabled
+[2021.04.20-02.25.10:636][  0]SourceControl: Info Source control is disabled
+[2021.04.20-02.25.10:648][  0]SourceControl: Info Source control is disabled
+[2021.04.20-02.25.11:477][  0]LogEngine: Initializing Engine...
+[2021.04.20-02.25.11:763][  0]LogHMD: SteamVR failed to initialize.  Err: 108
+[2021.04.20-02.25.11:814][  0]LogHMD: SteamVR failed to initialize.  Err: 108
+[2021.04.20-02.25.11:815][  0]LogHMD: Oculus plugin initialized. Version: 4.12.5-3039270+++UE4+Release-4.12, LibOVR: 1.59.0, SDK: 1.3.2, built Jul  6 2016, 09:11:15
+[2021.04.20-02.25.11:941][  0]LogAIModule: Creating AISystem for world NewWorld
+[2021.04.20-02.25.11:973][  0]LogInit: XAudio2 using 'Speakers / Headphones (Realtek Audio)' : 2 channels at 48 kHz using 32 bits per sample (channel mask 0x3)
+[2021.04.20-02.25.12:352][  0]LogInit: FAudioDevice initialized.
+[2021.04.20-02.25.12:378][  0]LogDerivedDataCache: Saved boot cache 0.03s 62MB C:/Users/simon/AppData/Local/UnrealEngine/4.12/DerivedDataCache/Boot.ddc.
+[2021.04.20-02.25.12:383][  0]LogInit: Texture streaming: Enabled
+[2021.04.20-02.25.12:430][  0]LogInit: Transaction tracking system initialized
+[2021.04.20-02.25.12:454][  0]BlueprintLog: New page: Editor Load
+[2021.04.20-02.25.12:543][  0]LocalizationService: Info Localization service is disabled
+[2021.04.20-02.25.12:829][  0]LogConsoleResponse:Display: 
+[2021.04.20-02.25.12:926][  0]LogCook:Display: Max memory allowance for cook 8192mb
+[2021.04.20-02.25.12:926][  0]LogCook:Display: Mobile HDR setting 1
+[2021.04.20-02.25.13:269][  0]LogFileCache: Scanning file cache for directory 'C:/Users/simon/Desktop/NetworkingFinalProject/RN4UE4_Sample/Content/' took 0.01s
+[2021.04.20-02.25.13:269][  0]SourceControl: Info Source control is disabled
+[2021.04.20-02.25.13:269][  0]Cmd: MAP LOAD FILE="../../../Engine/Content/Maps/Templates/Template_Default.umap" TEMPLATE=1 SHOWPROGRESS=1 FEATURELEVEL=3
+[2021.04.20-02.25.13:269][  0]LightingResults: New page: Lighting Build
+[2021.04.20-02.25.13:272][  0]MapCheck: New page: Map Check
+[2021.04.20-02.25.13:272][  0]LightingResults: New page: Lighting Build
+[2021.04.20-02.25.13:468][  0]LogAIModule: Creating AISystem for world Untitled_1
+[2021.04.20-02.25.13:474][  0]LogEditorServer: Finished looking for orphan Actors (0.000 secs)
+[2021.04.20-02.25.13:479][  0]Cmd: MAP CHECKDEP NOCLEARLOG
+[2021.04.20-02.25.13:524][  0]MapCheck: Info Map check complete: 0 Error(s), 0 Warning(s), took 45.413ms to complete.
+[2021.04.20-02.25.13:524][  0]LogFileHelpers: Loading map 'Template_Default' took 0.255
+[2021.04.20-02.25.13:702][  0]LogCollectionManager: Loaded 0 collections in 0.001802 seconds
+[2021.04.20-02.25.13:743][  0]LogFileCache: Scanning file cache for directory 'C:/Users/simon/Desktop/NetworkingFinalProject/RN4UE4_Sample/Saved/Collections/' took 0.01s
+[2021.04.20-02.25.13:743][  0]LogFileCache: Scanning file cache for directory 'C:/Users/simon/Desktop/NetworkingFinalProject/RN4UE4_Sample/Content/Developers/simon/Collections/' took 0.01s
+[2021.04.20-02.25.13:743][  0]LogFileCache: Scanning file cache for directory 'C:/Users/simon/Desktop/NetworkingFinalProject/RN4UE4_Sample/Content/Collections/' took 0.01s
+[2021.04.20-02.25.13:744][  0]LogCollectionManager: Rebuilt the GUID cache for 0 collections in 0.000004 seconds
+[2021.04.20-02.25.13:752][  0]LogContentBrowser: Native class hierarchy populated in 0.0087 seconds. Added 2064 classes and 377 folders.
+[2021.04.20-02.25.13:756][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: Construct from data asset -  0.000 s
+[2021.04.20-02.25.13:756][  0]LogStats: UGameplayTagsManager::ConstructGameplayTagTree: GameplayTagTreeChangedEvent.Broadcast -  0.000 s
+[2021.04.20-02.25.13:758][  0]LogContentBrowser: Native class hierarchy updated for 'GameplayTags' in 0.0018 seconds. Added 12 classes and 0 folders.
+[2021.04.20-02.25.13:764][  0]LogContentBrowser: Native class hierarchy updated for 'WidgetCarousel' in 0.0017 seconds. Added 0 classes and 0 folders.
+[2021.04.20-02.25.15:143][  0]LogContentBrowser: Native class hierarchy updated for 'AddContentDialog' in 0.0018 seconds. Added 0 classes and 0 folders.
+[2021.04.20-02.25.15:148][  0]LogContentBrowser: Native class hierarchy updated for 'SceneOutliner' in 0.0018 seconds. Added 1 classes and 2 folders.
+[2021.04.20-02.25.15:161][  0]LogCrashTracker: Crashtracker disabled due to settings.
+[2021.04.20-02.25.15:169][  0]LogUObjectGlobals:Warning: Failed to find object 'Class None.'
+[2021.04.20-02.25.15:197][  0]LogContentBrowser: Native class hierarchy updated for 'HierarchicalLODOutliner' in 0.0018 seconds. Added 1 classes and 2 folders.
+[2021.04.20-02.25.15:197][  0]LogLoad: Full Startup: 106.55 seconds (BP compile: 0.10 seconds)
+[2021.04.20-02.25.15:197][  0]LogExternalProfiler: Found external profiler: VSPerf
+[2021.04.20-02.25.15:197][  0]LogExternalProfiler: Using external profiler: VSPerf
+[2021.04.20-02.25.15:208][  0]LogOcInput: OculusInput pre-init called
+[2021.04.20-02.25.15:232][  0]LogOcInput: OculusInput is initialized. Init status 0. Runtime version: 1.59.0
+[2021.04.20-02.25.15:252][  0]LogContentStreaming: Texture pool size now 1000 MB
+[2021.04.20-02.25.15:401][  0]LogRenderer: Reallocating scene render targets to support 1208x576 (Frame:2).
+[2021.04.20-02.25.15:464][  1]LogAssetRegistry: Asset discovery search completed in 23.6351 seconds
+[2021.04.20-02.25.15:465][  1]LogCollectionManager: Rebuilt the object cache for 0 collections in 0.000000 seconds (found 0 objects)
+[2021.04.20-02.25.15:465][  1]LogCollectionManager: Fixed up redirectors for 0 collections in 0.000038 seconds (updated 0 objects)
+[2021.04.20-02.25.57:220][619]LogPlayLevel: PlayLevel: No blueprints needed recompiling
+[2021.04.20-02.25.57:220][619]LogApp: UseVRFocus has changed to 1
+[2021.04.20-02.25.57:220][619]LogApp: HasVRFocus has changed to 1
+[2021.04.20-02.25.57:220][619]LogApp: UseVRFocus has changed to 0
+[2021.04.20-02.25.57:220][619]LogApp: HasVRFocus has changed to 0
+[2021.04.20-02.25.57:267][619]PIE: New page: PIE session: Untitled_1 (Apr 19, 2021, 5:25:57 PM)
+[2021.04.20-02.25.57:267][619]LogPlayLevel: Creating play world package: /Temp/UEDPIE_0_Untitled_1
+[2021.04.20-02.25.57:268][619]LogPlayLevel: PIE: StaticDuplicateObject took: (0.001584s)
+[2021.04.20-02.25.57:269][619]LogAIModule: Creating AISystem for world Untitled_1
+[2021.04.20-02.25.57:269][619]LogPlayLevel: PIE: World Init took: (0.000760s)
+[2021.04.20-02.25.57:269][619]LogPlayLevel: PIE: Created PIE world by copying editor world from /Temp/Untitled_1.Untitled_1 to /Temp/UEDPIE_0_Untitled_1.Untitled_1 (0.002620s)
+[2021.04.20-02.25.57:283][619]LogApp: UseVRFocus has changed to 1
+[2021.04.20-02.25.57:283][619]LogApp: HasVRFocus has changed to 1
+[2021.04.20-02.25.57:283][619]LogApp: UseVRFocus has changed to 0
+[2021.04.20-02.25.57:283][619]LogApp: HasVRFocus has changed to 0
+[2021.04.20-02.25.57:305][619]LogInit: XAudio2 using 'Speakers / Headphones (Realtek Audio)' : 2 channels at 48 kHz using 32 bits per sample (channel mask 0x3)
+[2021.04.20-02.25.57:324][619]LogInit: FAudioDevice initialized.
+[2021.04.20-02.25.57:386][619]LogWorld: Game class is 'GameMode'
+[2021.04.20-02.25.57:390][619]LogWorld: Bringing World /Temp/UEDPIE_0_Untitled_1.Untitled_1 up for play (max tick rate 0) at 2021.04.19-22.25.57
+[2021.04.20-02.25.57:390][619]LogWorld: Bringing up level for play took: 0.002505
+[2021.04.20-02.25.57:39
