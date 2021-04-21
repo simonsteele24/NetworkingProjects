@@ -41,4 +41,7 @@ public:
 private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;
+
+	UPROPERTY()
+	bool bCanRecieve = false;
 };

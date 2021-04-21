@@ -30,6 +30,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Raknet")
 	void ConnectToServer();
 	
+	UFUNCTION(BlueprintCallable, Category = "Raknet")
+	void SendTestMessage();
+
 private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;

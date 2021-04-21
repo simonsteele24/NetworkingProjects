@@ -1,8 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "RN4UE4_Sample.h"
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "Client.h"
 
+enum GameMessages
+{
+	ID_TEST_MESSAGE = ID_USER_PACKET_ENUM + 1
+};
 
 // Sets default values
 AClient::AClient()
@@ -33,6 +43,7 @@ void AClient::Tick( float DeltaTime )
 				case ID_CONNECTION_REQUEST_ACCEPTED:
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Connected!"));
+					address = packet->systemAddress;
 				}
 			}
 		}
@@ -51,7 +62,21 @@ void AClient::ConnectToServer()
 
 	peer->Startup(1, &sd, 1);
 
-	peer->Connect("184.171.152.82", 60000, 0, 0);
+	peer->Connect("184.171.152.82:", 60000, 0, 0);
 
 	bCanRecieve = true;
+}
+
+// This function sends a test packet to the server
+void AClient::SendTestMessage() 
+{
+	char str[512] = "";
+	packet = peer->Receive();
+	RakNet::BitStream bsOut;
+	bsOut.Write((RakNet::MessageID)ID_TEST_MESSAGE);
+
+	printf("Key Pressed!");
+	std::cin >> str;
+	bsOut.Write(str);
+	peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 }
