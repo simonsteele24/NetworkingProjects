@@ -34,18 +34,18 @@ void AServer::Tick( float DeltaTime )
 		{
 			switch (packet->data[0])
 			{
-			case ID_TEST_MESSAGE:
-			{
-				RakNet::RakString rs = RakNet::RakString();
-				RakNet::BitStream bsIn(packet->data, packet->length, false);
-				bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-				bsIn.Read(rs);
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("HI!"));
-			}
-			case ID_NEW_INCOMING_CONNECTION:
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("INCOMNNING"));
-			}
+				case ID_TEST_MESSAGE:
+				{
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("HI!"));
+				}
+				case ID_NEW_INCOMING_CONNECTION:
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("INCOMNNING"));
+				}				
 			}
 		}
 	}
@@ -73,4 +73,18 @@ void AServer::ShutdownServer()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Shutting down server!"));
 	RakNet::RakPeerInterface::DestroyInstance(peer);
+}
+
+// This function shuts down the server
+void AServer::StartGame()
+{
+	peer = RakNet::RakPeerInterface::GetInstance();
+	packet = NULL;
+	char str[512] = "";
+
+	RakNet::BitStream bsOut;
+	bsOut.Write((RakNet::MessageID)ID_START_GAME);
+
+	bsOut.Write(str);
+	peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 }

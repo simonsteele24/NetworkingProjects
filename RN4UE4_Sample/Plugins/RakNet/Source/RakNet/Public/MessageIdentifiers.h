@@ -103,6 +103,8 @@ enum DefaultMessageIDTypes
 	ID_SND_RECEIPT_LOSS,
 	
 
+	//SELF MADE IDS
+	ID_START_GAME,
 	//
 	// USER TYPES - DO NOT CHANGE THESE
 	//

@@ -45,6 +45,11 @@ void AClient::Tick( float DeltaTime )
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Connected!"));
 					address = packet->systemAddress;
 				}
+				case ID_START_GAME:
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("This text is filler, game should be starting thanks to server starting it"));
+					address = packet->systemAddress;
+				}
 			}
 		}
 	}

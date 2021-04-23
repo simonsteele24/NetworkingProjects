@@ -38,6 +38,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "RakNet")
 	void ShutdownServer();
 
+	// Called to shut down server
+	UFUNCTION(BlueprintCallable, Category = "RakNet")
+	void StartGame();
+
 private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;
