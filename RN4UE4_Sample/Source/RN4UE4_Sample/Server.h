@@ -12,6 +12,7 @@
 #include "MessageIdentifiers.h"
 #include "Gets.h"
 
+#include "ReplicationActor.h"
 #include "GameFramework/Actor.h"
 #include "Server.generated.h"
 
@@ -41,6 +42,9 @@ public:
 	// Called to shut down server
 	UFUNCTION(BlueprintCallable, Category = "RakNet")
 	void StartGame();
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AReplicationActor> replication;
 
 private:
 	RakNet::RakPeerInterface* peer;

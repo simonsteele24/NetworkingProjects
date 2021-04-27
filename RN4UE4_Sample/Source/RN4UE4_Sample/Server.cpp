@@ -5,7 +5,8 @@
 
 enum GameMessages
 {
-	ID_TEST_MESSAGE = ID_USER_PACKET_ENUM + 1
+	ID_TEST_MESSAGE = ID_USER_PACKET_ENUM + 1,
+	ID_REPLICATION_MESSAGE = ID_USER_PACKET_ENUM + 2
 };
 
 // Sets default values
@@ -41,10 +42,17 @@ void AServer::Tick( float DeltaTime )
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(rs);
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("HI!"));
+					break;
 				}
 				case ID_NEW_INCOMING_CONNECTION:
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("INCOMNNING"));
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_REPLICATION_MESSAGE);
+
+					bsOut.Write(replication);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+					break;
 				}				
 			}
 		}

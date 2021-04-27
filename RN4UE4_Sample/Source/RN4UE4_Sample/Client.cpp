@@ -7,11 +7,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ReplicationActor.h"
 #include "Client.h"
 
 enum GameMessages
 {
-	ID_TEST_MESSAGE = ID_USER_PACKET_ENUM + 1
+	ID_TEST_MESSAGE = ID_USER_PACKET_ENUM + 1,
+	ID_REPLICATION_MESSAGE = ID_USER_PACKET_ENUM + 2
 };
 
 // Sets default values
@@ -44,11 +46,36 @@ void AClient::Tick( float DeltaTime )
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Connected!"));
 					address = packet->systemAddress;
+					break;
 				}
 				case ID_START_GAME:
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("This text is filler, game should be starting thanks to server starting it"));
 					address = packet->systemAddress;
+					break;
+				}
+				case ID_REPLICATION_MESSAGE:
+				{
+					TSubclassOf<AReplicationActor> replicationClass;
+
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(replicationClass);
+
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Incoming replication actor!"));
+
+					if (replicationClass != nullptr) 
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Class Recieved"));
+						FVector Location(0.0f, 0.0f, 0.0f);
+						FRotator Rotation(0.0f, 0.0f, 0.0f);
+						FActorSpawnParameters SpawnInfo;
+
+						GetWorld()->SpawnActor<AReplicationActor>(replicationClass, Location, Rotation, SpawnInfo);
+					}
+
+					break;
 				}
 			}
 		}
@@ -67,7 +94,7 @@ void AClient::ConnectToServer()
 
 	peer->Startup(1, &sd, 1);
 
-	peer->Connect("172.16.4.129:", 60000, 0, 0);
+	peer->Connect("184.171.152.82:", 60000, 0, 0);
 
 	bCanRecieve = true;
 }
