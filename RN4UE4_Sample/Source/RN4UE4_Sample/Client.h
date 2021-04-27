@@ -8,10 +8,13 @@
 #include "BitStream.h"
 #include "MessageIdentifiers.h"
 #include "Gets.h"
+#include "string.h"
 
+#include "MyGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "Containers/StringConv.h"
 #include "GameFramework/Actor.h"
 #include "Client.generated.h"
-
 UCLASS()
 class RN4UE4_SAMPLE_API AClient : public AActor
 {
@@ -46,6 +49,7 @@ private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;
 	RakNet::SystemAddress address;
+	UMyGameInstance* gameInstance;
 
 	UPROPERTY()
 	bool bCanRecieve = false;

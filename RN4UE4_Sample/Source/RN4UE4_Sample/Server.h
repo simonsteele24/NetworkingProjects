@@ -12,6 +12,7 @@
 #include "MessageIdentifiers.h"
 #include "Gets.h"
 
+#include "Kismet/GameplayStatics.h"
 #include "ReplicationActor.h"
 #include "GameFramework/Actor.h"
 #include "Server.generated.h"

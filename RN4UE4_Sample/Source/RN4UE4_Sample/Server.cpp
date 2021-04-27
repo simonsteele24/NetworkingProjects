@@ -113,7 +113,6 @@ void AServer::StartupServer()
 	RakNet::SocketDescriptor sd(SERVER_PORT, 0);
 	peer->Startup(MAX_CLIENTS, &sd, 1);
 	peer->SetMaximumIncomingConnections(MAX_CLIENTS);
-
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Starting server!"));
 
 	bCanRecieve = true;
@@ -124,7 +123,11 @@ void AServer::StartupServer()
 void AServer::ShutdownServer() 
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Shutting down server!"));
-	RakNet::RakPeerInterface::DestroyInstance(peer);
+	if (peer != nullptr)
+	{
+		peer->Shutdown(300);
+		RakNet::RakPeerInterface::DestroyInstance(peer);
+	}
 }
 
 // This function shuts down the server

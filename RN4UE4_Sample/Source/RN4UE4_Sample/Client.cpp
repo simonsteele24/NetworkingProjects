@@ -5,7 +5,6 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "ReplicationActor.h"
 #include "Client.h"
@@ -32,7 +31,7 @@ AClient::AClient()
 void AClient::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	gameInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
 }
 
 // Called every frame
@@ -116,10 +115,12 @@ void AClient::ConnectToServer()
 	address = RakNet::SystemAddress();
 
 	RakNet::SocketDescriptor sd = RakNet::SocketDescriptor();
-
 	peer->Startup(1, &sd, 1);
 
-	peer->Connect("184.171.152.82:", 60000, 0, 0);
+	const char* result = StringCast<ANSICHAR>(*gameInstance->ipAddressTOConnectToo).Get();
+	printf(result);
+	
+	peer->Connect(result, 60000, 0, 0);
 
 	bCanRecieve = true;
 }
@@ -147,11 +148,15 @@ void AClient::DisconnectFromServer()
 //
 void AClient::MoveForwardServer(float input) 
 {
-	packet = peer->Receive();
-	RakNet::BitStream bsOut;
-	bsOut.Write((RakNet::MessageID)ID_INPUT_MOVE_FORWARD_MESSAGE);
-	bsOut.Write(input);
-	peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+	if (peer != nullptr)
+	{
+		packet = peer->Receive();
+		RakNet::BitStream bsOut;
+		bsOut.Write((RakNet::MessageID)ID_INPUT_MOVE_FORWARD_MESSAGE);
+		bsOut.Write(input);
+		peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+	}
+
 }
 
 //
