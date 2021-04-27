@@ -36,6 +36,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Raknet")
 	void DisconnectFromServer();
 
+	UFUNCTION(BlueprintCallable, Category = "Raknet")
+	void MoveForwardServer(float input);
+
+	UFUNCTION(BlueprintCallable, Category = "Raknet")
+	void MoveRightServer(float input);
+
 private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;
@@ -43,4 +49,7 @@ private:
 
 	UPROPERTY()
 	bool bCanRecieve = false;
+
+	UPROPERTY()
+	AActor * repActor;
 };

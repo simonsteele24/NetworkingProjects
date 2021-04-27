@@ -46,10 +46,16 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AReplicationActor> replication;
 
+	UPROPERTY(EditAnywhere)
+	float cubeSpeed;
+
 private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;
 
 	UPROPERTY()
 	bool bCanRecieve = false;
+
+	UPROPERTY()
+	FVector repLocation = FVector(0.0f, 0.0f, 0.0f);
 };

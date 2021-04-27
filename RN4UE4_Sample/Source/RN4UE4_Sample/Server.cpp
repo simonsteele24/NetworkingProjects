@@ -6,7 +6,11 @@
 enum GameMessages
 {
 	ID_TEST_MESSAGE = ID_USER_PACKET_ENUM + 1,
-	ID_REPLICATION_MESSAGE = ID_USER_PACKET_ENUM + 2
+	ID_REPLICATION_MESSAGE = ID_USER_PACKET_ENUM + 2,
+	ID_INPUT_MOVE_FORWARD_MESSAGE = ID_USER_PACKET_ENUM + 3,
+	ID_MOVE_FORWARD_MESSAGE = ID_USER_PACKET_ENUM + 4,
+	ID_INPUT_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 5,
+	ID_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 6
 };
 
 // Sets default values
@@ -53,7 +57,47 @@ void AServer::Tick( float DeltaTime )
 					bsOut.Write(replication);
 					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 					break;
-				}				
+				}
+				case ID_INPUT_MOVE_FORWARD_MESSAGE:
+				{
+					float input;
+
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(input);
+
+					repLocation += input * FVector(1, 0, 0) * cubeSpeed * GetWorld()->GetDeltaSeconds();
+
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_MOVE_FORWARD_MESSAGE);
+
+					bsOut.Write(repLocation);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+					break;
+				}
+				case ID_INPUT_MOVE_RIGHT_MESSAGE:
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Moving!"));
+
+					float input;
+
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(input);
+
+					repLocation += input * FVector(0, 1, 0) * cubeSpeed * GetWorld()->GetDeltaSeconds();
+
+					RakNet::BitStream bsOut;
+					bsOut.Write((RakNet::MessageID)ID_MOVE_RIGHT_MESSAGE);
+
+					bsOut.Write(repLocation);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+					break;
+				}
 			}
 		}
 	}

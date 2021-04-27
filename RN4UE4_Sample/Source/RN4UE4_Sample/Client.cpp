@@ -13,7 +13,11 @@
 enum GameMessages
 {
 	ID_TEST_MESSAGE = ID_USER_PACKET_ENUM + 1,
-	ID_REPLICATION_MESSAGE = ID_USER_PACKET_ENUM + 2
+	ID_REPLICATION_MESSAGE = ID_USER_PACKET_ENUM + 2,
+	ID_INPUT_MOVE_FORWARD_MESSAGE = ID_USER_PACKET_ENUM + 3,
+	ID_MOVE_FORWARD_MESSAGE = ID_USER_PACKET_ENUM + 4,
+	ID_INPUT_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 5,
+	ID_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 6
 };
 
 // Sets default values
@@ -63,17 +67,38 @@ void AClient::Tick( float DeltaTime )
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(replicationClass);
 
-					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Incoming replication actor!"));
-
 					if (replicationClass != nullptr) 
 					{
-						GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Class Recieved"));
 						FVector Location(0.0f, 0.0f, 0.0f);
 						FRotator Rotation(0.0f, 0.0f, 0.0f);
 						FActorSpawnParameters SpawnInfo;
 
-						GetWorld()->SpawnActor<AReplicationActor>(replicationClass, Location, Rotation, SpawnInfo);
+						repActor = GetWorld()->SpawnActor<AReplicationActor>(replicationClass, Location, Rotation, SpawnInfo);
 					}
+
+					break;
+				}
+				case ID_MOVE_FORWARD_MESSAGE:
+				{
+					FVector location(0.0f, 0.0f, 0.0f);
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(location);
+
+					repActor->SetActorLocation(location);
+
+					break;
+				}
+				case ID_MOVE_RIGHT_MESSAGE:
+				{
+					FVector location(0.0f, 0.0f, 0.0f);
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(location);
+
+					repActor->SetActorLocation(location);
 
 					break;
 				}
@@ -117,4 +142,24 @@ void AClient::SendTestMessage()
 void AClient::DisconnectFromServer() 
 {
 	RakNet::RakPeerInterface::DestroyInstance(peer);
+}
+
+//
+void AClient::MoveForwardServer(float input) 
+{
+	packet = peer->Receive();
+	RakNet::BitStream bsOut;
+	bsOut.Write((RakNet::MessageID)ID_INPUT_MOVE_FORWARD_MESSAGE);
+	bsOut.Write(input);
+	peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+}
+
+//
+void AClient::MoveRightServer(float input)
+{
+	packet = peer->Receive();
+	RakNet::BitStream bsOut;
+	bsOut.Write((RakNet::MessageID)ID_INPUT_MOVE_RIGHT_MESSAGE);
+	bsOut.Write(input);
+	peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 }
