@@ -67,7 +67,7 @@ void AClient::ConnectToServer()
 
 	peer->Startup(1, &sd, 1);
 
-	peer->Connect("184.171.152.82:", 60000, 0, 0);
+	peer->Connect("172.16.4.129:", 60000, 0, 0);
 
 	bCanRecieve = true;
 }
@@ -84,4 +84,10 @@ void AClient::SendTestMessage()
 	std::cin >> str;
 	bsOut.Write(str);
 	peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+}
+
+// This function disconnects from the server
+void AClient::DisconnectFromServer() 
+{
+	RakNet::RakPeerInterface::DestroyInstance(peer);
 }

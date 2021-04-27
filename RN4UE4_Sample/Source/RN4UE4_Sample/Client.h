@@ -33,6 +33,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Raknet")
 	void SendTestMessage();
 
+	UFUNCTION(BlueprintCallable, Category = "Raknet")
+	void DisconnectFromServer();
+
 private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;
