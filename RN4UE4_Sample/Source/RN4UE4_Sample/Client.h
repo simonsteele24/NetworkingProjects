@@ -11,6 +11,7 @@
 #include "string.h"
 
 #include "MyGameInstance.h"
+#include "ReplicationActor.h"
 #include "Kismet/GameplayStatics.h"
 #include "Containers/StringConv.h"
 #include "GameFramework/Actor.h"
@@ -44,6 +45,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Raknet")
 	void MoveRightServer(float input);
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AReplicationActor> replication;
 
 private:
 	RakNet::RakPeerInterface* peer;

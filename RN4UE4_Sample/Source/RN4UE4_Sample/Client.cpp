@@ -59,21 +59,16 @@ void AClient::Tick( float DeltaTime )
 				}
 				case ID_REPLICATION_MESSAGE:
 				{
-					TSubclassOf<AReplicationActor> replicationClass;
 
 					RakNet::RakString rs = RakNet::RakString();
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(replicationClass);
 
-					if (replicationClass != nullptr) 
-					{
-						FVector Location(0.0f, 0.0f, 0.0f);
-						FRotator Rotation(0.0f, 0.0f, 0.0f);
-						FActorSpawnParameters SpawnInfo;
+					FVector Location(0.0f, 0.0f, 0.0f);
+					FRotator Rotation(0.0f, 0.0f, 0.0f);
+					FActorSpawnParameters SpawnInfo;
 
-						repActor = GetWorld()->SpawnActor<AReplicationActor>(replicationClass, Location, Rotation, SpawnInfo);
-					}
+					repActor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
 
 					break;
 				}
