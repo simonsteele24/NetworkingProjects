@@ -53,8 +53,10 @@ void AServer::Tick( float DeltaTime )
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("INCOMNNING"));
 					RakNet::BitStream bsOut;
 					bsOut.Write((RakNet::MessageID)ID_REPLICATION_MESSAGE);
-
 					bsOut.Write(replication);
+
+					clients.Add(packet->systemAddress);
+
 					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 					break;
 				}
@@ -73,7 +75,14 @@ void AServer::Tick( float DeltaTime )
 					bsOut.Write((RakNet::MessageID)ID_MOVE_FORWARD_MESSAGE);
 
 					bsOut.Write(repLocation);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+					for (int i = 0; i < clients.Num(); i++)
+					{
+						if (clients[i] != packet->systemAddress) 
+						{
+							peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
+						}
+					}
 
 					break;
 				}
@@ -94,7 +103,14 @@ void AServer::Tick( float DeltaTime )
 					bsOut.Write((RakNet::MessageID)ID_MOVE_RIGHT_MESSAGE);
 
 					bsOut.Write(repLocation);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+					
+					for (int i = 0; i < clients.Num(); i++)
+					{
+						if (clients[i] != packet->systemAddress)
+						{
+							peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
+						}
+					}
 
 					break;
 				}

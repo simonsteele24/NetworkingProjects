@@ -54,6 +54,8 @@ private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;
 
+	TArray<RakNet::SystemAddress> clients;
+
 	UPROPERTY()
 	bool bCanRecieve = false;
 
