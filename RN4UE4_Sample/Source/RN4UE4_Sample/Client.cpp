@@ -112,7 +112,7 @@ void AClient::ConnectToServer()
 	RakNet::SocketDescriptor sd = RakNet::SocketDescriptor();
 	peer->Startup(1, &sd, 1);
 
-	const char* result = StringCast<ANSICHAR>(*gameInstance->ipAddressTOConnectToo).Get();
+	const char* result = StringCast<ANSICHAR>(*newAddress).Get();
 	printf(result);
 	
 	peer->Connect(result, 60000, 0, 0);

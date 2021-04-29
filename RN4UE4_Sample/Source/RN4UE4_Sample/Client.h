@@ -49,6 +49,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AReplicationActor> replication;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString newAddress;
+
 private:
 	RakNet::RakPeerInterface* peer;
 	RakNet::Packet* packet;
