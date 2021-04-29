@@ -16,7 +16,10 @@ enum GameMessages
 	ID_INPUT_MOVE_FORWARD_MESSAGE = ID_USER_PACKET_ENUM + 3,
 	ID_MOVE_FORWARD_MESSAGE = ID_USER_PACKET_ENUM + 4,
 	ID_INPUT_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 5,
-	ID_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 6
+	ID_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 6,
+	ID_ADD_PLAYER = ID_USER_PACKET_ENUM + 7,
+	ID_GIVE_NEW_PLAYER_INFO = ID_USER_PACKET_ENUM + 8,
+	ID_GIVE_PLAYER_NUMBER = ID_USER_PACKET_ENUM + 9
 };
 
 // Sets default values
@@ -38,6 +41,8 @@ void AClient::BeginPlay()
 void AClient::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::FromInt(playerNumber));
 
 	if (bCanRecieve) 
 	{
@@ -71,6 +76,12 @@ void AClient::Tick( float DeltaTime )
 					repActor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
 
 					break;
+				}
+				case ID_GIVE_PLAYER_NUMBER:
+				{
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(playerNumber);
 				}
 				case ID_MOVE_FORWARD_MESSAGE:
 				{

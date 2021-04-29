@@ -10,7 +10,10 @@ enum GameMessages
 	ID_INPUT_MOVE_FORWARD_MESSAGE = ID_USER_PACKET_ENUM + 3,
 	ID_MOVE_FORWARD_MESSAGE = ID_USER_PACKET_ENUM + 4,
 	ID_INPUT_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 5,
-	ID_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 6
+	ID_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 6,
+	ID_ADD_PLAYER = ID_USER_PACKET_ENUM + 7,
+	ID_GIVE_NEW_PLAYER_INFO = ID_USER_PACKET_ENUM + 8,
+	ID_GIVE_PLAYER_NUMBER = ID_USER_PACKET_ENUM + 9
 };
 
 // Sets default values
@@ -52,8 +55,12 @@ void AServer::Tick( float DeltaTime )
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("INCOMNNING"));
 					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_REPLICATION_MESSAGE);
-					bsOut.Write(replication);
+
+					numOfPlayers++;
+					
+
+					bsOut.Write((RakNet::MessageID)ID_GIVE_PLAYER_NUMBER);
+					bsOut.Write(numOfPlayers++);
 
 					clients.Add(packet->systemAddress);
 

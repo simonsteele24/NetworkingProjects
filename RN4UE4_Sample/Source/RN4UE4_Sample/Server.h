@@ -57,6 +57,9 @@ private:
 	TArray<RakNet::SystemAddress> clients;
 
 	UPROPERTY()
+	int numOfPlayers = 0;
+
+	UPROPERTY()
 	bool bCanRecieve = false;
 
 	UPROPERTY()

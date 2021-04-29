@@ -49,6 +49,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AReplicationActor> replication;
 
+	UPROPERTY()
+	int playerNumber;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString newAddress;
 
