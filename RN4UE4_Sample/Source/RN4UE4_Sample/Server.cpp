@@ -78,10 +78,7 @@ void AServer::Tick( float DeltaTime )
 
 					for (int i = 0; i < clients.Num(); i++)
 					{
-						if (clients[i] != packet->systemAddress) 
-						{
-							peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
-						}
+						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
 					}
 
 					break;
@@ -106,10 +103,7 @@ void AServer::Tick( float DeltaTime )
 					
 					for (int i = 0; i < clients.Num(); i++)
 					{
-						if (clients[i] != packet->systemAddress)
-						{
-							peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
-						}
+						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
 					}
 
 					break;
