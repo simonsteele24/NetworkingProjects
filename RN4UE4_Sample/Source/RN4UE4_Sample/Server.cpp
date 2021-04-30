@@ -13,7 +13,9 @@ enum GameMessages
 	ID_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 6,
 	ID_ADD_PLAYER = ID_USER_PACKET_ENUM + 7,
 	ID_GIVE_NEW_PLAYER_INFO = ID_USER_PACKET_ENUM + 8,
-	ID_GIVE_PLAYER_NUMBER = ID_USER_PACKET_ENUM + 9
+	ID_GIVE_PLAYER_NUMBER = ID_USER_PACKET_ENUM + 9,
+	ID_UPDATE_LOCATION = ID_USER_PACKET_ENUM + 10,
+	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11
 };
 
 // Sets default values
@@ -35,6 +37,25 @@ void AServer::BeginPlay()
 void AServer::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
+	TArray<AActor*> in;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), in);
+
+	for (int i = 0; i < in.Num(); i++) 
+	{
+		AReplicationActor * actor = Cast<AReplicationActor>(in[i]);
+
+		RakNet::BitStream bsOut;
+		bsOut.Write((RakNet::MessageID)ID_UPDATE_LOCATION);
+
+		bsOut.Write(actor->GetActorLocation());
+		bsOut.Write(actor->playerNum);
+
+		for (int i = 0; i < clients.Num(); i++)
+		{
+			peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
+		}
+	}
 
 	if (bCanRecieve) 
 	{
@@ -112,18 +133,6 @@ void AServer::Tick( float DeltaTime )
 							location = actor->GetActorLocation();
 						}
 					}
-
-					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_MOVE_FORWARD_MESSAGE);
-
-					bsOut.Write(location);
-					bsOut.Write(num);
-
-					for (int i = 0; i < clients.Num(); i++)
-					{
-						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
-					}
-
 					break;
 				}
 				case ID_INPUT_MOVE_RIGHT_MESSAGE:
@@ -151,18 +160,28 @@ void AServer::Tick( float DeltaTime )
 							location = actor->GetActorLocation();
 						}
 					}
+					break;
+				}
+				case ID_JUMP_INPUT:
+				{
+					int num = 0;
 
-					RakNet::BitStream bsOut;
-					bsOut.Write((RakNet::MessageID)ID_MOVE_RIGHT_MESSAGE);
+					TArray<AActor*> out;
+					UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), out);
 
-					bsOut.Write(location);
-					bsOut.Write(num);
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(num);
 
-					for (int i = 0; i < clients.Num(); i++)
+					for (int i = 0; i < out.Num(); i++)
 					{
-						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
+						AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
+						if (actor->playerNum == num)
+						{
+							actor->bShouldJump = true;
+						}
 					}
-
 					break;
 				}
 			}

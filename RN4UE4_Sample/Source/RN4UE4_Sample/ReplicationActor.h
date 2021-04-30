@@ -23,5 +23,9 @@ public:
 	UPROPERTY()
 	int playerNum = 0;
 	
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsOwner = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bShouldJump = false;
 };

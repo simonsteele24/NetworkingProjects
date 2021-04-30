@@ -38,6 +38,9 @@ public:
 	void SendTestMessage();
 
 	UFUNCTION(BlueprintCallable, Category = "Raknet")
+	void Jump();
+
+	UFUNCTION(BlueprintCallable, Category = "Raknet")
 	void DisconnectFromServer();
 
 	UFUNCTION(BlueprintCallable, Category = "Raknet")

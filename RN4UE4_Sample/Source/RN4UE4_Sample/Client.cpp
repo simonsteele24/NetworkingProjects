@@ -19,7 +19,9 @@ enum GameMessages
 	ID_MOVE_RIGHT_MESSAGE = ID_USER_PACKET_ENUM + 6,
 	ID_ADD_PLAYER = ID_USER_PACKET_ENUM + 7,
 	ID_GIVE_NEW_PLAYER_INFO = ID_USER_PACKET_ENUM + 8,
-	ID_GIVE_PLAYER_NUMBER = ID_USER_PACKET_ENUM + 9
+	ID_GIVE_PLAYER_NUMBER = ID_USER_PACKET_ENUM + 9,
+	ID_UPDATE_LOCATION = ID_USER_PACKET_ENUM + 10,
+	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11
 };
 
 // Sets default values
@@ -91,6 +93,7 @@ void AClient::Tick( float DeltaTime )
 
 					AReplicationActor * actor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
 					actor->playerNum = num;
+					actor->bIsOwner = playerNumber == 1;
 
 					break;
 				}
@@ -100,13 +103,14 @@ void AClient::Tick( float DeltaTime )
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(playerNumber);
 
-					FVector Location(100.0f * playerNumber, 0.0f, 0.0f);
+					FVector Location(100.0f * playerNumber, 0.0f, 100.0f);
 					FRotator Rotation(0.0f, 0.0f, 0.0f);
 					FActorSpawnParameters SpawnInfo;
 
 					repActor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
 					AReplicationActor * actor = Cast<AReplicationActor>(repActor);
 					actor->playerNum = playerNumber;
+					actor->bIsOwner = playerNumber == 1;
 
 					break;
 				}
@@ -119,16 +123,17 @@ void AClient::Tick( float DeltaTime )
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(num);
 
-					FVector Location(100.0f * num, 0.0f, 0.0f);
+					FVector Location(100.0f * num, 0.0f, 100.0f);
 					FRotator Rotation(0.0f, 0.0f, 0.0f);
 					FActorSpawnParameters SpawnInfo;
 
 					AReplicationActor * newActor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
 					newActor->playerNum = num;
+					newActor->bIsOwner = num == 0;
 				}
-				case ID_MOVE_FORWARD_MESSAGE:
+				case ID_UPDATE_LOCATION:
 				{
-					FVector location(0.0f,0.0f,0.0f);
+					FVector location(0.0f, 0.0f, 0.0f);
 					int num;
 
 					TArray<AActor*> out;
@@ -148,31 +153,6 @@ void AClient::Tick( float DeltaTime )
 							actor->SetActorLocation(location);
 						}
 					}
-					break;
-				}
-				case ID_MOVE_RIGHT_MESSAGE:
-				{
-					FVector location(0.0f,0.0f,0.0f);
-					int num;
-
-					TArray<AActor*> out;
-					UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), out);
-
-					RakNet::RakString rs = RakNet::RakString();
-					RakNet::BitStream bsIn(packet->data, packet->length, false);
-					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
-					bsIn.Read(location);
-					bsIn.Read(num);
-
-					for (int i = 0; i < out.Num(); i++)
-					{
-						AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
-						if (actor->playerNum == num)
-						{
-							actor->SetActorLocation(location);
-						}
-					}
-
 					break;
 				}
 			}
@@ -246,6 +226,18 @@ void AClient::MoveRightServer(float input)
 		RakNet::BitStream bsOut;
 		bsOut.Write((RakNet::MessageID)ID_INPUT_MOVE_RIGHT_MESSAGE);
 		bsOut.Write(input);
+		bsOut.Write(playerNumber);
+		peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+	}
+}
+
+void AClient::Jump() 
+{
+	if (peer != nullptr)
+	{
+		packet = peer->Receive();
+		RakNet::BitStream bsOut;
+		bsOut.Write((RakNet::MessageID)ID_JUMP_INPUT);
 		bsOut.Write(playerNumber);
 		peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
 	}
