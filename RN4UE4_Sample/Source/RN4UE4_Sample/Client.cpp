@@ -42,8 +42,6 @@ void AClient::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::FromInt(playerNumber));
-
 	if (bCanRecieve) 
 	{
 		for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
@@ -183,20 +181,23 @@ void AClient::Tick( float DeltaTime )
 // This function tries to connect to the server
 void AClient::ConnectToServer() 
 {
-	peer = RakNet::RakPeerInterface::GetInstance();
-	packet = NULL;
+	if (playerNumber == 0) 
+	{
+		peer = RakNet::RakPeerInterface::GetInstance();
+		packet = NULL;
 
-	address = RakNet::SystemAddress();
+		address = RakNet::SystemAddress();
 
-	RakNet::SocketDescriptor sd = RakNet::SocketDescriptor();
-	peer->Startup(1, &sd, 1);
+		RakNet::SocketDescriptor sd = RakNet::SocketDescriptor();
+		peer->Startup(1, &sd, 1);
 
-	const char* result = StringCast<ANSICHAR>(*newAddress).Get();
-	printf(result);
-	
-	peer->Connect(result, 60000, 0, 0);
+		const char* result = StringCast<ANSICHAR>(*newAddress).Get();
+		printf(result);
 
-	bCanRecieve = true;
+		peer->Connect(result, 60000, 0, 0);
+
+		bCanRecieve = true;
+	}
 }
 
 // This function sends a test packet to the server

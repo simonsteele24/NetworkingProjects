@@ -57,12 +57,12 @@ void AServer::Tick( float DeltaTime )
 					RakNet::BitStream bsOut;
 
 					numOfPlayers++;
-					
+
 
 					bsOut.Write((RakNet::MessageID)ID_GIVE_PLAYER_NUMBER);
 					bsOut.Write(numOfPlayers++);
 
-					for (int i = 0; i < clients.Num(); i++) 
+					for (int i = 0; i < clients.Num(); i++)
 					{
 						RakNet::BitStream bsOutTwo;
 						bsOutTwo.Write((RakNet::MessageID)ID_ADD_PLAYER);
@@ -73,7 +73,7 @@ void AServer::Tick( float DeltaTime )
 					TArray<AActor*> out;
 					UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), out);
 
-					for (int i = 0; i < out.Num(); i++) 
+					for (int i = 0; i < out.Num(); i++)
 					{
 						AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
 						RakNet::BitStream bsOutThree;
