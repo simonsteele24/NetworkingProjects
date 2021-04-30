@@ -105,6 +105,8 @@ void AClient::Tick( float DeltaTime )
 					FActorSpawnParameters SpawnInfo;
 
 					repActor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
+					AReplicationActor * actor = Cast<AReplicationActor>(repActor);
+					actor->playerNum = playerNumber;
 
 					break;
 				}
@@ -238,9 +240,13 @@ void AClient::MoveForwardServer(float input)
 //
 void AClient::MoveRightServer(float input)
 {
-	packet = peer->Receive();
-	RakNet::BitStream bsOut;
-	bsOut.Write((RakNet::MessageID)ID_INPUT_MOVE_RIGHT_MESSAGE);
-	bsOut.Write(input);
-	peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+	if (peer != nullptr)
+	{
+		packet = peer->Receive();
+		RakNet::BitStream bsOut;
+		bsOut.Write((RakNet::MessageID)ID_INPUT_MOVE_RIGHT_MESSAGE);
+		bsOut.Write(input);
+		bsOut.Write(playerNumber);
+		peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, address, false);
+	}
 }

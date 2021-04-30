@@ -60,7 +60,7 @@ void AServer::Tick( float DeltaTime )
 
 
 					bsOut.Write((RakNet::MessageID)ID_GIVE_PLAYER_NUMBER);
-					bsOut.Write(numOfPlayers++);
+					bsOut.Write(numOfPlayers);
 
 					for (int i = 0; i < clients.Num(); i++)
 					{
@@ -108,7 +108,7 @@ void AServer::Tick( float DeltaTime )
 						AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
 						if (actor->playerNum == num)
 						{
-							actor->AddActorWorldOffset(input * FVector(1, 0, 0) * cubeSpeed * GetWorld()->GetDeltaSeconds());
+							actor->SetActorLocation(actor->GetActorLocation() + (input * FVector(1, 0, 0) * cubeSpeed * GetWorld()->GetDeltaSeconds()));
 							location = actor->GetActorLocation();
 						}
 					}
@@ -116,7 +116,7 @@ void AServer::Tick( float DeltaTime )
 					RakNet::BitStream bsOut;
 					bsOut.Write((RakNet::MessageID)ID_MOVE_FORWARD_MESSAGE);
 
-					bsOut.Write(repLocation);
+					bsOut.Write(location);
 					bsOut.Write(num);
 
 					for (int i = 0; i < clients.Num(); i++)
@@ -142,12 +142,12 @@ void AServer::Tick( float DeltaTime )
 					bsIn.Read(input);
 					bsIn.Read(num);
 
-					for (int i = 0; i < out.Num(); i++) 
+					for (int i = 0; i < out.Num(); i++)
 					{
 						AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
-						if (actor->playerNum == num) 
+						if (actor->playerNum == num)
 						{
-							actor->AddActorWorldOffset(input * FVector(0, 1, 0) * cubeSpeed * GetWorld()->GetDeltaSeconds());
+							actor->SetActorLocation(actor->GetActorLocation() + (input * FVector(0, 1, 0) * cubeSpeed * GetWorld()->GetDeltaSeconds()));
 							location = actor->GetActorLocation();
 						}
 					}
@@ -155,9 +155,9 @@ void AServer::Tick( float DeltaTime )
 					RakNet::BitStream bsOut;
 					bsOut.Write((RakNet::MessageID)ID_MOVE_RIGHT_MESSAGE);
 
-					bsOut.Write(repLocation);
+					bsOut.Write(location);
 					bsOut.Write(num);
-					
+
 					for (int i = 0; i < clients.Num(); i++)
 					{
 						peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
