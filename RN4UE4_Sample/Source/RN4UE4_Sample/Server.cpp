@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "RN4UE4_Sample.h"
+#include "StaticReplicationActor.h"
 #include "Server.h"
 
 enum GameMessages
@@ -17,6 +18,7 @@ enum GameMessages
 	ID_UPDATE_LOCATION = ID_USER_PACKET_ENUM + 10,
 	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11,
 	ID_GET_NUMBER_PLAYERS = ID_USER_PACKET_ENUM + 12,
+	ID_UPDATE_TRANSFORM = ID_USER_PACKET_ENUM + 13
 };
 
 // Sets default values
@@ -38,6 +40,25 @@ void AServer::BeginPlay()
 void AServer::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
+	TArray<AActor*> out;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AStaticReplicationActor::StaticClass(), out);
+
+	for (int i = 0; i < out.Num(); i++)
+	{
+		AStaticReplicationActor * actor = Cast<AStaticReplicationActor>(out[i]);
+
+		RakNet::BitStream bsOut;
+		bsOut.Write((RakNet::MessageID)ID_UPDATE_TRANSFORM);
+
+		bsOut.Write(actor->GetActorTransform());
+		bsOut.Write(actor->actorNumber);
+
+		for (int i = 0; i < clients.Num(); i++)
+		{
+			peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
+		}
+	}
 
 	TArray<AActor*> in;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), in);

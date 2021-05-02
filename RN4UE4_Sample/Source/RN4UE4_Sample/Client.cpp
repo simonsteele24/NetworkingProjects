@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include "ReplicationActor.h"
+#include "StaticReplicationActor.h"
 #include "Client.h"
 
 enum GameMessages
@@ -23,6 +24,7 @@ enum GameMessages
 	ID_UPDATE_LOCATION = ID_USER_PACKET_ENUM + 10,
 	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11,
 	ID_GET_NUMBER_PLAYERS = ID_USER_PACKET_ENUM + 12,
+	ID_UPDATE_TRANSFORM = ID_USER_PACKET_ENUM + 13
 };
 
 // Sets default values
@@ -156,6 +158,30 @@ void AClient::Tick( float DeltaTime )
 					AReplicationActor * newActor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
 					newActor->playerNum = num;
 					newActor->bIsOwner = num == 0;
+					break;
+				}
+				case ID_UPDATE_TRANSFORM:
+				{
+					int num = 0;
+					FTransform transform;
+
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(transform);
+					bsIn.Read(num);
+
+					TArray<AActor*> out;
+					UGameplayStatics::GetAllActorsOfClass(GetWorld(), AStaticReplicationActor::StaticClass(), out);
+					for (int i = 0; i < out.Num(); i++)
+					{
+						AStaticReplicationActor * actor = Cast<AStaticReplicationActor>(out[i]);
+						if (actor->actorNumber == num)
+						{
+							actor->SetActorTransform(transform);
+						}
+					}
+
 				}
 				case ID_UPDATE_LOCATION:
 				{
