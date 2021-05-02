@@ -18,7 +18,8 @@ enum GameMessages
 	ID_UPDATE_LOCATION = ID_USER_PACKET_ENUM + 10,
 	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11,
 	ID_GET_NUMBER_PLAYERS = ID_USER_PACKET_ENUM + 12,
-	ID_UPDATE_TRANSFORM = ID_USER_PACKET_ENUM + 13
+	ID_UPDATE_TRANSFORM = ID_USER_PACKET_ENUM + 13,
+	ID_DECLARE_WINNER = ID_USER_PACKET_ENUM + 14
 };
 
 // Sets default values
@@ -263,4 +264,16 @@ void AServer::StartGame()
 
 	bsOut.Write(str);
 	peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+}
+
+void AServer::DeclareWinner(int playerNum) 
+{
+	for (int i = 0; i < clients.Num(); i++) 
+	{
+		packet = peer->Receive();
+		RakNet::BitStream bsOut;
+		bsOut.Write((RakNet::MessageID)ID_DECLARE_WINNER);
+		bsOut.Write(i + 1 == playerNum);
+		peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
+	}
 }

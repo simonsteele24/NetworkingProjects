@@ -57,6 +57,12 @@ public:
 	int playerNumber;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bInPostGame = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsWinner = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString newAddress;
 
 	UPROPERTY(EditAnywhere)

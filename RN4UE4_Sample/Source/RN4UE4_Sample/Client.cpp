@@ -24,7 +24,8 @@ enum GameMessages
 	ID_UPDATE_LOCATION = ID_USER_PACKET_ENUM + 10,
 	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11,
 	ID_GET_NUMBER_PLAYERS = ID_USER_PACKET_ENUM + 12,
-	ID_UPDATE_TRANSFORM = ID_USER_PACKET_ENUM + 13
+	ID_UPDATE_TRANSFORM = ID_USER_PACKET_ENUM + 13,
+	ID_DECLARE_WINNER = ID_USER_PACKET_ENUM + 14
 };
 
 // Sets default values
@@ -205,6 +206,15 @@ void AClient::Tick( float DeltaTime )
 							actor->SetActorLocation(location);
 						}
 					}
+					break;
+				}
+				case ID_DECLARE_WINNER:
+				{
+					RakNet::RakString rs = RakNet::RakString();
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(bIsWinner);
+					bInPostGame = true;
 					break;
 				}
 			}

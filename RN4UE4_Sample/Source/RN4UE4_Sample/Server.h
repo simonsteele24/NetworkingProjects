@@ -40,6 +40,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "RakNet")
 	void ShutdownServer();
 
+	UFUNCTION(BlueprintCallable, Category = "Raknet")
+	void DeclareWinner(int playerNum);
+
 	// Called to shut down server
 	UFUNCTION(BlueprintCallable, Category = "RakNet")
 	void StartGame();
