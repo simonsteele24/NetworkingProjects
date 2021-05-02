@@ -20,7 +20,7 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int playerNum = 0;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

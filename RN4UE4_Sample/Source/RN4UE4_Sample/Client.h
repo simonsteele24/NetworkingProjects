@@ -53,7 +53,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AReplicationActor> replication;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int playerNumber;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
