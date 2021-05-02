@@ -21,7 +21,8 @@ enum GameMessages
 	ID_GIVE_NEW_PLAYER_INFO = ID_USER_PACKET_ENUM + 8,
 	ID_GIVE_PLAYER_NUMBER = ID_USER_PACKET_ENUM + 9,
 	ID_UPDATE_LOCATION = ID_USER_PACKET_ENUM + 10,
-	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11
+	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11,
+	ID_GET_NUMBER_PLAYERS = ID_USER_PACKET_ENUM + 12,
 };
 
 // Sets default values
@@ -37,6 +38,10 @@ void AClient::BeginPlay()
 {
 	Super::BeginPlay();
 	gameInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AMyLobby::StaticClass(), FoundActors);
+	lobbyActor = Cast<AMyLobby>(FoundActors[0]);
 }
 
 // Called every frame
@@ -53,7 +58,11 @@ void AClient::Tick( float DeltaTime )
 				case ID_CONNECTION_REQUEST_ACCEPTED:
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Connected!"));
-					address = packet->systemAddress;
+					address = packet->systemAddress;	
+					RakNet::BitStream bsOut;
+
+					bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 					break;
 				}
 				case ID_START_GAME:
@@ -94,7 +103,24 @@ void AClient::Tick( float DeltaTime )
 					AReplicationActor * actor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
 					actor->playerNum = num;
 					actor->bIsOwner = playerNumber == 1;
+					break;
+				}
+				case ID_GET_NUMBER_PLAYERS:
+				{
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+				
 
+					int serverCurrentPlayerNum = 0;
+					int serverMaxPlayerNum = 0;
+
+					bsIn.Read(serverCurrentPlayerNum);
+					bsIn.Read(serverMaxPlayerNum);
+			
+					numOfPlayers = serverCurrentPlayerNum;
+					maxNumOfPlayers = serverMaxPlayerNum;
+					lobbyActor->numOfPlayers = numOfPlayers;
+					lobbyActor->maxNumOfPlayers = maxNumOfPlayers;
 					break;
 				}
 				case ID_GIVE_PLAYER_NUMBER:
@@ -111,7 +137,7 @@ void AClient::Tick( float DeltaTime )
 					AReplicationActor * actor = Cast<AReplicationActor>(repActor);
 					actor->playerNum = playerNumber;
 					actor->bIsOwner = playerNumber == 1;
-
+					lobbyActor->playerNumber = playerNumber;
 					break;
 				}
 				case ID_ADD_PLAYER:

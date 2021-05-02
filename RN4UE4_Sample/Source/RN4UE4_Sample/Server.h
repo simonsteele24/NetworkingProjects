@@ -2,7 +2,7 @@
 
 #pragma once
 
-#define MAX_CLIENTS 10
+#define MAX_CLIENTS 2
 #define SERVER_PORT 60000
 
 #include "RakNetTypes.h"

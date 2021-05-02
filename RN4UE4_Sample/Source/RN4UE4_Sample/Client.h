@@ -15,6 +15,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Containers/StringConv.h"
 #include "GameFramework/Actor.h"
+#include "MyLobby.h"
 #include "Client.generated.h"
 UCLASS()
 class RN4UE4_SAMPLE_API AClient : public AActor
@@ -57,6 +58,14 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString newAddress;
+
+	UPROPERTY(EditAnywhere)
+	int numOfPlayers = 0;
+
+	UPROPERTY(EditAnywhere)
+	int maxNumOfPlayers = 2;
+
+	AMyLobby* lobbyActor;
 
 private:
 	RakNet::RakPeerInterface* peer;

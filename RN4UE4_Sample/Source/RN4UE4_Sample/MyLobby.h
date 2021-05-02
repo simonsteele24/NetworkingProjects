@@ -1,6 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+
+#define MAX_CLIENTS 10
+#define SERVER_PORT 60000
+
 #include "RakNetTypes.h"
 #include "RakPeerInterface.h"
 #include "GetTime.h"
@@ -31,26 +35,15 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 		int numOfPlayers = 0;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		int maxNumOfPlayers = 2;
-
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<AReplicationActor> replication;
 
 	UPROPERTY()
 		int playerNumber;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString newAddress;
-
-private:
-	RakNet::RakPeerInterface* peer;
-	RakNet::Packet* packet;
-	RakNet::SystemAddress address;
-
-	UPROPERTY()
-		bool bCanRecieve = false;
+	UFUNCTION(BlueprintCallable, Category = "RakNet")
+		void StartLobby();
 };

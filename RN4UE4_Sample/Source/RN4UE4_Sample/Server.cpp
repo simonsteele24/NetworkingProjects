@@ -15,7 +15,8 @@ enum GameMessages
 	ID_GIVE_NEW_PLAYER_INFO = ID_USER_PACKET_ENUM + 8,
 	ID_GIVE_PLAYER_NUMBER = ID_USER_PACKET_ENUM + 9,
 	ID_UPDATE_LOCATION = ID_USER_PACKET_ENUM + 10,
-	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11
+	ID_JUMP_INPUT = ID_USER_PACKET_ENUM + 11,
+	ID_GET_NUMBER_PLAYERS = ID_USER_PACKET_ENUM + 12,
 };
 
 // Sets default values
@@ -83,6 +84,7 @@ void AServer::Tick( float DeltaTime )
 					bsOut.Write((RakNet::MessageID)ID_GIVE_PLAYER_NUMBER);
 					bsOut.Write(numOfPlayers);
 
+					//yo simon this part dont even run
 					for (int i = 0; i < clients.Num(); i++)
 					{
 						RakNet::BitStream bsOutTwo;
@@ -94,6 +96,7 @@ void AServer::Tick( float DeltaTime )
 					TArray<AActor*> out;
 					UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), out);
 
+					//yo simon this part dont even run
 					for (int i = 0; i < out.Num(); i++)
 					{
 						AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
@@ -105,6 +108,17 @@ void AServer::Tick( float DeltaTime )
 					}
 
 					clients.Add(packet->systemAddress);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+					break;
+				}
+				case ID_GET_NUMBER_PLAYERS:
+				{
+
+					RakNet::BitStream bsOut;
+
+					bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
+					bsOut.Write(numOfPlayers);
+					bsOut.Write(MAX_CLIENTS);
 					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 					break;
 				}
