@@ -211,7 +211,6 @@ void AServer::GoThroughRecievedPackets()
 
 			numOfPlayers++;
 
-
 			bsOut.Write((RakNet::MessageID)ID_GIVE_PLAYER_NUMBER);
 			bsOut.Write(numOfPlayers);
 
