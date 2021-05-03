@@ -55,7 +55,7 @@ void AServer::Tick( float DeltaTime )
 		bsOut.Write(actor->GetActorTransform());
 		bsOut.Write(actor->actorNumber);
 
-		for (int i = 0; i < clients.Num(); i++)
+		for (int i = 1; i < clients.Num(); i++)
 		{
 			peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
 		}
@@ -74,7 +74,7 @@ void AServer::Tick( float DeltaTime )
 		bsOut.Write(actor->GetActorLocation());
 		bsOut.Write(actor->playerNum);
 
-		for (int i = 0; i < clients.Num(); i++)
+		for (int i = 1; i < clients.Num(); i++)
 		{
 			peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
 		}
