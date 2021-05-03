@@ -158,7 +158,7 @@ void AClient::Tick( float DeltaTime )
 
 					AReplicationActor * newActor = GetWorld()->SpawnActor<AReplicationActor>(replication, Location, Rotation, SpawnInfo);
 					newActor->playerNum = num;
-					newActor->bIsOwner = num == 0;
+					newActor->bIsOwner = num == 1;
 					break;
 				}
 				case ID_UPDATE_TRANSFORM:
