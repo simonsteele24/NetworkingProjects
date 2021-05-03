@@ -71,6 +71,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	int maxNumOfPlayers = 2;
 
+	UPROPERTY(EditAnywhere)
+	float cubeSpeed = 100.0f;
+
 	AMyLobby* lobbyActor;
 
 private:

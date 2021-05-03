@@ -267,6 +267,21 @@ void AClient::DisconnectFromServer()
 //
 void AClient::MoveForwardServer(float input) 
 {
+	if (playerNumber != 1) 
+	{
+		TArray<AActor*> out;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), out);
+
+		for (int i = 0; i < out.Num(); i++)
+		{
+			AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
+			if (actor->playerNum == playerNumber)
+			{
+				actor->SetActorLocation(actor->GetActorLocation() + (input * FVector(1, 0, 0) * cubeSpeed * GetWorld()->GetDeltaSeconds()));
+			}
+		}
+	}
+
 	if (peer != nullptr)
 	{
 		packet = peer->Receive();
@@ -282,6 +297,21 @@ void AClient::MoveForwardServer(float input)
 //
 void AClient::MoveRightServer(float input)
 {
+	if (playerNumber != 1)
+	{
+		TArray<AActor*> out;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), out);
+
+		for (int i = 0; i < out.Num(); i++)
+		{
+			AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
+			if (actor->playerNum == playerNumber)
+			{
+				actor->SetActorLocation(actor->GetActorLocation() + (input * FVector(1, 0, 0) * cubeSpeed * GetWorld()->GetDeltaSeconds()));
+			}
+		}
+	}
+
 	if (peer != nullptr)
 	{
 		packet = peer->Receive();
@@ -295,6 +325,21 @@ void AClient::MoveRightServer(float input)
 
 void AClient::Jump() 
 {
+	if (playerNumber != 1)
+	{
+		TArray<AActor*> out;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), out);
+
+		for (int i = 0; i < out.Num(); i++)
+		{
+			AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
+			if (actor->playerNum == playerNumber)
+			{
+				actor->bShouldJump = true;
+			}
+		}
+	}
+
 	if (peer != nullptr)
 	{
 		packet = peer->Receive();
