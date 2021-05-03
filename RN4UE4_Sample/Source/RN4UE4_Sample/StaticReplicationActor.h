@@ -1,4 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// ********************************************
+// Title : Static Replication Actor
+// Author : Simon Steele & Chuntao Lin
+// Description : This Actor is for any non-player objects that need to be replicated.
+//              Whatever blueprint inherits this will always have its transform saved
+// ********************************************
 
 #pragma once
 
@@ -20,7 +25,6 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int actorNumber;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) int actorNumber; // Represents the actor number for replication
 	
 };

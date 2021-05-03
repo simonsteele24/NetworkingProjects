@@ -1,4 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// ********************************************
+// Title : Replication Actor
+// Author : Simon Steele & Chuntao Lin
+// Description : This Actor is basically the player pawn for each player.
+//              Whenever a player puts in movement input, it moves this object
+// ********************************************
 
 #pragma once
 
@@ -20,12 +25,8 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int playerNum = 0;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bIsOwner = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bShouldJump = false;
+	/* Public Vars */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) int playerNum = 0; // Represents the player number for the player controlling this actor
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bIsOwner = false; // Represents if this actor is on the host client
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bShouldJump = false; // Represents if the actor should jump. Essentially a flag to check if a jump force is required
 };
