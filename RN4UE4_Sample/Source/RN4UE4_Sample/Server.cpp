@@ -221,13 +221,6 @@ void AServer::GoThroughRecievedPackets()
 				bsOutTwo.Write((RakNet::MessageID)ID_ADD_PLAYER);
 				bsOutTwo.Write(numOfPlayers);
 				peer->Send(&bsOutTwo, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
-
-				RakNet::BitStream bsOutLobby;
-
-				bsOutLobby.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
-				bsOutLobby.Write(numOfPlayers);
-				bsOutLobby.Write(MAX_CLIENTS);
-				peer->Send(&bsOutLobby, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
 			}
 
 			TArray<AActor*> out;
@@ -246,6 +239,18 @@ void AServer::GoThroughRecievedPackets()
 
 			clients.Add(packet->systemAddress);
 			peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+
+			//Broadcast num players in lobby
+			for (int i = 0; i < clients.Num(); i++)
+			{
+				RakNet::BitStream bsOutLobby;
+
+				bsOutLobby.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
+				bsOutLobby.Write(numOfPlayers);
+				bsOutLobby.Write(MAX_CLIENTS);
+				peer->Send(&bsOutLobby, HIGH_PRIORITY, RELIABLE_ORDERED, 1, clients[i], false);
+			}
+
 			break;
 		}
 
