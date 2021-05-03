@@ -62,10 +62,10 @@ void AClient::Tick( float DeltaTime )
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Connected!"));
 					address = packet->systemAddress;	
-					RakNet::BitStream bsOut;
+					//RakNet::BitStream bsOut;
 
-					bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+					//bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
+					//peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 					break;
 				}
 				case ID_START_GAME:
