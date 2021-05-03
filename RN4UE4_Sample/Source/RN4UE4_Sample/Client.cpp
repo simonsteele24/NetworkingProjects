@@ -42,9 +42,9 @@ void AClient::BeginPlay()
 	Super::BeginPlay();
 	gameInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
 
-	//TArray<AActor*> FoundActors;
-	//UGameplayStatics::GetAllActorsOfClass(GetWorld(), AMyLobby::StaticClass(), FoundActors);
-	//lobbyActor = Cast<AMyLobby>(FoundActors[0]);
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AMyLobby::StaticClass(), FoundActors);
+	lobbyActor = Cast<AMyLobby>(FoundActors[0]);
 }
 
 // Called every frame
@@ -64,8 +64,8 @@ void AClient::Tick( float DeltaTime )
 					address = packet->systemAddress;	
 					RakNet::BitStream bsOut;
 
-					//bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
-					//peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+					bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 					break;
 				}
 				case ID_START_GAME:
@@ -140,7 +140,7 @@ void AClient::Tick( float DeltaTime )
 					AReplicationActor * actor = Cast<AReplicationActor>(repActor);
 					actor->playerNum = playerNumber;
 					actor->bIsOwner = playerNumber == 1;
-					//lobbyActor->playerNumber = playerNumber;
+					lobbyActor->playerNumber = playerNumber;
 					break;
 				}
 				case ID_ADD_PLAYER:

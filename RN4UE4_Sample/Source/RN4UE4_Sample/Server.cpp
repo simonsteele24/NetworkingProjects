@@ -247,12 +247,12 @@ void AServer::GoThroughRecievedPackets()
 		case ID_GET_NUMBER_PLAYERS:
 		{
 
-			//RakNet::BitStream bsOut;
+			RakNet::BitStream bsOut;
 
-			//bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
-			//bsOut.Write(numOfPlayers);
-			//bsOut.Write(MAX_CLIENTS);
-			//peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
+			bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
+			bsOut.Write(numOfPlayers);
+			bsOut.Write(MAX_CLIENTS);
+			peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 			break;
 		}
 
