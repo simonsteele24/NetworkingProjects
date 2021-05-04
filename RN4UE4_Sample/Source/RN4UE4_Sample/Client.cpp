@@ -62,10 +62,6 @@ void AClient::Tick( float DeltaTime )
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Connected!"));
 					address = packet->systemAddress;	
-					//RakNet::BitStream bsOut;
-
-					//bsOut.Write((RakNet::MessageID)ID_GET_NUMBER_PLAYERS);
-					//peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 					break;
 				}
 				case ID_START_GAME:
@@ -108,6 +104,7 @@ void AClient::Tick( float DeltaTime )
 					actor->bIsOwner = playerNumber == 1;
 					break;
 				}
+				//Client Side, this will read in the packet data and set the number of players and then gets lobby actor and sets the data there.
 				case ID_GET_NUMBER_PLAYERS:
 				{
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
@@ -184,6 +181,7 @@ void AClient::Tick( float DeltaTime )
 					}
 
 				}
+				//Client Side, this will read in the packet data and update the position
 				case ID_UPDATE_LOCATION:
 				{
 					FVector location(0.0f, 0.0f, 0.0f);

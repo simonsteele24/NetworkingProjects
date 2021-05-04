@@ -214,7 +214,7 @@ void AServer::GoThroughRecievedPackets()
 			bsOut.Write((RakNet::MessageID)ID_GIVE_PLAYER_NUMBER);
 			bsOut.Write(numOfPlayers);
 
-			//yo simon this part dont even run
+			//Add player and send it to all clients
 			for (int i = 0; i < clients.Num(); i++)
 			{
 				RakNet::BitStream bsOutTwo;
@@ -226,7 +226,7 @@ void AServer::GoThroughRecievedPackets()
 			TArray<AActor*> out;
 			UGameplayStatics::GetAllActorsOfClass(GetWorld(), AReplicationActor::StaticClass(), out);
 
-			//yo simon this part dont even run
+			//for the player add its info
 			for (int i = 0; i < out.Num(); i++)
 			{
 				AReplicationActor * actor = Cast<AReplicationActor>(out[i]);
@@ -240,7 +240,7 @@ void AServer::GoThroughRecievedPackets()
 			clients.Add(packet->systemAddress);
 			peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 1, packet->systemAddress, false);
 
-			//Broadcast num players in lobby
+			//Broadcast num players in lobby to all clients
 			for (int i = 0; i < clients.Num(); i++)
 			{
 				RakNet::BitStream bsOutLobby;
