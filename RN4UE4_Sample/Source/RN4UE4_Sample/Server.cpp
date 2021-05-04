@@ -162,9 +162,6 @@ void AServer::DeclareWinner(int playerNum)
 	// Cycle thru all clients
 	for (int i = 0; i < clients.Num(); i++) 
 	{
-		// Get current packet
-		packet = peer->Receive();
-
 		// Create bitstream for packet dta
 		RakNet::BitStream bsOut;
 
